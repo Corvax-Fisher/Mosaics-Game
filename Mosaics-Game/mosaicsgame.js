@@ -173,7 +173,7 @@ function save(){
     //PRETIFY will noch nicht ganz so
     //var svg_xml_beauty = new vkbeautify.xmlmin(svg_xml);
     //console.log(svg_xml_beauty);
-    var textFileAsBlob = new Blob([svg_xml], {type:'text/plain'});
+    var textFileAsBlob = new Blob([svg_xml], {type:'image/svg+xml'});
     var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
 
     var downloadLink = document.createElement("a");
