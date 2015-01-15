@@ -12,7 +12,20 @@
  
 </head>
  
-<body onload="test()">
+<body >
+
+<form id="GridSelect" action="" >
+<input type="radio" name="GridSize" value="8" onClick="setGridSize(8,8)"> 8x8<br>
+<input type="radio" name="GridSize" value="12" onClick="setGridSize(12,12)" > 12x12<br>
+<input type="radio" name="GridSize" value="12,18" onClick="setGridSize(12,18)"> 12x18<br>
+<input type="radio" name="GridSize" value="18,12" onClick="setGridSize(18,12)"> 18x12<br>
+<input type="radio" name="GridSize" value="24,24" onClick="setGridSize(24,24)"> 24x24<br>
+</form>
+
+
+<form><input type=button value="Reset" onClick="window.location.reload()"></form>
+
+
 <p id="test"> </p>
  <form action="" onsubmit="return draw(this)">
 Befehl eingeben:<br>
@@ -22,12 +35,12 @@ Befehl eingeben:<br>
 <td><input id="inputFileNameToSaveAs"></input></td>
 <td><button onclick="save()">Save SVG File</button></td>
 <p id="err"> </p>
-<svg id="mosaics" width=320  height=320>
+<svg id="mosaics" width=0  height=0>
 	<defs>
-		<pattern id="pattern1" x="0" y="0" width="40" height="40"
+		<pattern id="pattern1" x="0" y="0" width="0" height="0"
 				patternUnits="userSpaceOnUse">
-			<line id="hline" x1="0" y1="0" x2="40" y2="0" style="stroke:black" />
-   			<line id="vline" x1="0" y1="0" x2="0" y2="40" style="stroke:black" />
+			<line id="hline" x1="0" y1="0" x2="0" y2="0" style="stroke:black" />
+   			<line id="vline" x1="0" y1="0" x2="0" y2="0" style="stroke:black" />
       	</pattern>
    	</defs>
         

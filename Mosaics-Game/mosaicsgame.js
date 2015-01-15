@@ -9,12 +9,22 @@ function insideBounds(col,row)
 {
 	return (col>0 && col<=bounds[0] && row>0 && row <=bounds[1]);
 }
+
+function setGridSize(col,row)
+{	//Hide Radio Button
+	document.getElementById("GridSelect").style.visibility="hidden";
+	//Check count of Rows for cellsize
+	if (col > 12 || row > 12) cellsize=20
+	else cellsize=40;
+		
+	bounds[0] = col;
+	bounds[1] = row;
 	
-function test() {
+	
+	//set SVG-Canvas and pattern
 	var svg = document.getElementsByTagName("svg")[0];
 	svg.setAttribute("width",cellsize*(bounds[0]+1));
-	svg.setAttribute("height",cellsize*(bounds[0]+1));
-//	var defs = svg.getElementsByTagName("defs")[0];
+	svg.setAttribute("height",cellsize*(bounds[1]+1));
 	var pattern = svg.getElementById("pattern1");
 	pattern.setAttribute("width",cellsize);
 	pattern.setAttribute("height",cellsize);
@@ -22,11 +32,15 @@ function test() {
 	vline.setAttribute("y2",cellsize);	
 	var hline = svg.getElementById("hline");
 	hline.setAttribute("x2",cellsize);
+		
+	//Rect around pattern
 	var rect = svg.getElementsByTagName("rect")[0];
 	rect.setAttribute("x",cellsize);
 	rect.setAttribute("y",cellsize);
 	rect.setAttribute("width",cellsize*bounds[0]);
-	rect.setAttribute("height",cellsize*bounds[0]);
+	rect.setAttribute("height",cellsize*bounds[1]);
+	
+	//Iterate Grid Numbers
 	var number;
 	var pos;
 	for(var i = 0 ; i<bounds[0];i++)
@@ -39,7 +53,9 @@ function test() {
 	    number.setAttribute("text-anchor","middle");
 	    number.appendChild(document.createTextNode(i+1));
 	    svg.appendChild(number);
-	    
+	}
+	for(var i = 0 ; i<bounds[1];i++)
+	{
 		number = document.createElementNS("http://www.w3.org/2000/svg", "text");
 		pos = cellToPos(1,i+2);
 		number.setAttribute("id", "n"+0+(i+1));
@@ -49,6 +65,24 @@ function test() {
 	    number.appendChild(document.createTextNode(i+1));
 	    svg.appendChild(number);
 	}
+	
+	//GridSizeNumber
+	index = document.createElementNS("http://www.w3.org/2000/svg", "text");
+	index.setAttribute("id", "index");
+	pos = cellToPos(bounds[0],bounds[1]);
+	index.setAttribute("x", 10);
+	index.setAttribute("y", 15);
+	index.setAttribute("style","font-size:10px");
+	index.setAttribute("style","fill:red");
+	index.setAttribute("text-anchor","right");
+	index.appendChild(document.createTextNode(bounds[0] +" x "  + bounds[1]));
+	svg.appendChild(index);
+	
+}
+	
+function test() {
+	
+//	var defs = svg.getElementsByTagName("defs")[0];
 	
 }
 
@@ -63,9 +97,9 @@ function circle(col,row) {
     var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     var pos = cellToPos(col, row);
     circle.setAttribute("id", "e"+col+row);
-    circle.setAttribute("r",19);
-    circle.setAttribute("cx",20.5 + pos[0]);
-    circle.setAttribute("cy",20.5 + pos[1]);
+    circle.setAttribute("r",cellsize/2);
+    circle.setAttribute("cx",cellsize/2 + 0.5 + pos[0]);
+    circle.setAttribute("cy",cellsize/2 + 0.5 + pos[1]);
     circle.setAttribute("fill","blue");
     root.appendChild(circle);
 }
@@ -129,36 +163,8 @@ function draw(form){
     return false;
 }
 
-function generateLabel(){
-	
-	var x_cell_size = bounds[0];
-	var root = document.getElementsByTagName("svg")[0];
-	
-	
-	for (i=1; i <= x_cell_size; i++ ){
-		 var element = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		 var pos_y = cellsize/2;
-		 var pos_x = i * cellsize + cellsize/2;
-		 element.setAttribute("id", "label_x" + i );
-		 element.setAttribute("x",pos_x);
-		 element.setAttribute("y",pos_y);
-		 element.textContent = i;
-		 root.appendChild(element);
-	}
-	
-	for (i=1; i <= x_cell_size; i++ ){
-		 var element = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		 var pos_y = i * cellsize + cellsize/2;
-		 var pos_x = cellsize/2;
-		 element.setAttribute("id", "label_y" + i );
-		 element.setAttribute("x",pos_x);
-		 element.setAttribute("y",pos_y);
-		 element.textContent = i;
-		 root.appendChild(element);
-	}
-	
-	
-}
+
+
 //SAVE
 function save(){
 
