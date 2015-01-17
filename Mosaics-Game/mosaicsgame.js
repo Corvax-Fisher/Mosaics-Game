@@ -17,12 +17,23 @@ function validateColor(color)
 	return validColors.indexOf(color) != -1;
 }
 	
-function init() {
+function setGridSize(col,row)
+{	//Hide Radio Button
+	document.getElementById("GridSelect").style.visibility="hidden";
+	//Check count of Rows for cellsize
+	if (col > 12 || row > 12) cellsize=20
+	else cellsize=40;
+		
+	bounds[0] = col;
+	bounds[1] = row;
+	
 	var strValidColors = "";
 	for(var i = 0; i < validColors.length; i++)
 		strValidColors += "<span style=color:"+validColors[i]+">"+validColors[i]+"</span>"+", ";
 	document.getElementById("clrs").innerHTML = 
 		"Verf&uumlgbare Farben: <br>" + strValidColors;
+	
+	//set SVG-Canvas and pattern
 	var svg = document.getElementsByTagName("svg")[0];
 	svg.setAttribute("width",cellsize*(bounds[0]+1)+2);
 	svg.setAttribute("height",cellsize*(bounds[0]+1)+2);
@@ -34,11 +45,15 @@ function init() {
 	vline.setAttribute("y2",cellsize);	
 	var hline = svg.getElementById("hline");
 	hline.setAttribute("x2",cellsize);
+		
+	//Rect around pattern
 	var rect = svg.getElementsByTagName("rect")[0];
 	rect.setAttribute("x",cellsize);
 	rect.setAttribute("y",cellsize);
 	rect.setAttribute("width",cellsize*bounds[0]+2);
 	rect.setAttribute("height",cellsize*bounds[0]+2);
+	
+	//Iterate Grid Numbers
 	var number;
 	var pos;
 	for(var i = 0 ; i<bounds[0];i++)
@@ -51,7 +66,9 @@ function init() {
 	    number.setAttribute("text-anchor","middle");
 	    number.appendChild(document.createTextNode(i+1));
 	    svg.appendChild(number);
-	    
+	}
+	for(var i = 0 ; i<bounds[1];i++)
+	{
 		number = document.createElementNS("http://www.w3.org/2000/svg", "text");
 		pos = cellToPos(0,i+1);
 		number.setAttribute("id", "n"+0+(i+1));
@@ -61,6 +78,24 @@ function init() {
 	    number.appendChild(document.createTextNode(i+1));
 	    svg.appendChild(number);
 	}
+	
+	//GridSizeNumber
+	index = document.createElementNS("http://www.w3.org/2000/svg", "text");
+	index.setAttribute("id", "index");
+	pos = cellToPos(bounds[0],bounds[1]);
+	index.setAttribute("x", 10);
+	index.setAttribute("y", 15);
+	index.setAttribute("style","font-size:10px");
+	index.setAttribute("style","fill:red");
+	index.setAttribute("text-anchor","right");
+	index.appendChild(document.createTextNode(bounds[0] +" x "  + bounds[1]));
+	svg.appendChild(index);
+	
+}
+	
+function test() {
+	
+//	var defs = svg.getElementsByTagName("defs")[0];
 	
 }
 
@@ -75,9 +110,9 @@ function circle(col,row, clr) {
     var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     var pos = cellToPos(col, row);
     circle.setAttribute("id", "e"+col+row);
-    circle.setAttribute("r",19);
-    circle.setAttribute("cx",21 + pos[0]);
-    circle.setAttribute("cy",21 + pos[1]);
+    circle.setAttribute("r",cellsize/2 - 1);
+    circle.setAttribute("cx",cellsize/2 + 1 + pos[0]);
+    circle.setAttribute("cy",cellsize/2 + 1 + pos[1]);
     circle.setAttribute("fill",clr);
     root.appendChild(circle);
 }
@@ -149,36 +184,8 @@ function draw(form){
     return false;
 }
 
-function generateLabel(){
-	
-	var x_cell_size = bounds[0];
-	var root = document.getElementsByTagName("svg")[0];
-	
-	
-	for (i=1; i <= x_cell_size; i++ ){
-		 var element = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		 var pos_y = cellsize/2;
-		 var pos_x = i * cellsize + cellsize/2;
-		 element.setAttribute("id", "label_x" + i );
-		 element.setAttribute("x",pos_x);
-		 element.setAttribute("y",pos_y);
-		 element.textContent = i;
-		 root.appendChild(element);
-	}
-	
-	for (i=1; i <= x_cell_size; i++ ){
-		 var element = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		 var pos_y = i * cellsize + cellsize/2;
-		 var pos_x = cellsize/2;
-		 element.setAttribute("id", "label_y" + i );
-		 element.setAttribute("x",pos_x);
-		 element.setAttribute("y",pos_y);
-		 element.textContent = i;
-		 root.appendChild(element);
-	}
-	
-	
-}
+
+
 //SAVE
 function save(){
 
@@ -193,7 +200,7 @@ function save(){
     //PRETIFY will noch nicht ganz so
     //var svg_xml_beauty = new vkbeautify.xmlmin(svg_xml);
     //console.log(svg_xml_beauty);
-    var textFileAsBlob = new Blob([svg_xml], {type:'text/plain'});
+    var textFileAsBlob = new Blob([svg_xml], {type:'image/svg+xml'});
     var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
 
     var downloadLink = document.createElement("a");

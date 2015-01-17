@@ -8,11 +8,22 @@
  <meta name="description" content="Kurzbeschreibung" />
  
  <script type="text/JavaScript" src="mosaicsgame.js"></script>
- <script src="http://d3js.org/d3.v2.js"></script>
+ <script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
  
 </head>
  
-<body onload="init()">
+<body>
+
+<form id="GridSelect" action="" >
+<input type="radio" name="GridSize" value="8" onClick="setGridSize(8,8)"> 8x8<br>
+<input type="radio" name="GridSize" value="12" onClick="setGridSize(12,12)" > 12x12<br>
+<input type="radio" name="GridSize" value="12,18" onClick="setGridSize(12,18)"> 12x18<br>
+<input type="radio" name="GridSize" value="18,12" onClick="setGridSize(18,12)"> 18x12<br>
+<input type="radio" name="GridSize" value="24,24" onClick="setGridSize(24,24)"> 24x24<br>
+</form>
+
+<form><input type=button value="Reset" onClick="window.location.reload()"></form>
+
 <p id="test"> </p>
  <form action="" onsubmit="return draw(this)">
 Befehl eingeben:<br>
