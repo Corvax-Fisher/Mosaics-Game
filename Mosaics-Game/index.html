@@ -12,7 +12,7 @@
  
 </head>
  
-<body onload="test()">
+<body onload="init()">
 <p id="test"> </p>
  <form action="" onsubmit="return draw(this)">
 Befehl eingeben:<br>
@@ -21,18 +21,19 @@ Befehl eingeben:<br>
 <td>Filename to Save As:</td>
 <td><input id="inputFileNameToSaveAs"></input></td>
 <td><button onclick="save()">Save SVG File</button></td>
-<p id="err"> </p>
+<p id="clrs"> </p>
+<p id="err" style="color:red"> </p>
 <svg id="mosaics" width=320  height=320>
 	<defs>
 		<pattern id="pattern1" x="0" y="0" width="40" height="40"
 				patternUnits="userSpaceOnUse">
-			<line id="hline" x1="0" y1="0" x2="40" y2="0" style="stroke:black" />
-   			<line id="vline" x1="0" y1="0" x2="0" y2="40" style="stroke:black" />
+			<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:black; stroke-width:2;" />
+   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:black; stroke-width:2;" />
       	</pattern>
    	</defs>
         
     <rect x="0" y="0" width=320 height=320
-			style="stroke: #000000; fill: url(#pattern1);" />
+			style="stroke: black; fill: url(#pattern1);" />
 </svg>
 
 </body>

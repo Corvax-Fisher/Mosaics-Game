@@ -4,16 +4,28 @@
 
 cellsize = 40;
 bounds = [8,8];
+validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime", "maroon", 
+               "navy", "olive", "orange", "purple", "red", "silver", "teal", "yellow"];
 
-function insideBounds(col,row)
+function validateCellPosition(col,row)
 {
 	return (col>0 && col<=bounds[0] && row>0 && row <=bounds[1]);
 }
+
+function validateColor(color)
+{
+	return validColors.indexOf(color) != -1;
+}
 	
-function test() {
+function init() {
+	var strValidColors = "";
+	for(var i = 0; i < validColors.length; i++)
+		strValidColors += "<span style=color:"+validColors[i]+">"+validColors[i]+"</span>"+", ";
+	document.getElementById("clrs").innerHTML = 
+		"Verf&uumlgbare Farben: <br>" + strValidColors;
 	var svg = document.getElementsByTagName("svg")[0];
-	svg.setAttribute("width",cellsize*(bounds[0]+1));
-	svg.setAttribute("height",cellsize*(bounds[0]+1));
+	svg.setAttribute("width",cellsize*(bounds[0]+1)+2);
+	svg.setAttribute("height",cellsize*(bounds[0]+1)+2);
 //	var defs = svg.getElementsByTagName("defs")[0];
 	var pattern = svg.getElementById("pattern1");
 	pattern.setAttribute("width",cellsize);
@@ -25,14 +37,14 @@ function test() {
 	var rect = svg.getElementsByTagName("rect")[0];
 	rect.setAttribute("x",cellsize);
 	rect.setAttribute("y",cellsize);
-	rect.setAttribute("width",cellsize*bounds[0]);
-	rect.setAttribute("height",cellsize*bounds[0]);
+	rect.setAttribute("width",cellsize*bounds[0]+2);
+	rect.setAttribute("height",cellsize*bounds[0]+2);
 	var number;
 	var pos;
 	for(var i = 0 ; i<bounds[0];i++)
 	{
 		number = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		pos = cellToPos(i+2, 1);
+		pos = cellToPos(i+1, 0);
 		number.setAttribute("id", "n"+(i+1)+0);
 	    number.setAttribute("x",pos[0]+cellsize/2);
 	    number.setAttribute("y",pos[1]+cellsize*0.6);
@@ -41,7 +53,7 @@ function test() {
 	    svg.appendChild(number);
 	    
 		number = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		pos = cellToPos(1,i+2);
+		pos = cellToPos(0,i+1);
 		number.setAttribute("id", "n"+0+(i+1));
 	    number.setAttribute("x",pos[0]+cellsize/2);
 	    number.setAttribute("y",pos[1]+cellsize*0.6);
@@ -53,10 +65,10 @@ function test() {
 }
 
 function cellToPos(col, row) {
-	return [(col-1)*cellsize,(row-1)*cellsize];
+	return [col*cellsize,row*cellsize];
 }
 
-function circle(col,row) {
+function circle(col,row, clr) {
     var root = document.getElementsByTagName("svg")[0];
     var child = root.getElementById("e"+col+row);
     if(child) root.removeChild(child);
@@ -64,67 +76,75 @@ function circle(col,row) {
     var pos = cellToPos(col, row);
     circle.setAttribute("id", "e"+col+row);
     circle.setAttribute("r",19);
-    circle.setAttribute("cx",20.5 + pos[0]);
-    circle.setAttribute("cy",20.5 + pos[1]);
-    circle.setAttribute("fill","blue");
+    circle.setAttribute("cx",21 + pos[0]);
+    circle.setAttribute("cy",21 + pos[1]);
+    circle.setAttribute("fill",clr);
     root.appendChild(circle);
 }
 
-function square(col,row) {
+function square(col,row,clr) {
     var root = document.getElementsByTagName("svg")[0];
     var child = root.getElementById("e"+col+row);
     if(child) root.removeChild(child);
     var element = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     var pos = cellToPos(col, row);
     element.setAttribute("id", "e"+col+row);
-    element.setAttribute("x",pos[0]);
-    element.setAttribute("y",pos[1]);
-    element.setAttribute("width",cellsize);
-    element.setAttribute("height",cellsize);
-    element.setAttribute("fill","red");
+    element.setAttribute("x",pos[0]+2);
+    element.setAttribute("y",pos[1]+2);
+    element.setAttribute("width",cellsize-2);
+    element.setAttribute("height",cellsize-2);
+    element.setAttribute("fill",clr);
     root.appendChild(element);
 }
-function rectangle(col,row, width, height) {
-	if(!insideBounds(col, row)) return -1;
-	if(!insideBounds(col+width, row+height)) return -2;
-    var root = document.getElementsByTagName("svg")[0];
-    var child = root.getElementById("e"+col+row);
-    if(child) root.removeChild(child);
+
+function rectangle(col,row, width, height,clr) {
     for(var i=0;i<height;i++)
     {
     	for(var j=0;j<width;j++)
     	{
-    		var element = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    		var pos = cellToPos(col+j, row+i);
-    		element.setAttribute("id", "e"+(col+j)+(row+i));
-    		element.setAttribute("x",pos[0]+1);
-    		element.setAttribute("y",pos[1]+1);
-    		element.setAttribute("width",cellsize-1);
-    		element.setAttribute("height",cellsize-1);
-    		element.setAttribute("fill","green");
-    		root.appendChild(element);    		
+    		square(col+j,row+i,clr);   		
     	}
     }
-    return 1;
 }
 
 function draw(form){
+	if(document.getElementById("err").innerHTML.length > 0) document.getElementById("err").innerHTML = "";
 	var cmd = form.cmd.value.split("(");
 	if(cmd.length == 2)
 	{
 		var params = cmd[1].split(",");
-		params[params.length-1] = params[params.length-1].replace(")","");
-		if(cmd[0] == "square" && params.length == 2 ) 
-			square(Number(params[0])+1,Number(params[1])+1);
-		else if(cmd[0]=="circle" && params.length == 2) 
-			circle(Number(params[0])+1,Number(params[1])+1);
-		else if(cmd[0]=="rectangle" && params.length == 4)
-		{
-			var res = rectangle(Number(params[0])+1,Number(params[1])+1,Number(params[2]),Number(params[3]));
-			if(res == -1) document.getElementById("err").innerHTML = "Ung&uumlltige Position.";
-			else if( res == -2) document.getElementById("err").innerHTML = "Fl&aumlche &uumlberschreitet Bildgrenze.";
+		if(params[params.length-1].indexOf(")") == -1)
+			document.getElementById("err").innerHTML = "Schlie&szligende Klammer fehlt.";			
+		else if(!validateCellPosition(params[0], params[1])) {
+			document.getElementById("err").innerHTML = "Ung&uumlltige Position.";
+		} else {
+			params[params.length-1] = params[params.length-1].replace(")","");
+			if(cmd[0] == "square" ) {
+				if(params.length == 3) {
+					if(validateColor(params[2]))
+						square(params[0],params[1],params[2]);
+					else document.getElementById("err").innerHTML = "Ung&uumlltige Farbe.";
+				}
+				else document.getElementById("err").innerHTML = "Parameteranzahl ung&uumlltig (3 erwartet, "+params.length+" bekommen).";
+			} 
+			else if(cmd[0] == "circle" ) 
+				if(params.length == 3) {
+					if(validateColor(params[2]))
+						circle(Number(params[0]),Number(params[1]),params[2]);
+					else document.getElementById("err").innerHTML = "Ung&uumlltige Farbe.";
+				} else document.getElementById("err").innerHTML = "Parameteranzahl ung&uumlltig (3 erwartet, "+params.length+" bekommen).";
+			else if(cmd[0] == "rectangle" )
+			{
+				if(params.length == 5) {
+					if(validateCellPosition(Number(params[0])+Number(params[2])-1, Number(params[1])+Number(params[3])-1)) {
+						if(validateColor(params[4]))
+							rectangle(Number(params[0]),Number(params[1]),Number(params[2]),Number(params[3]),params[4]);
+						else document.getElementById("err").innerHTML = "Ung&uumlltige Farbe.";
+					} else document.getElementById("err").innerHTML = "Fl&aumlche &uumlberschreitet Bildgrenze."; 				
+				} else document.getElementById("err").innerHTML = "Parameteranzahl ung&uumlltig (5 erwartet, "+params.length+" bekommen).";
+			}			
 		}
-	}
+	} else document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
 
     return false;
 }
