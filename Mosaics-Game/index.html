@@ -14,38 +14,53 @@
  
 <body>
 
-<form id="GridSelect" action="" >
-<input type="radio" name="GridSize" value="8" onClick="setGridSize(8,8)"> 8x8<br>
-<input type="radio" name="GridSize" value="12" onClick="setGridSize(12,12)" > 12x12<br>
-<input type="radio" name="GridSize" value="12,18" onClick="setGridSize(12,18)"> 12x18<br>
-<input type="radio" name="GridSize" value="18,12" onClick="setGridSize(18,12)"> 18x12<br>
-<input type="radio" name="GridSize" value="24,24" onClick="setGridSize(24,24)"> 24x24<br>
-</form>
+ 
+	<form id="gridSelect" action="" onchange="setGridSize()" >
+		<input type="radio" name="GridSize" value="8x8" > 8x8<br>
+		<input type="radio" name="GridSize" value="12x12" > 12x12<br>
+		<input type="radio" name="GridSize" value="12x18" > 12x18<br>
+		<input type="radio" name="GridSize" value="18x12" > 18x12<br>
+		<input type="radio" name="GridSize" value="24x24" > 24x24<br>
+	</form>
+	<!--
+ 	<select id="gridSelect" onchange="setGridSize()">
+ 		<option value="0" >
+ 		<option value="8x8" >8x8
+ 		<option value="12x12">12x12
+ 		<option value="12x18">12x18
+ 		<option value="18x12">18x12
+ 		<option value="24x24">24x24
+ 	</select>
+ 	-->
+	<form>
+		<input type=button value="Reset" onClick="window.location.reload(true)">
+	</form>
 
-<form><input type=button value="Reset" onClick="window.location.reload()"></form>
-
-<p id="test"> </p>
- <form action="" onsubmit="return draw(this)">
-Befehl eingeben:<br>
-<input autofocus="autofocus" type="text" name="cmd"/>
-</form>
-<td>Filename to Save As:</td>
-<td><input id="inputFileNameToSaveAs"></input></td>
-<td><button onclick="save()">Save SVG File</button></td>
-<p id="clrs"> </p>
-<p id="err" style="color:red"> </p>
-<svg id="mosaics" width=320  height=320>
-	<defs>
-		<pattern id="pattern1" x="0" y="0" width="40" height="40"
-				patternUnits="userSpaceOnUse">
-			<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:black; stroke-width:2;" />
-   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:black; stroke-width:2;" />
-      	</pattern>
-   	</defs>
-        
-    <rect x="0" y="0" width=320 height=320
-			style="stroke: black; fill: url(#pattern1);" />
-</svg>
-
+	<p id="test"> </p>
+	<form action="" onsubmit="return draw(this)">
+		Befehl eingeben:<br>
+		<input autofocus="autofocus" type="text" name="cmd"/>
+	</form>
+	<table>
+		<tr>
+			<td>Mustername:</td>
+			<td><input id="inputFileNameToSaveAs" /></td>
+			<td><button onclick="save()">speichern</button></td>
+		</tr>
+	</table>
+	<p id="clrs"> </p>
+	<p id="err" style="color:red"> </p>
+	<svg id="mosaics" width=0  height=0>
+		<defs>
+			<pattern id="pattern1" x="0" y="0" width="40" height="40"
+					patternUnits="userSpaceOnUse">
+				<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:black; stroke-width:2;" />
+	   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:black; stroke-width:2;" />
+	      	</pattern>
+	   	</defs>
+	        
+	    <rect x="0" y="0" width=0 height=0
+				style="stroke: black; fill: url(#pattern1);" />
+	</svg>
 </body>
 </html>
