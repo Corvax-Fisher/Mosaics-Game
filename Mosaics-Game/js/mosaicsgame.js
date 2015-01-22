@@ -149,6 +149,27 @@ function pointOffset(p) {
 	return pOffset;
 }
 
+function position(p) {
+	var pos = p.split(",");
+	if(pos.length == 2) {
+		this.col = Number(pos[0]);
+		this.row = Number(pos[1]);
+	} else {
+		this.col = this.row = -1;
+	}
+
+}
+
+function positionBounds(pB) {
+	var positions = pB.split("...");
+	if(positions.length == 2) {
+		this.startPos = new position(positions[0]);
+		this.endPos = new position(positions[1]);
+	} else {
+		this.startPos = this.endPos = new position("-1,-1");
+	}
+}
+
 function circle(col,row, clr) {
     var root = document.getElementsByTagName("svg")[0];
     var child = root.getElementById("e"+col+row);
@@ -239,6 +260,67 @@ function triangle(col, row, p1, p2, p3, clr) {
     root.appendChild(element);
 }
 
+function circles(posBounds, clr) {
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
+    {
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
+    	{
+    		circle(i,j,clr);
+    	}
+    }
+}
+
+function lines(posBounds, p1, p2, clr) {
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
+    {
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
+    	{
+    		line(i,j,p1,p2,clr);
+    	}
+    }
+}
+
+function triangles(posBounds, p1, p2, p3, clr) {
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
+    {
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
+    	{
+    		triangle(i,j,p1,p2,p3,clr);
+    	}
+    }
+}
+
+function executeCommand(cmdName, cmdParams) {
+	switch(cmdName) {
+	case "square":
+		square(cmdParams[0],cmdParams[1],cmdParams[2]);
+		break;
+	case "circle":
+		circle(Number(cmdParams[0]),Number(cmdParams[1]),cmdParams[2]);
+		break;
+	case "rectangle":
+		rectangle(Number(cmdParams[0]),Number(cmdParams[1]),Number(cmdParams[2]),Number(cmdParams[3]),cmdParams[4]);
+		break;
+	case "line":
+		line(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(),cmdParams[3].toLowerCase(),cmdParams[4]);
+		break;
+	case "triangle":
+		triangle(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(), cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5]);
+		break;
+	case "circles":
+		circles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + "," + cmdParams[2]),cmdParams[3]);
+		break;
+	case "lines":
+		lines(new positionBounds(cmdParams[0] + "," + cmdParams[1] + "," + cmdParams[2]),
+				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5]);
+		break;
+	case "triangles":
+		triangles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + "," + cmdParams[2]),
+				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5].toLowerCase(), cmdParams[6]);
+		break;
+	}
+}
+
 function draw(form){
 	if(document.getElementById("err").innerHTML.length > 0) document.getElementById("err").innerHTML = "";
 	var cmd = form.cmd.value.split("(");
@@ -249,29 +331,12 @@ function draw(form){
 			document.getElementById("err").innerHTML = "Schlie&szligende Klammer fehlt.";
 		else {
 			params[params.length-1] = params[params.length-1].replace(")","");
-			if(validateParameters(cmd[0], params)) {
-				switch(cmd[0]) {
-					case "square":
-						square(params[0],params[1],params[2]);
-						break;
-					case "circle":
-						circle(Number(params[0]),Number(params[1]),params[2]);
-						break;
-					case "rectangle":
-						rectangle(Number(params[0]),Number(params[1]),Number(params[2]),Number(params[3]),params[4]);
-						break;
-					case "line":
-						line(params[0],params[1],params[2].toLowerCase(),params[3].toLowerCase(),params[4]);
-						break;
-					case "triangle":
-						triangle(params[0],params[1],params[2].toLowerCase(),params[3].toLowerCase(),params[4].toLowerCase(),params[5]);
-						break;
-				}				
-			}
+			if(validateParameters(cmd[0], params))
+				executeCommand(cmd[0],params);
 		}
 	} else document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
 
-    return false;
+	return false;
 }
 
 

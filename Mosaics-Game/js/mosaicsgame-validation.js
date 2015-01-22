@@ -7,6 +7,12 @@ function validateCellPosition(col,row)
 	return (col>0 && col<=bounds[0] && row>0 && row <=bounds[1]);
 }
 
+function validateCellPositionBounds(posBounds)
+{
+	return (validateCellPosition(posBounds.startPos.col, posBounds.startPos.row) && 
+			validateCellPosition(posBounds.endPos.col, posBounds.endPos.row) );
+}
+
 function validateColor(color)
 {
 	return validColors.indexOf(color) != -1;
@@ -88,23 +94,33 @@ function validateParameters(cmd, params) {
 	
 	//validate number of parameters
 	switch(cmd) {
-		case "square":
-		case "circle":
-			paramCount = 3;
-			if(params.length != paramCount) err=true;
-			break;
-		case "rectangle":
-		case "line":
-			paramCount = 5;
-			if(params.length != paramCount) err=true;
-			break;
-		case "triangle":
-			paramCount = 6;
-			if(params.length != paramCount) err=true;
-			break;
-		default:
-			document.getElementById("err").innerHTML = "Unbekannter Befehl.";
-			return 0;
+	case "square":
+	case "circle":
+		paramCount = 3;
+		if(params.length != paramCount) err=true;
+		break;
+	case "squares":
+	case "circles":
+		paramCount = 4;
+		if(params.length != paramCount) err=true;
+		break;
+	case "rectangle":
+	case "line":
+		paramCount = 5;
+		if(params.length != paramCount) err=true;
+		break;
+	case "triangle":
+	case "lines":
+		paramCount = 6;
+		if(params.length != paramCount) err=true;
+		break;
+	case "triangles":
+		paramCount = 7;
+		if(params.length != paramCount) err=true;
+		break;
+	default:
+		document.getElementById("err").innerHTML = "Unbekannter Befehl.";
+	return 0;
 	}
 	
 	if(err) {
@@ -113,10 +129,19 @@ function validateParameters(cmd, params) {
 		return 0;
 	}
 	
-	//validate position
-	if(!validateCellPosition(params[0], params[1])) {
-		document.getElementById("err").innerHTML = "Ung&uumlltige Position.";
-		return 0;
+	if(cmd.charAt(cmd.length-1) == "s") {
+		//validate position bounds
+		var posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2]);
+		if(!validateCellPositionBounds(posBounds) ) {
+			document.getElementById("err").innerHTML = "Ung&uumlltiger Positionsbereich.";
+			return 0;
+		}
+	} else {
+		//validate position
+		if(!validateCellPosition(params[0], params[1]) ) {
+			document.getElementById("err").innerHTML = "Ung&uumlltige Position.";
+			return 0;
+		}		
 	}
 	
 	//validate color
@@ -125,12 +150,20 @@ function validateParameters(cmd, params) {
 	case "circle":
 		if(!validateColor(params[2])) err=true;
 		break;
+	case "squares":
+	case "circles":
+		if(!validateColor(params[3])) err=true;
+		break;
 	case "rectangle":
 	case "line":
 		if(!validateColor(params[4])) err=true;
 		break;
 	case "triangle":
+	case "lines":
 		if(!validateColor(params[5])) err=true;
+		break;
+	case "triangles":
+		if(!validateColor(params[6])) err=true;
 		break;
 	}
 	
@@ -140,8 +173,10 @@ function validateParameters(cmd, params) {
 	}
 	
 	//validate line
-	if(cmd == "line") {
-		var errCode = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
+	if(cmd == "line" || cmd == "lines") {
+		var errCode;
+		if(cmd == "line") errCode = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
+		else errCode = validateLine(params[3].toLowerCase(), params[4].toLowerCase());
 		if(errCode == -1)
 			document.getElementById("err").innerHTML = "Ung&uumlltige Punkte.";
 		else if(errCode == -2)
@@ -150,13 +185,18 @@ function validateParameters(cmd, params) {
 	}
 	
 	//validate triangle
-	if(cmd == "triangle") {
-		if(	!validatePoint(params[2].toLowerCase() ) || 
-			!validatePoint(params[3].toLowerCase() ) || 
-			!validatePoint(params[4].toLowerCase() ) ) {
+	if(cmd == "triangle" || cmd == "triangles") {
+		var i;
+		
+		if(cmd == "triangle") i = 2;
+		else i = 3;
+		
+		if(	!validatePoint(params[i].toLowerCase() ) || 
+			!validatePoint(params[i+1].toLowerCase() ) || 
+			!validatePoint(params[i+2].toLowerCase() ) ) {
 			document.getElementById("err").innerHTML = "Ung&uumlltige Punkte.";
 			return 0;			
-		} else if(!validateTriangle(params[2].toLowerCase(), params[3].toLowerCase(), params[4].toLowerCase())) {
+		} else if( !validateTriangle(params[i].toLowerCase(), params[i+1].toLowerCase(), params[i+2].toLowerCase() ) ) {
 			document.getElementById("err").innerHTML = "Ung&uumlltiges Dreieck (Fl&aumlche ist 0).";
 			return 0;
 		}
