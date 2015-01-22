@@ -35,18 +35,19 @@
  	-->
 	<form>
 		<input type=button value="Reset" onClick="window.location.reload(true)">
+		<input id="okBtn" type=button value="OK" onClick="gridSizeOk()" >
 	</form>
 
 	<p id="test"> </p>
-	<form action="" onsubmit="return draw(this)">
+	<form name="cmdForm" action="" onsubmit="return draw(this)">
 		Befehl eingeben:<br>
-		<input autofocus="autofocus" type="text" name="cmd"/>
+		<input autofocus="autofocus" type="text" name="cmd"  />
 	</form>
 	<table>
 		<tr>
 			<td>Mustername:</td>
 			<td><input id="inputFileNameToSaveAs" /></td>
-			<td><button onclick="save()">speichern</button></td>
+			<td><button onclick="save()" >speichern</button></td>
 		</tr>
 	</table>
 	<p id="clrs"> </p>
@@ -55,8 +56,8 @@
 		<defs>
 			<pattern id="pattern1" x="0" y="0" width="40" height="40"
 					patternUnits="userSpaceOnUse">
-				<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:black; stroke-width:2;" />
-	   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:black; stroke-width:2;" />
+				<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:#c1cdc1; stroke-width:2;" />
+	   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:#c1cdc1; stroke-width:2;" />
 	      	</pattern>
 	   	</defs>
 	        

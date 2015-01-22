@@ -24,7 +24,7 @@ function setGridSize()
 	var gridSelect = document.getElementById("gridSelect");
 	var selectedValue = "";
 	for(var i=0 ; i < gridSelect.elements.length;i++) {
-		gridSelect.elements.item(i).disabled = true;
+		//gridSelect.elements.item(i).disabled = true;
 		if(gridSelect.elements.item(i).checked) 
 			selectedValue = gridSelect.elements.item(i).value;
 	}
@@ -68,7 +68,39 @@ function setGridSize()
 	rect.setAttribute("width",cellsize*bounds[0]+2);
 	rect.setAttribute("height",cellsize*bounds[1]+2);
 	
+	
+	
+	//GridSizeNumber
+//	index = document.createElementNS("http://www.w3.org/2000/svg", "text");
+//	index.setAttribute("id", "index");
+//	pos = cellToPos(bounds[0],bounds[1]);
+//	index.setAttribute("x", 10);
+//	index.setAttribute("y", 15);
+//	index.setAttribute("style","font-size:10px");
+//	index.setAttribute("style","fill:red");
+//	index.setAttribute("text-anchor","right");
+//	index.appendChild(document.createTextNode(bounds[0] +" x "  + bounds[1]));
+//	svg.appendChild(index);
+
+}
+
+function gridSizeOk(){
+	//Disable radio buttons
+	var gridSelect = document.getElementById("gridSelect");
+	for(var i=0 ; i < gridSelect.elements.length;i++) {
+		gridSelect.elements.item(i).disabled = true;
+		}
+	
+	//Change Grid Color
+	document.getElementById("hline").style.stroke = "black";
+	document.getElementById("vline").style.stroke = "black";
+	
+	//Disable OK btn
+	document.getElementById("okBtn").disabled = true;
+	
+	
 	//Iterate Grid Numbers
+	var svg = document.getElementsByTagName("svg")[0];
 	var number;
 	var pos;
 	for(var i = 0 ; i<bounds[0];i++)
@@ -94,20 +126,7 @@ function setGridSize()
 		svg.appendChild(number);
 	}
 	
-	//GridSizeNumber
-//	index = document.createElementNS("http://www.w3.org/2000/svg", "text");
-//	index.setAttribute("id", "index");
-//	pos = cellToPos(bounds[0],bounds[1]);
-//	index.setAttribute("x", 10);
-//	index.setAttribute("y", 15);
-//	index.setAttribute("style","font-size:10px");
-//	index.setAttribute("style","fill:red");
-//	index.setAttribute("text-anchor","right");
-//	index.appendChild(document.createTextNode(bounds[0] +" x "  + bounds[1]));
-//	svg.appendChild(index);
-
 }
-
 
 function cellToPos(col, row) {
 	return [col*cellsize,row*cellsize];
