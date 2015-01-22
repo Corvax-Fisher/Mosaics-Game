@@ -220,6 +220,41 @@ function triangle(col, row, p1, p2, p3, clr) {
     root.appendChild(element);
 }
 
+function circles(bounds, clr) {
+	bounds = bounds.split("...");
+	var startPos, endPos;
+	startPos = bounds[0].split(",");
+	endPos = bounds[1].split(",");
+	
+    for(var i=startPos[0];i<endPos[0];i++)
+    {
+    	for(var j=startPos[1];j<endPos[1];j++)
+    	{
+    		square(i,j,clr);
+    	}
+    }
+}
+
+function executeCommand(cmdName, cmdParams) {
+	switch(cmdName) {
+	case "square":
+		square(cmdParams[0],cmdParams[1],cmdParams[2]);
+		break;
+	case "circle":
+		circle(Number(cmdParams[0]),Number(cmdParams[1]),cmdParams[2]);
+		break;
+	case "rectangle":
+		rectangle(Number(cmdParams[0]),Number(cmdParams[1]),Number(cmdParams[2]),Number(cmdParams[3]),cmdParams[4]);
+		break;
+	case "line":
+		line(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(),cmdParams[3].toLowerCase(),cmdParams[4]);
+		break;
+	case "triangle":
+		triangle(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(),cmdParams[3].toLowerCase(),cmdParams[4].toLowerCase(),cmdParams[5]);
+		break;
+	}
+}
+
 function draw(form){
 	if(document.getElementById("err").innerHTML.length > 0) document.getElementById("err").innerHTML = "";
 	var cmd = form.cmd.value.split("(");
@@ -230,29 +265,12 @@ function draw(form){
 			document.getElementById("err").innerHTML = "Schlie&szligende Klammer fehlt.";
 		else {
 			params[params.length-1] = params[params.length-1].replace(")","");
-			if(validateParameters(cmd[0], params)) {
-				switch(cmd[0]) {
-					case "square":
-						square(params[0],params[1],params[2]);
-						break;
-					case "circle":
-						circle(Number(params[0]),Number(params[1]),params[2]);
-						break;
-					case "rectangle":
-						rectangle(Number(params[0]),Number(params[1]),Number(params[2]),Number(params[3]),params[4]);
-						break;
-					case "line":
-						line(params[0],params[1],params[2].toLowerCase(),params[3].toLowerCase(),params[4]);
-						break;
-					case "triangle":
-						triangle(params[0],params[1],params[2].toLowerCase(),params[3].toLowerCase(),params[4].toLowerCase(),params[5]);
-						break;
-				}				
-			}
+			if(validateParameters(cmd[0], params))
+				executeCommand(cmd[0],params);
 		}
 	} else document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
 
-    return false;
+	return false;
 }
 
 
