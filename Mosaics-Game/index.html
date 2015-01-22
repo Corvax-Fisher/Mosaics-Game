@@ -44,7 +44,7 @@
 	</nav>
 	
 	<div class="container">
-		<div class="jumbotron row">
+		<div class="selectionArea jumbotron row">
 			<div class="col-md-4">
 				<p>Bitte wähle eine Größe aus:</p>
 			</div>
@@ -84,19 +84,18 @@
 			</div>
 			<div class="col-md-4">
 				<form>
-					<input type="button" value="zurücksetzen" onClick="window.location.reload(true)" class="btn btn-default">
 					<input id="okBtn" type="button" value="auswählen" onClick="gridSizeOk()" class="btn btn-default">
 				</form>			
 			</div>
 		</div>
 		
-		<div class="jumbotron">
-			<form name="cmdForm" action="" onsubmit="return draw(this)" class="form-inline">
+		<div class="jumbotron row">
+			<form name="cmdForm" action="" onsubmit="return draw(this)" class="form-inline col-md-12">
 				<div class="form-group">
-					<input placeholder="Befehl" autofocus="autofocus" type="text" name="cmd" class="form-control"/>
+					<input placeholder="Befehl" autofocus="autofocus" type="text" name="cmd" class="form-control cmd"/>
 				</div>
 				<div class="form-group">
-					<input name="ok" value ="ok" type="button" class="btn btn-default"/>
+					<input name="OK" value ="OK" type="button" class="btn btn-default"/>
 				</div>				
 			</form>		
 		</div>
@@ -136,9 +135,33 @@
 			</div>
 			
 			<div class="row">
-				<form>
-					<input placeholder="Mustername" id="inputFileNameToSaveAs"/>
-					<input name="speichern" value ="speichern" type="submit" onclick="save()"/>
+				<form class="col-md-4">
+					<div class="form-group">
+						<input type="button" value="zurücksetzen" onClick="window.location.reload(true)" class="btn btn-danger">
+					</div>
+				</form>
+				<form class="form-inline col-md-8">
+					<div class="form-group">
+						<label for="inputFileNameToSaveAs">Muster abspeichern:</label>
+						<input placeholder="Mustername" id="inputFileNameToSaveAs" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						    Dropdown
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						    <li role="presentation">Kat1</li>
+						    <li role="presentation">Kat2</li>
+						    <li role="presentation">Kat3</li>
+						    <li role="presentation">Kat4</li>
+						  </ul>
+						</div>
+					</div>	
+					<div class="form-group">
+						<input name="speichern" value ="speichern" type="submit" onclick="save()" class="btn btn-primary"/>
+					</div>		
 				</form>
 			</div>
 		</div>

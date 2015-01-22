@@ -16,10 +16,11 @@ body {
 	margin: 5px;
 }
 
-/*
- Documentation Area
-*/
 .documentationArea {
 	background-color:#c1c1c1;
+}
+
+.cmd {
+	width: 330px !important;
 }
 
