@@ -1,0 +1,25 @@
+body {
+  padding-top: 50px;
+}
+
+.radio {
+	display: inline !important;
+}
+
+.row {
+	margin-left: 0px;
+	margin-right:0px;
+}
+
+.jumbotron {
+	padding: 10px;
+	margin: 5px;
+}
+
+/*
+ Documentation Area
+*/
+.documentationArea {
+	background-color:#c1c1c1;
+}
+

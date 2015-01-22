@@ -1,73 +1,149 @@
 <!DOCTYPE html>
  
-<html>
- 
+<html lang="en">
+
 <head>
- <title>Test SVG</title>
- <meta charset="UTF-8" />
- <meta name="description" content="Kurzbeschreibung" />
- 
- <script type="text/JavaScript" src="js/mosaicsgame.js"></script>
- <script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
- <script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
- 
-</head>
- 
-<body>
-	<div class="content">
-		<div class="selectionArea">
-			<form id="gridSelect" action="" onchange="setGridSize()" >
-				<input type="radio" name="GridSize" value="8x8" > 8x8<br>
-				<input type="radio" name="GridSize" value="12x12" > 12x12<br>
-				<input type="radio" name="GridSize" value="12x18" > 12x18<br>
-				<input type="radio" name="GridSize" value="18x12" > 18x12<br>
-				<input type="radio" name="GridSize" value="24x24" > 24x24<br>
-			</form>
-			<form>
-				<input type=button value="Reset" onClick="window.location.reload(true)">
-				
-			</form>
-			<!--
-		 	<select id="gridSelect" onchange="setGridSize()">
-		 		<option value="0" >
-		 		<option value="8x8" >8x8
-		 		<option value="12x12">12x12
-		 		<option value="12x18">12x18
-		 		<option value="18x12">18x12
-		 		<option value="24x24">24x24
-		 	</select>-->
-		</div>
-		<div class="editorArea">
-		
-		</div>
-		
-	</div>
- 
+	<title>Test SVG</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Kurzbeschreibung" />
+
+	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
+	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
 	
-	<form name="cmdForm" action="" onsubmit="return draw(this)">
-		Befehl eingeben:<br>
-		<input autofocus="autofocus" type="text" name="cmd"/>
-	</form>
-	<table>
-		<tr>
-			<td>Mustername:</td>
-			<td><input id="inputFileNameToSaveAs" /></td>
-			<td><button onclick="save()">speichern</button></td>
-		</tr>
-	</table>
-	<p id="clrs"> </p>
-	<p id="err" style="color:red"> </p>
-	<svg id="mosaics" width=0  height=0>
-		<defs>
-			<pattern id="pattern1" x="0" y="0" width="40" height="40"
-					patternUnits="userSpaceOnUse">
-				<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:#c1cdc1; stroke-width:2;" />
-	   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:#c1cdc1; stroke-width:2;" />
-	      	</pattern>
-	   	</defs>
-	        
-	    <rect x="0" y="0" width=0 height=0
-				style="stroke: black; fill: url(#pattern1);" />
-	</svg>
+	<link rel="stylesheet" href="style/bootstrap.min.css">
+	<link href="style/style.css" rel="stylesheet">
+		
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">Mosaics-Game</a>
+	    </div>
+	
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="#">Editor<span class="sr-only">(current)</span></a></li>
+	        <li><a href="#">Game</a></li>
+	        <li><a href="#">About Us</a></li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+	
+	<div class="container">
+		<div class="jumbotron row">
+			<div class="col-md-4">
+				<p>Bitte wähle eine Größe aus:</p>
+			</div>
+			<div class="col-md-4">
+				<form id="gridSelect" action="" onchange="setGridSize()">
+					<div class="radio">
+						<label>
+						<input type="radio" name="GridSize" value="8x8">
+						8x8
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+						<input type="radio" name="GridSize" value="12x12">
+						12x12
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+						<input type="radio" name="GridSize" value="12x18">
+						12x18
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+						<input type="radio" name="GridSize" value="18x12">
+						18x12
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+						<input type="radio" name="GridSize" value="24x24">
+						24x24
+						</label>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<form>
+					<input type="button" value="zurücksetzen" onClick="window.location.reload(true)" class="btn btn-default">
+					<input id="okBtn" type="button" value="auswählen" onClick="gridSizeOk()" class="btn btn-default">
+				</form>			
+			</div>
+		</div>
+		
+		<div class="jumbotron">
+			<form name="cmdForm" action="" onsubmit="return draw(this)" class="form-inline">
+				<div class="form-group">
+					<input placeholder="Befehl" autofocus="autofocus" type="text" name="cmd" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<input name="ok" value ="ok" type="button" class="btn btn-default"/>
+				</div>				
+			</form>		
+		</div>
+		
+		<div class="jumbotron">
+			<div class="messages row">
+				<p id="err" style="color:red"> </p>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-7">
+					<svg id="mosaics" width=0  height=0>
+						<defs>
+							<pattern id="pattern1" x="0" y="0" width="40" height="40"
+									patternUnits="userSpaceOnUse">
+								<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:#c1cdc1; stroke-width:2;" />
+					   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:#c1cdc1; stroke-width:2;" />
+					      	</pattern>
+					   	</defs>
+					        
+					    <rect x="0" y="0" width=0 height=0
+								style="stroke: black; fill: url(#pattern1);" />
+					</svg>
+				</div>
+							
+				<div class="documentationArea col-md-3">
+					<p>Hallo, hier kommt der Katalog rein.. bald :)</p>
+					<p id="clrs"> </p>
+				</div>
+				<div class="documentationArea col-md-2">
+					<form>
+						<input type="button" value="rückgängig" class="btn btn-default">
+						<input type="button" value="wiederherstellen" class="btn btn-default">
+					</form>	
+					<p>Hallo, hier kommt der Katalog rein.. bald :)</p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<form>
+					<input placeholder="Mustername" id="inputFileNameToSaveAs"/>
+					<input name="speichern" value ="speichern" type="submit" onclick="save()"/>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 </body>
 </html>
