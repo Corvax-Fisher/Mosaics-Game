@@ -7,38 +7,44 @@
  <meta charset="UTF-8" />
  <meta name="description" content="Kurzbeschreibung" />
  
- <script type="text/JavaScript" src="mosaicsgame.js"></script>
- <script type="text/JavaScript" src="mosaicsgame-validation.js"></script>
+ <script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+ <script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
  <script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
  
 </head>
  
 <body>
-
+	<div class="content">
+		<div class="selectionArea">
+			<form id="gridSelect" action="" onchange="setGridSize()" >
+				<input type="radio" name="GridSize" value="8x8" > 8x8<br>
+				<input type="radio" name="GridSize" value="12x12" > 12x12<br>
+				<input type="radio" name="GridSize" value="12x18" > 12x18<br>
+				<input type="radio" name="GridSize" value="18x12" > 18x12<br>
+				<input type="radio" name="GridSize" value="24x24" > 24x24<br>
+			</form>
+			<form>
+				<input type=button value="Reset" onClick="window.location.reload(true)">
+				
+			</form>
+			<!--
+		 	<select id="gridSelect" onchange="setGridSize()">
+		 		<option value="0" >
+		 		<option value="8x8" >8x8
+		 		<option value="12x12">12x12
+		 		<option value="12x18">12x18
+		 		<option value="18x12">18x12
+		 		<option value="24x24">24x24
+		 	</select>-->
+		</div>
+		<div class="editorArea">
+		
+		</div>
+		
+	</div>
  
-	<form id="gridSelect" action="" onchange="setGridSize()" >
-		<input type="radio" name="GridSize" value="8x8" > 8x8<br>
-		<input type="radio" name="GridSize" value="12x12" > 12x12<br>
-		<input type="radio" name="GridSize" value="12x18" > 12x18<br>
-		<input type="radio" name="GridSize" value="18x12" > 18x12<br>
-		<input type="radio" name="GridSize" value="24x24" > 24x24<br>
-	</form>
-	<!--
- 	<select id="gridSelect" onchange="setGridSize()">
- 		<option value="0" >
- 		<option value="8x8" >8x8
- 		<option value="12x12">12x12
- 		<option value="12x18">12x18
- 		<option value="18x12">18x12
- 		<option value="24x24">24x24
- 	</select>
- 	-->
-	<form>
-		<input type=button value="Reset" onClick="window.location.reload(true)">
-	</form>
-
-	<p id="test"> </p>
-	<form action="" onsubmit="return draw(this)">
+	
+	<form name="cmdForm" action="" onsubmit="return draw(this)">
 		Befehl eingeben:<br>
 		<input autofocus="autofocus" type="text" name="cmd"/>
 	</form>
@@ -55,8 +61,8 @@
 		<defs>
 			<pattern id="pattern1" x="0" y="0" width="40" height="40"
 					patternUnits="userSpaceOnUse">
-				<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:black; stroke-width:2;" />
-	   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:black; stroke-width:2;" />
+				<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:#c1cdc1; stroke-width:2;" />
+	   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:#c1cdc1; stroke-width:2;" />
 	      	</pattern>
 	   	</defs>
 	        
