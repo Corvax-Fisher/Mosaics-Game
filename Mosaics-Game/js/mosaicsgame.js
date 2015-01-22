@@ -8,6 +8,8 @@ cellsize = 40;
 bounds = [8,8];
 validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime", "maroon", 
                "navy", "olive", "orange", "purple", "red", "silver", "teal", "yellow"];
+undoHistory = [];
+redoHistory = [];
 
 function setGridSize()
 {	
@@ -157,7 +159,10 @@ function position(p) {
 	} else {
 		this.col = this.row = -1;
 	}
-
+	
+	this.toString = function() {
+		return this.col + "," + this.row;
+	};
 }
 
 function positionBounds(pB) {
@@ -321,6 +326,72 @@ function executeCommand(cmdName, cmdParams) {
 	}
 }
 
+function deleteElement(pos) {
+    var root = document.getElementsByTagName("svg")[0];
+    var child = root.getElementById("e"+pos.col+pos.row);
+    if(child) root.removeChild(child);
+}
+
+function deleteElements(posBounds) {
+	var pos = new position("0,0");
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
+    {
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
+    	{
+    		pos.col = i; 
+    		pos.row = j;
+    		deleteElement(pos);
+    	}
+    }
+}
+
+function undoCommand() {
+	var fullCmd = undoHistory.pop();
+	
+	if(fullCmd == undefined) return;
+	else {
+		redoHistory.push(fullCmd);
+		// delete elements that were added with the last command
+		var cmd = fullCmd.split("(");
+		if(cmd[1].indexOf("...") == -1) {
+			//it's not an arry command
+			if(cmd[0] == "rectangle") {
+				var p2 = new position( cmd[1].substring(4,7) );
+				p2.col++; p2.row++;
+				var bounds = new positionBounds( cmd[1].substring(0,3) + "..." + p2.toString());
+				deleteElements(bounds);
+			} else deleteElement(  new position( cmd[1].substring(0,3) ) );
+		} else {
+			deleteElements( new positionBounds( cmd[1].substring(0,9) ) );
+		}
+		
+		//execute second last command to add elements that may have been overwritten
+		fullCmd = undoHistory.pop();
+		if(fullCmd == undefined) return;
+		else {
+			cmd = fullCmd.split("(");
+			var params = cmd[1].split(",");
+			params[params.length-1] = params[params.length-1].replace(")","");
+			executeCommand(cmd[0],params);
+			undoHistory.push(fullCmd);
+		}
+	}
+}
+
+function redoCommand() {
+	var fullCmd = redoHistory.pop();
+
+	if(fullCmd == undefined) return;
+	else {
+		undoHistory.push(fullCmd);
+		
+		cmd = fullCmd.split("(");
+		var params = cmd[1].split(",");
+		params[params.length-1] = params[params.length-1].replace(")","");
+		executeCommand(cmd[0],params);
+	}
+}
+
 function draw(form){
 	if(document.getElementById("err").innerHTML.length > 0) document.getElementById("err").innerHTML = "";
 	var cmd = form.cmd.value.split("(");
@@ -331,8 +402,11 @@ function draw(form){
 			document.getElementById("err").innerHTML = "Schlie&szligende Klammer fehlt.";
 		else {
 			params[params.length-1] = params[params.length-1].replace(")","");
-			if(validateParameters(cmd[0], params))
+			if( validateParameters(cmd[0], params) ) {
 				executeCommand(cmd[0],params);
+				undoHistory.push(form.cmd.value);
+				redoHistory = [];
+			}
 		}
 	} else document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
 
