@@ -15,29 +15,37 @@
  
 <body>
 	<div class="content">
+		<div class="selectionArea">
+			<form id="gridSelect" action="" onchange="setGridSize()" >
+				<input type="radio" name="GridSize" value="8x8" > 8x8<br>
+				<input type="radio" name="GridSize" value="12x12" > 12x12<br>
+				<input type="radio" name="GridSize" value="12x18" > 12x18<br>
+				<input type="radio" name="GridSize" value="18x12" > 18x12<br>
+				<input type="radio" name="GridSize" value="24x24" > 24x24<br>
+			</form>
+			<form>
+				<input type=button value="Reset" onClick="window.location.reload(true)">
+			</form>
+			<!--
+		 	<select id="gridSelect" onchange="setGridSize()">
+		 		<option value="0" >
+		 		<option value="8x8" >8x8
+		 		<option value="12x12">12x12
+		 		<option value="12x18">12x18
+		 		<option value="18x12">18x12
+		 		<option value="24x24">24x24
+		 	</select>-->
+		</div>
+		<div class="editorArea">
+		
+		</div>
 		
 	</div>
  
-	<form id="gridSelect" action="" onchange="setGridSize()" >
-		<input type="radio" name="GridSize" value="8x8" > 8x8<br>
-		<input type="radio" name="GridSize" value="12x12" > 12x12<br>
-		<input type="radio" name="GridSize" value="12x18" > 12x18<br>
-		<input type="radio" name="GridSize" value="18x12" > 18x12<br>
-		<input type="radio" name="GridSize" value="24x24" > 24x24<br>
-	</form>
-	<!--
- 	<select id="gridSelect" onchange="setGridSize()">
- 		<option value="0" >
- 		<option value="8x8" >8x8
- 		<option value="12x12">12x12
- 		<option value="12x18">12x18
- 		<option value="18x12">18x12
- 		<option value="24x24">24x24
- 	</select>
- 	-->
-	<form>
-		<input type=button value="Reset" onClick="window.location.reload(true)">
-	</form>
+	
+	
+ 	
+	
 
 	<form action="" onsubmit="return draw(this)" style="display:none;">
 		Befehl eingeben:<br>
