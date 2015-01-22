@@ -149,6 +149,27 @@ function pointOffset(p) {
 	return pOffset;
 }
 
+function position(p) {
+	var pos = p.split(",");
+	if(pos.length == 2) {
+		this.col = Number(pos[0]);
+		this.row = Number(pos[1]);
+	} else {
+		this.col = this.row = -1;
+	}
+
+}
+
+function positionBounds(pB) {
+	var positions = pB.split("...");
+	if(positions.length == 2) {
+		this.startPos = new position(positions[0]);
+		this.endPos = new position(positions[1]);
+	} else {
+		this.startPos = this.endPos = new position("-1,-1");
+	}
+}
+
 function circle(col,row, clr) {
     var root = document.getElementsByTagName("svg")[0];
     var child = root.getElementById("e"+col+row);
@@ -239,17 +260,32 @@ function triangle(col, row, p1, p2, p3, clr) {
     root.appendChild(element);
 }
 
-function circles(bounds, clr) {
-	bounds = bounds.split("...");
-	var startPos, endPos;
-	startPos = bounds[0].split(",");
-	endPos = bounds[1].split(",");
-	
-    for(var i=startPos[0];i<endPos[0];i++)
+function circles(posBounds, clr) {
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
     {
-    	for(var j=startPos[1];j<endPos[1];j++)
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
     	{
-    		square(i,j,clr);
+    		circle(i,j,clr);
+    	}
+    }
+}
+
+function lines(posBounds, p1, p2, clr) {
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
+    {
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
+    	{
+    		line(i,j,p1,p2,clr);
+    	}
+    }
+}
+
+function triangles(posBounds, p1, p2, p3, clr) {
+    for(var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++)
+    {
+    	for(var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++)
+    	{
+    		triangle(i,j,p1,p2,p3,clr);
     	}
     }
 }
@@ -269,7 +305,18 @@ function executeCommand(cmdName, cmdParams) {
 		line(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(),cmdParams[3].toLowerCase(),cmdParams[4]);
 		break;
 	case "triangle":
-		triangle(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(),cmdParams[3].toLowerCase(),cmdParams[4].toLowerCase(),cmdParams[5]);
+		triangle(cmdParams[0],cmdParams[1],cmdParams[2].toLowerCase(), cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5]);
+		break;
+	case "circles":
+		circles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + "," + cmdParams[2]),cmdParams[3]);
+		break;
+	case "lines":
+		lines(new positionBounds(cmdParams[0] + "," + cmdParams[1] + "," + cmdParams[2]),
+				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5]);
+		break;
+	case "triangles":
+		triangles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + "," + cmdParams[2]),
+				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5].toLowerCase(), cmdParams[6]);
 		break;
 	}
 }
