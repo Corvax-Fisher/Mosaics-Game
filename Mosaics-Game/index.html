@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Kurzbeschreibung" />
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+
 	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
 	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
@@ -140,7 +143,7 @@
 			<div class="row">
 				<form class="col-md-4">
 					<div class="form-group">
-						<input type="button" value="zurücksetzen" onClick="window.location.reload(true)" class="btn btn-danger">
+						<!-- <input type="button" value="zurücksetzen" onClick="window.location.reload(true)" class="btn btn-danger"-->
 					</div>
 				</form>
 				<form class="form-inline col-md-8">
@@ -150,26 +153,28 @@
 					</div>
 					<div class="form-group">
 						<div class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="category_dropdown" data-toggle="dropdown" aria-expanded="true">
 						    Dropdown
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						    <li role="presentation">Kat1</li>
-						    <li role="presentation">Kat2</li>
-						    <li role="presentation">Kat3</li>
-						    <li role="presentation">Kat4</li>
+						    <li> <a href="#">Choice1</a></li>
+						  	<li> <a href="#">Choice2</a></li>
+						  	<li> <a href="#">Choice3</a></li>
+						  	<li> <a href="#">Choice4</a></li>
 						  </ul>
 						</div>
 					</div>	
 					<div class="form-group">
-						<input name="speichern" value ="speichern" type="submit" onclick="save()" class="btn btn-primary"/>
+						<input value ="speichern" type="button" onclick="save()" class="btn btn-primary"/>
+						<label id="gespeichert"></label>
 					</div>		
 				</form>
 			</div>
 		</div>
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+	
+
+	
 </body>
 </html>
