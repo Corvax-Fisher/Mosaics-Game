@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<SVGFiles>
+  <SVG Dateiname="D.svg">
+    <Name>D</Name>
+    <Kategorie>Flagge</Kategorie>
+    <Breite>8</Breite>
+    <Hoehe>8</Hoehe>
+    <Level>6</Level>
+  </SVG>
+  <SVG Dateiname="A.svg">
+    <Name>A</Name>
+    <Kategorie>Flagge</Kategorie>
+    <Breite>8</Breite>
+    <Hoehe>8</Hoehe>
+    <Level>6</Level>
+  </SVG>
+  <SVG Dateiname="Test.svg">
+    <Name>Test</Name>
+    <Kategorie>Choice3</Kategorie>
+    <Breite>24</Breite>
+    <Hoehe>24</Hoehe>
+  </SVG>
+</SVGFiles>
