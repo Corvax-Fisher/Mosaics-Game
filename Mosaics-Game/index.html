@@ -92,10 +92,11 @@
 		<div class="jumbotron row">
 			<form name="cmdForm" action="" onsubmit="return draw(this)" class="form-inline col-md-12">
 				<div class="form-group">
-					<input placeholder="Befehl" autofocus="autofocus" type="text" name="cmd" class="form-control cmd"/>
+					<input id="cmdLine" placeholder="Befehl" autofocus="autofocus" type="text" 
+					name="cmd" class="form-control cmd" disabled=true />
 				</div>
 				<div class="form-group">
-					<input name="OK" value ="OK" type="button" class="btn btn-default"/>
+					<input id="cmdBtn" name="OK" value ="OK" type="submit" class="btn btn-default" disabled=true/>
 				</div>				
 			</form>		
 		</div>
@@ -126,9 +127,11 @@
 					<p id="clrs"> </p>
 				</div>
 				<div class="documentationArea col-md-2">
+					<ul id="history" class="list-group">
+					</ul>
 					<form>
-						<input type="button" value="rückgängig" class="btn btn-default">
-						<input type="button" value="wiederherstellen" class="btn btn-default">
+						<input type="button" value="rückgängig" class="btn btn-default" onClick="undoCommand()">
+						<input type="button" value="wiederherstellen" class="btn btn-default" onClick="redoCommand()">
 					</form>	
 					<p>Hallo, hier kommt der Katalog rein.. bald :)</p>
 				</div>

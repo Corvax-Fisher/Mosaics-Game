@@ -100,6 +100,10 @@ function gridSizeOk(){
 	//Disable OK btn
 	document.getElementById("okBtn").disabled = true;
 	
+	//Enable Command Line and Command OK Button
+	document.getElementById("cmdLine").disabled = false;
+	document.getElementById("cmdBtn").disabled = false;
+	
 	
 	//Iterate Grid Numbers
 	var svg = document.getElementsByTagName("svg")[0];
@@ -365,6 +369,18 @@ function undoCommand() {
 			deleteElements( new positionBounds( cmd[1].substring(0,9) ) );
 		}
 		
+		var historyListGroup = document.getElementById("history");
+		var listElements = historyListGroup.getElementsByTagName("li");
+		
+		for(var i = listElements.length-1;i>=0;i--) {	
+			if(listElements[i].getAttribute("class") == "list-group-item active")
+			{
+				listElements[i].setAttribute("class","list-group-item");
+				if(i > 0) listElements[i-1].setAttribute("class","list-group-item active");
+				break;
+			}
+		}
+		
 		//execute second last command to add elements that may have been overwritten
 		fullCmd = undoHistory.pop();
 		if(fullCmd == undefined) return;
@@ -390,6 +406,48 @@ function redoCommand() {
 		params[params.length-1] = params[params.length-1].replace(")","");
 		executeCommand(cmd[0],params);
 	}
+	
+	var historyListGroup = document.getElementById("history");
+	var listElements = historyListGroup.getElementsByTagName("li");
+	
+	for(var i = listElements.length-1;i>=-1;i--) {	
+		if(i == -1) {
+			listElements[0].setAttribute("class","list-group-item active");
+			break;
+		}
+		if(listElements[i].getAttribute("class") == "list-group-item active")
+		{
+			listElements[i].setAttribute("class","list-group-item");
+			listElements[i+1].setAttribute("class","list-group-item active");
+			break;
+		}
+	}
+}
+
+function removeRedoCmdsFromListGroup() {
+	var historyListGroup = document.getElementById("history");
+	var listElements = historyListGroup.getElementsByTagName("li");
+	
+	for(var i = listElements.length-1;i>=0;i--) {	
+		if(listElements[i].getAttribute("class") == "list-group-item active")
+			break;
+		else if(listElements[i].getAttribute("class") == "list-group-item")
+			historyListGroup.removeChild(listElements[i]);
+	}
+}
+
+function addCmdToListGroup() {
+	var historyListGroup = document.getElementById("history");
+	var listElements = historyListGroup.getElementsByTagName("li");
+	
+	var li = document.createElement("li");
+	li.setAttribute("class", "list-group-item active");
+	var text = document.createTextNode(undoHistory[undoHistory.length-1]);
+	li.appendChild(text);
+	document.getElementById("history").appendChild(li);
+	
+	if(listElements.length > 1) 
+		listElements[listElements.length-2].setAttribute("class", "list-group-item");
 }
 
 function draw(form){
@@ -406,6 +464,8 @@ function draw(form){
 				executeCommand(cmd[0],params);
 				undoHistory.push(form.cmd.value);
 				redoHistory = [];
+				removeRedoCmdsFromListGroup();
+				addCmdToListGroup();
 			}
 		}
 	} else document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
