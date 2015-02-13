@@ -1,5 +1,17 @@
 body {
-  padding-top: 50px;
+  	padding-top: 50px;
+}
+
+h1 {
+	text-align: center;
+}
+
+#err, .glyphicon-exclamation-sign, .whitespace {
+	float: left;
+}
+
+#messages {
+	display: none;
 }
 
 .radio {
@@ -14,6 +26,16 @@ body {
 .jumbotron {
 	padding: 10px;
 	margin: 5px;
+}
+
+.radio input[type="radio"] {
+	margin-left: 0px;
+	position: relative;
+}
+
+.selectionArea .col-md-5, .selectionArea .col-md-3 {
+	height: 35px;
+	line-height: 35px;
 }
 
 .documentationArea {

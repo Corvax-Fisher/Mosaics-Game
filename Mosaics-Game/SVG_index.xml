@@ -20,4 +20,16 @@
     <Breite>24</Breite>
     <Hoehe>24</Hoehe>
   </SVG>
+  <SVG Dateiname="Blub.svg">
+    <Name>Blub</Name>
+    <Kategorie>Choice3</Kategorie>
+    <Breite>12</Breite>
+    <Hoehe>12</Hoehe>
+  </SVG>
+  <SVG Dateiname="zacki.svg">
+    <Name>zacki</Name>
+    <Kategorie>Choice1</Kategorie>
+    <Breite>8</Breite>
+    <Hoehe>8</Hoehe>
+  </SVG>
 </SVGFiles>

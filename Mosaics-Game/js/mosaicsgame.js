@@ -5,20 +5,13 @@
 // globals
 cellsize = 40;
 bounds = [ 8, 8 ];
-validColors = [ "aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
 		"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
 		"yellow" ];
 undoHistory = [];
 redoHistory = [];
 
 function setGridSize() {
-	// Hide Radio Button
-	// document.getElementById("GridSelect").style.visibility="hidden";
-
-	// If drop down list is used
-	// var selectedValue = document.getElementById("gridSelect").value;
-	// document.getElementById("gridSelect").disabled = true;
-	// End If
 
 	// If radio buttons are used
 	var gridSelect = document.getElementById("gridSelect");
@@ -96,13 +89,15 @@ function gridSizeOk() {
 	document.getElementById("hline").style.stroke = "black";
 	document.getElementById("vline").style.stroke = "black";
 
-	// Disable OK btn
 	document.getElementById("okBtn").disabled = true;
+	enableAndDisableElements(false);
 	
-	//Enable Command Line and Command OK Button
-	document.getElementById("cmdLine").disabled = false;
-	document.getElementById("cmdBtn").disabled = false;
-	
+	var jumbotronArray = document.getElementsByClassName("jumbotron");
+	var i;
+	jumbotronArray[0].style.border = "";
+	for (i=1;i<jumbotronArray.length;i++) {
+		jumbotronArray[i].style.backgroundColor = "#EEEEEE";
+	}
 	
 	//Iterate Grid Numbers
 	var svg = document.getElementsByTagName("svg")[0];
@@ -466,6 +461,7 @@ function addCmdToListGroup() {
 function draw(form) {
 	if (document.getElementById("err").innerHTML.length > 0)
 		document.getElementById("err").innerHTML = "";
+		
 	var cmd = form.cmd.value.split("(");
 	if (cmd.length == 2) {
 		var params = cmd[1].split(",");
@@ -484,7 +480,13 @@ function draw(form) {
 		}
 	} else
 		document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
-
+	
+	if (document.getElementById("err").innerHTML.length > 0) {
+		document.getElementById("messages").style.display = "block";
+	} else {
+		document.getElementById("messages").style.display = "none";
+	}
+	
 	return false;
 }
 
@@ -496,7 +498,16 @@ $(function() {
 		$("#category_dropdown").text($(this).text());
 		$("#category_dropdown").val($(this).text());
 	});
-
+	
+	enableAndDisableElements(true);
+	$( ".jumbotron" ).blur();
+	var jumbotronArray = document.getElementsByClassName("jumbotron");
+	var i;
+	
+	jumbotronArray[0].style.border = "thick solid black";
+	for (i=1;i<jumbotronArray.length;i++) {
+		jumbotronArray[i].style.backgroundColor = "#F8F8F8";
+	}
 });
 
 // SAVE
@@ -593,3 +604,13 @@ function save() {
 // }
 //
 // downloadLink.click();
+
+function enableAndDisableElements(bool) {
+	var elements = ["resetBtn","cmdLine","cmdBtn","redoBtn","undoBtn","inputFileNameToSaveAs","category_dropdown","saveBtn"];
+	var i;
+	
+	for(i=0;i<elements.length;i++) {
+		document.getElementById(elements[i]).disabled = bool;
+	}
+	
+}

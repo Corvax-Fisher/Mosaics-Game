@@ -47,11 +47,14 @@
 	</nav>
 	
 	<div class="container">
+		<div class="page-header">
+		  <h1>Editor <small>Create your own pattern</small></h1>
+		</div>
 		<div class="selectionArea jumbotron row">
 			<div class="col-md-4">
-				<p>Bitte wähle eine Größe aus:</p>
+				<div>Select a size for your pattern and start:</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<form id="gridSelect" action="" onchange="setGridSize()">
 					<div class="radio">
 						<label>
@@ -85,9 +88,11 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-2">
 				<form>
-					<input id="okBtn" type="button" value="auswählen" onClick="gridSizeOk()" class="btn btn-default">
+					<button id="okBtn" type="button" value="auswählen" class="btn btn-success" onClick="gridSizeOk()">
+						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> okay!
+					</button>
 				</form>			
 			</div>
 		</div>
@@ -95,18 +100,19 @@
 		<div class="jumbotron row">
 			<form name="cmdForm" action="" onsubmit="return draw(this)" class="form-inline col-md-12">
 				<div class="form-group">
-					<input id="cmdLine" placeholder="Befehl" autofocus="autofocus" type="text" 
-					name="cmd" class="form-control cmd" disabled=true />
+					<input id="cmdLine" placeholder="type a command" autofocus="autofocus" type="text" 
+					name="cmd" class="form-control cmd"/>
 				</div>
 				<div class="form-group">
-					<input id="cmdBtn" name="OK" value ="OK" type="submit" class="btn btn-default" disabled=true/>
+					<input id="cmdBtn" name="OK" value ="OK" type="submit" class="btn btn-default"/>
 				</div>				
 			</form>		
 		</div>
 		
 		<div class="jumbotron">
-			<div class="messages row">
-				<p id="err" style="color:red"> </p>
+			<div id="messages" class="row alert alert-danger" role="alert">
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <div class="whitespace">&nbsp;</div><div id="err"> </div>
 			</div>
 			
 			<div class="row">
@@ -130,51 +136,54 @@
 					<p id="clrs"> </p>
 				</div>
 				<div class="documentationArea col-md-2">
+					<div>My Commands:</div>
 					<ul id="history" class="list-group">
 					</ul>
 					<form>
-						<input type="button" value="rückgängig" class="btn btn-default" onClick="undoCommand()">
-						<input type="button" value="wiederherstellen" class="btn btn-default" onClick="redoCommand()">
+						<button id="undoBtn" type="button" value="rückgängig" class="btn btn-default" onClick="undoCommand()">
+						  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> undo
+						</button>
+						<button id="redoBtn" type="button" value="wiederherstellen" class="btn btn-default" onClick="redoCommand()">
+						  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> redo
+						</button>
 					</form>	
-					<p>Hallo, hier kommt der Katalog rein.. bald :)</p>
 				</div>
 			</div>
-			
-			<div class="row">
-				<form class="col-md-4">
-					<div class="form-group">
-						<!-- <input type="button" value="zurücksetzen" onClick="window.location.reload(true)" class="btn btn-danger"-->
+		</div>
+		
+		<div class="jumbotron row">
+			<form class="form-inline col-md-6">
+				<button id="resetBtn" type="button" value="reset" class="btn btn-danger" onClick="window.location.reload()">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> delete pattern
+				</button>
+			</form>
+			<form class="form-inline col-md-6">
+				<div class="form-group">
+					<label for="inputFileNameToSaveAs">Save pattern:</label>
+					<input placeholder="type your pattern name" id="inputFileNameToSaveAs" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<div class="dropup">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="category_dropdown" data-toggle="dropdown" aria-expanded="true">
+					    Category
+					    <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					    <li> <a href="#">Flowers & Nature</a></li>
+					  	<li> <a href="#">Countries & Flags</a></li>
+					  	<li> <a href="#">Humans & Animals</a></li>
+					  	<li> <a href="#">Things</a></li>
+					  	<li> <a href="#">Symmetrical Patterns</a></li>
+					  	<li> <a href="#">Individual Patterns</a></li>
+					  </ul>
 					</div>
-				</form>
-				<form class="form-inline col-md-8">
-					<div class="form-group">
-						<label for="inputFileNameToSaveAs">Muster abspeichern:</label>
-						<input placeholder="Mustername" id="inputFileNameToSaveAs" class="form-control"/>
-					</div>
-					<div class="form-group">
-						<div class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" id="category_dropdown" data-toggle="dropdown" aria-expanded="true">
-						    Dropdown
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						    <li> <a href="#">Choice1</a></li>
-						  	<li> <a href="#">Choice2</a></li>
-						  	<li> <a href="#">Choice3</a></li>
-						  	<li> <a href="#">Choice4</a></li>
-						  </ul>
-						</div>
-					</div>	
-					<div class="form-group">
-						<input value ="speichern" type="button" onclick="save()" class="btn btn-primary"/>
-						<label id="gespeichert"></label>
-					</div>		
-				</form>
-			</div>
+				</div>	
+				<div class="form-group">
+					<input id="saveBtn" value ="save" type="button" onclick="save()" class="btn btn-primary"/>
+					<label id="gespeichert"></label>
+				</div>		
+			</form>
 		</div>
 	</div>
-	
-
-	
 </body>
 </html>
