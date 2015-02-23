@@ -533,6 +533,12 @@ $(function() {
 // SAVE
 function save() {
 
+	if (undoHistory.length == 0){
+		document.getElementById("save_err").innerHTML = "Please draw something first";
+		document.getElementById("save_messages").style.display = "block";
+		return;
+	}
+	
 	if (document.getElementById("inputFileNameToSaveAs").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose name";
 		document.getElementById("save_messages").style.display = "block";

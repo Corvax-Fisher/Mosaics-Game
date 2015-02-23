@@ -21,11 +21,4 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
-  <SVG Filename="duell2.svg">
-    <Name>duell2</Name>
-    <Category>Individual Patterns</Category>
-    <Width>24</Width>
-    <Length>24</Length>
-    <Dif>Easy</Dif>
-  </SVG>
 </SVGFiles>

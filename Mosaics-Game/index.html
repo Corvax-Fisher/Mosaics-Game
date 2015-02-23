@@ -177,7 +177,7 @@
 				<div class="form-group">
 					<label for="inputFileNameToSaveAs">Save pattern:</label> <input
 						placeholder="type your pattern name" id="inputFileNameToSaveAs"
-						class="form-control" />
+						class="form-control" onkeydown="if (event.keyCode == 13) document.getElementById('saveBtn').click()"/>
 				</div>
 				<div class="form-group">
 					<div class="dropup">
@@ -198,7 +198,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="dropdown">
+					<div class="dropup">
 						<button class="btn btn-default dropdown-toggle" type="button"
 							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true">
 							Difficulty <span class="caret"></span>
