@@ -87,7 +87,7 @@
 			</div>
 			<div class="col-md-4">
 				<form>
-					<input id="okBtn" type="button" value="auswählen" onClick="gridSizeOk()" class="btn btn-default">
+					<input id="okBtn" type="button" value="auswählen" onClick="gridSizeOk()" class="btn btn-default" disabled=true>
 				</form>			
 			</div>
 		</div>
@@ -154,7 +154,7 @@
 					<div class="form-group">
 						<div class="dropdown">
 						  <button class="btn btn-default dropdown-toggle" type="button" id="category_dropdown" data-toggle="dropdown" aria-expanded="true">
-						    Dropdown
+						    Kategorie
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -164,7 +164,22 @@
 						  	<li> <a href="#">Choice4</a></li>
 						  </ul>
 						</div>
-					</div>	
+					</div>
+					
+					<div class="form-group">
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="schwiergkeitsgrad_dropdown" data-toggle="dropdown" aria-expanded="true">
+						    Schwiergkeitsgrad
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						    <li> <a href="#">Leicht</a></li>
+						  	<li> <a href="#">Mittel</a></li>
+						  	<li> <a href="#">Schwer</a></li>
+						  </ul>
+						</div>
+					</div>
+						
 					<div class="form-group">
 						<input value ="speichern" type="button" onclick="save()" class="btn btn-primary"/>
 						<label id="gespeichert"></label>

@@ -12,6 +12,7 @@ undoHistory = [];
 redoHistory = [];
 
 function setGridSize() {
+	document.getElementById("okBtn").disabled = false;
 	// Hide Radio Button
 	// document.getElementById("GridSelect").style.visibility="hidden";
 
@@ -499,16 +500,33 @@ $(function() {
 
 });
 
+$(function() {
+
+	$(".dropdown-menu").on('click', 'li a', function() {
+		$("#dif_dropdown").text($(this).text());
+		$("#dif_dropdown").val($(this).text());
+	});
+
+});
+
 // SAVE
 function save() {
 
 	if (document.getElementById("inputFileNameToSaveAs").value == "") {
-		alert("Bitte Name eingeben");
+		document.getElementById("err").innerHTML = "Bitte Namen eingeben";
+		//alert("Bitte Name eingeben");
 		return;
 	}
 
 	if (document.getElementById("category_dropdown").value == "") {
-		alert("Bitte Kategorie eingeben");
+		document.getElementById("err").innerHTML = "Bitte Kategorie eingeben";
+		//alert("Bitte Kategorie eingeben");
+		return;
+	}
+	
+	if (document.getElementById("schwiergkeitsgrad_dropdown").value == "") {
+		document.getElementById("err").innerHTML = "Bitte Schwiergkeitsgrad eingeben";
+		//alert("Bitte Schwiergkeitsgrad eingeben");
 		return;
 	}
 
@@ -525,13 +543,14 @@ function save() {
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
 			'kategorie' : $("#category_dropdown").val(),
+			'schwiergkeitsgrad' : $("#schwiergkeitsgrad_dropdown").val(),
 			'breite' : bounds[0],
 			'hoehe' : bounds[1],
 			'svg_xml' : svg_xml
 		},
 
 		success : function(response) {
-			$("#gespeichert").text(response);
+			$("#err").text(response);
 		}
 
 	});
