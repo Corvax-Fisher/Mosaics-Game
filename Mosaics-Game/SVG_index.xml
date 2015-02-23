@@ -7,15 +7,5 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
-<<<<<<< HEAD
- </SVGFiles>
-=======
-  <SVG Filename="as.svg">
-    <Name>as</Name>
-    <Category/>
-    <Width>12</Width>
-    <Length>12</Length>
-    <Dif/>
-  </SVG>
 </SVGFiles>
->>>>>>> 1434dce538742f91a2cf1fe731cae8a4f128e2d5
+
