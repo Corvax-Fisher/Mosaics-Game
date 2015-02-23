@@ -13,13 +13,14 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 
-<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
-<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
-<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
-
-<link rel="stylesheet" href="style/bootstrap.min.css">
-<link href="style/style.css" rel="stylesheet">
-
+	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-cmds.js"></script>
+	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
+	
+	<link rel="stylesheet" href="style/bootstrap.min.css">
+	<link href="style/style.css" rel="stylesheet">
+		
 </head>
 
 <body>
@@ -154,12 +155,12 @@
 					<ul id="history" class="scrollable">
 					</ul>
 					<form>
-						<button id="undoBtn" type="button" value="undo"
+						<button id="undoBtn" type="button" value="undo" disabled=true
 							class="btn btn-default" onClick="undoCommand()">
-							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
 							undo
 						</button>
-						<button id="redoBtn" type="button" value="redo"
+						<button id="redoBtn" type="button" value="redo" disabled=true
 							class="btn btn-default" onClick="redoCommand()">
 							<span class="glyphicon glyphicon-chevron-right"
 								aria-hidden="true"></span> redo
@@ -177,11 +178,12 @@
 					delete pattern
 				</button>
 			</form>
-			<form class="form-inline col-md-8">
+			<form class="form-inline col-md-8" onsubmit="return save()">
 				<div class="form-group">
-					<label for="inputFileNameToSaveAs">Save pattern:</label> <input
+					<label for="inputFileNameToSaveAs">Save pattern:</label> 
+					<input
 						placeholder="type your pattern name" id="inputFileNameToSaveAs"
-						class="form-control" />
+						class="form-control"/>
 				</div>
 				<div class="form-group">
 					<div class="dropup">
@@ -192,31 +194,31 @@
 						</button>
 						<ul class="dropdown-menu catdd" role="menu"
 							aria-labelledby="dropdownMenu1">
-							<li><a href="#">Flowers &amp; Nature</a></li>
-							<li><a href="#">Countries &amp; Flags</a></li>
-							<li><a href="#">Humans &amp; Animals</a></li>
-							<li><a href="#">Things</a></li>
-							<li><a href="#">Symmetrical Patterns</a></li>
-							<li><a href="#">Individual Patterns</a></li>
+							<li><a>Flowers & Nature</a></li>
+							<li><a>Countries & Flags</a></li>
+							<li><a>Humans & Animals</a></li>
+							<li><a>Things</a></li>
+							<li><a>Symmetrical Patterns</a></li>
+							<li><a>Individual Patterns</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="dropdown">
+					<div class="dropup">
 						<button class="btn btn-default dropdown-toggle" type="button"
 							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true">
 							Difficulty <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu difdd" role="menu"
 							aria-labelledby="dropdownMenu1">
-							<li><a href="#">Easy</a></li>
-							<li><a href="#">Normal</a></li>
-							<li><a href="#">Hard</a></li>
+							<li><a>Easy</a></li>
+							<li><a>Normal</a></li>
+							<li><a>Hard</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="form-group">
-					<input id="saveBtn" value="save" type="button" onclick="save()"
+					<input id="saveBtn" value="save" type="submit"
 						class="btn btn-primary" />
 				</div>
 			</form>

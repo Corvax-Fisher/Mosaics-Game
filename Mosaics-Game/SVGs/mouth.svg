@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="362" height="362">
+  <defs>
+    <pattern id="pattern1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke: rgb(0, 0, 0); stroke-width: 2px;"/>
+      <line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke: rgb(0, 0, 0); stroke-width: 2px;"/>
+    </pattern>
+  </defs>
+  <rect x="40" y="40" width="322" height="322" style="stroke: black; fill: url(#pattern1);"/>
+  <text id="n10" x="60" y="28" text-anchor="middle">1</text>
+  <text id="n20" x="100" y="28" text-anchor="middle">2</text>
+  <text id="n30" x="140" y="28" text-anchor="middle">3</text>
+  <text id="n40" x="180" y="28" text-anchor="middle">4</text>
+  <text id="n50" x="220" y="28" text-anchor="middle">5</text>
+  <text id="n60" x="260" y="28" text-anchor="middle">6</text>
+  <text id="n70" x="300" y="28" text-anchor="middle">7</text>
+  <text id="n80" x="340" y="28" text-anchor="middle">8</text>
+  <text id="n01" x="20" y="68" text-anchor="middle">1</text>
+  <text id="n02" x="20" y="108" text-anchor="middle">2</text>
+  <text id="n03" x="20" y="148" text-anchor="middle">3</text>
+  <text id="n04" x="20" y="188" text-anchor="middle">4</text>
+  <text id="n05" x="20" y="228" text-anchor="middle">5</text>
+  <text id="n06" x="20" y="268" text-anchor="middle">6</text>
+  <text id="n07" x="20" y="308" text-anchor="middle">7</text>
+  <text id="n08" x="20" y="348" text-anchor="middle">8</text>
+  <circle id="e11" r="19" cx="61" cy="61" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e12" r="19" cx="61" cy="101" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e13" r="19" cx="61" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e14" r="19" cx="61" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e15" r="19" cx="61" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e16" r="19" cx="61" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e17" r="19" cx="61" cy="301" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e18" r="19" cx="61" cy="341" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e21" r="19" cx="101" cy="61" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e22" r="19" cx="101" cy="101" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e23" r="19" cx="101" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e24" r="19" cx="101" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e25" r="19" cx="101" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e26" r="19" cx="101" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e27" r="19" cx="101" cy="301" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e28" r="19" cx="101" cy="341" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e71" r="19" cx="301" cy="61" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e72" r="19" cx="301" cy="101" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e73" r="19" cx="301" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e74" r="19" cx="301" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e75" r="19" cx="301" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e76" r="19" cx="301" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e77" r="19" cx="301" cy="301" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e78" r="19" cx="301" cy="341" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e81" r="19" cx="341" cy="61" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e82" r="19" cx="341" cy="101" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e83" r="19" cx="341" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e84" r="19" cx="341" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e85" r="19" cx="341" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e86" r="19" cx="341" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e87" r="19" cx="341" cy="301" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e88" r="19" cx="341" cy="341" style="fill: rgb(255, 0, 0);"/>
+  <polygon id="e31" points="122,42 160,42 141,80" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e41" points="162,42 200,42 181,80" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e51" points="202,42 240,42 221,80" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e61" points="242,42 280,42 261,80" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e38" points="122,360 160,360 141,322" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e48" points="162,360 200,360 181,322" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e58" points="202,360 240,360 221,322" style="fill: rgb(0, 0, 255);"/>
+  <polygon id="e68" points="242,360 280,360 261,322" style="fill: rgb(0, 0, 255);"/>
+  <circle id="e37" r="19" cx="141" cy="301" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e47" r="19" cx="181" cy="301" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e57" r="19" cx="221" cy="301" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e67" r="19" cx="261" cy="301" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e32" r="19" cx="141" cy="101" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e42" r="19" cx="181" cy="101" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e52" r="19" cx="221" cy="101" style="fill: rgb(255, 255, 0);"/>
+  <circle id="e62" r="19" cx="261" cy="101" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e33" x="122" y="122" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e43" x="162" y="122" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e53" x="202" y="122" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e63" x="242" y="122" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e34" x="122" y="162" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e64" x="242" y="162" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e35" x="122" y="202" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e65" x="242" y="202" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e36" x="122" y="242" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e46" x="162" y="242" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e56" x="202" y="242" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e66" x="242" y="242" width="38" height="38" style="fill: rgb(128, 128, 128);"/>
+  <rect id="e54" x="202" y="162" width="38" height="38" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e45" x="162" y="202" width="38" height="38" style="fill: rgb(255, 0, 0);"/>
+  <polygon id="e44" points="200,162 200,200 162,200" style="fill: rgb(0, 128, 0);"/>
+  <polygon id="e55" points="202,240 202,202 240,202" style="fill: rgb(0, 128, 0);"/>
+</svg>
