@@ -7,4 +7,25 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
+  <SVG Filename="duell.svg">
+    <Name>duell</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>8</Width>
+    <Length>8</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="mouth.svg">
+    <Name>mouth</Name>
+    <Category>Individual Patterns</Category>
+    <Width>8</Width>
+    <Length>8</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="duell2.svg">
+    <Name>duell2</Name>
+    <Category>Individual Patterns</Category>
+    <Width>24</Width>
+    <Length>24</Length>
+    <Dif>Easy</Dif>
+  </SVG>
 </SVGFiles>

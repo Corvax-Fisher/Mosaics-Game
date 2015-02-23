@@ -571,6 +571,7 @@ function save() {
 		},
 
 		success : function(response) {
+			document.getElementById("save_messages").style.display = "block";
 			$("#save_err").text(response);
 			
 		}
