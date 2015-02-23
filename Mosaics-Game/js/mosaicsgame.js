@@ -535,22 +535,22 @@ function save() {
 
 	if (document.getElementById("inputFileNameToSaveAs").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose name";
+		document.getElementById("save_messages").style.display = "block";
+		return;
 	}
 
 	if (document.getElementById("category_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose category";
+		document.getElementById("save_messages").style.display = "block";
+		return;
 	}
 	
 	if (document.getElementById("dif_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose difficulty";
+		document.getElementById("save_messages").style.display = "block";
+		return;
 	}
 	
-	if (document.getElementById("save_err").innerHTML.length > 0) {
-		document.getElementById("save_messages").style.display = "block";
-	} else {
-		document.getElementById("save_messages").style.display = "none";
-	}
-
 	var svg = document.getElementsByTagName("svg")[0];
 
 	// Extract the data as SVG text string
@@ -572,7 +572,7 @@ function save() {
 
 		success : function(response) {
 			$("#save_err").text(response);
-			location.reload();
+			
 		}
 
 	});
