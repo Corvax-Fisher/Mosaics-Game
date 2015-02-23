@@ -535,17 +535,14 @@ function save() {
 
 	if (document.getElementById("inputFileNameToSaveAs").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose name";
-		return;
 	}
 
 	if (document.getElementById("category_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose category";
-		return;
 	}
 	
 	if (document.getElementById("dif_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose difficulty";
-		return;
 	}
 	
 	if (document.getElementById("save_err").innerHTML.length > 0) {
