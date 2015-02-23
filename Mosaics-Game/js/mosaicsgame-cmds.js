@@ -155,6 +155,7 @@ function undoCommand() {
 		return;
 	else {
 		redoHistory.push(fullCmd);
+		document.getElementById("redoBtn").disabled = false;
 		// delete elements that were added with the last command
 		var cmd = fullCmd.split("(");
 		var params = cmd[1].split(",");
@@ -187,8 +188,10 @@ function undoCommand() {
 		
 		//execute second last command to add elements that may have been overwritten
 		fullCmd = undoHistory.pop();
-		if (fullCmd == undefined)
+		if (fullCmd == undefined) {
+			document.getElementById("undoBtn").disabled = true;
 			return;
+		}
 		else {
 			cmd = fullCmd.split("(");
 			var params = cmd[1].split(",");
@@ -206,8 +209,12 @@ function redoCommand() {
 	if (fullCmd == undefined)
 		return;
 	else {
-		undoHistory.push(fullCmd);
+		if(redoHistory.length == 0)
+			document.getElementById("redoBtn").disabled = true;
 
+		undoHistory.push(fullCmd);
+		document.getElementById("undoBtn").disabled = false;
+		
 		var cmd = fullCmd.split("(");
 		var params = cmd[1].split(",");
 		params[params.length - 1] = params[params.length - 1].replace(")", "");
@@ -255,6 +262,15 @@ function addCmdToListGroup() {
 	
 	if(listElements.length > 1) 
 		listElements[listElements.length-2].setAttribute("class", "list-group-item");
+}
+
+function manageHistory(command) {
+	undoHistory.push(command);
+	redoHistory = [];
+	removeRedoCmdsFromListGroup();
+	addCmdToListGroup();
+	document.getElementById("undoBtn").disabled = false;
+	document.getElementById("redoBtn").disabled = true;
 }
 
 function cellToPos(col, row) {

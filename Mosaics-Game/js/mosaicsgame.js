@@ -50,7 +50,7 @@ function setGridSize() {
 	for (var i = 0; i < validColors.length; i++)
 		strValidColors += "<span style=color:" + validColors[i] + ">"
 				+ validColors[i] + "</span>" + ", ";
-	document.getElementById("clrs").innerHTML = "Verf&uumlgbare Farben: <br>"
+	document.getElementById("clrs").innerHTML = "Available colors: <br>"
 			+ strValidColors;
 
 	// Set SVG-Canvas attributes
@@ -186,20 +186,17 @@ function draw(form) {
 	if (cmd.length == 2) {
 		var params = cmd[1].split(",");
 		if (params[params.length - 1].indexOf(")") == -1)
-			document.getElementById("err").innerHTML = "Schlie&szligende Klammer fehlt.";
+			document.getElementById("err").innerHTML = "Closing bracket is missing.";
 		else {
 			params[params.length - 1] = params[params.length - 1].replace(")",
 					"");
 			if (validateParameters(cmd[0], params)) {
 				executeCommand(cmd[0], params);
-				undoHistory.push(form.cmd.value);
-				redoHistory = [];
-				removeRedoCmdsFromListGroup();
-				addCmdToListGroup();
+				manageHistory(form.cmd.value);
 			}
 		}
 	} else
-		document.getElementById("err").innerHTML = "&Oumlffnende Klammer fehlt.";
+		document.getElementById("err").innerHTML = "Opening bracket is missing.";
 	
 	if (document.getElementById("err").innerHTML.length > 0) {
 		document.getElementById("messages").style.display = "block";
@@ -242,29 +239,26 @@ $(function() {
 
 // SAVE
 function save() {
+	var err = false;
 
 	if (undoHistory.length == 0){
 		document.getElementById("save_err").innerHTML = "Please draw something first";
-		document.getElementById("save_messages").style.display = "block";
-		return;
-	}
-	
-	if (document.getElementById("inputFileNameToSaveAs").value == "") {
+		err=true;
+	} else if (document.getElementById("inputFileNameToSaveAs").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose name";
-		document.getElementById("save_messages").style.display = "block";
-		return;
-	}
-
-	if (document.getElementById("category_dropdown").value == "") {
+		err=true;
+	} else if (document.getElementById("category_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose category";
-		document.getElementById("save_messages").style.display = "block";
-		return;
+		err=true;
+	} else if (document.getElementById("dif_dropdown").value == "") {
+		document.getElementById("save_err").innerHTML = "Please choose difficulty";
+		err=true;
 	}
 	
-	if (document.getElementById("dif_dropdown").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose difficulty";
+	if(err == true) {
 		document.getElementById("save_messages").style.display = "block";
-		return;
+		window.scrollTo(0,document.body.scrollHeight);
+		return false;
 	}
 	
 	var svg = document.getElementsByTagName("svg")[0];
@@ -293,11 +287,12 @@ function save() {
 		}
 
 	});
-
+	
+	return false;
 }
 
 function enableAndDisableElements(bool) {
-	var elements = ["resetBtn","cmdLine","cmdBtn","redoBtn","undoBtn","inputFileNameToSaveAs","category_dropdown","dif_dropdown","saveBtn"];
+	var elements = ["resetBtn","cmdLine","cmdBtn","inputFileNameToSaveAs","category_dropdown","dif_dropdown","saveBtn"];
 	var i;
 	
 	for(i=0;i<elements.length;i++) {
