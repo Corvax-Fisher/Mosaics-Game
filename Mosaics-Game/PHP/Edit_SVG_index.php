@@ -1,10 +1,10 @@
 <?php
 // sended VARIABLES
 $name = $_POST ['name'];
-$breite = $_POST ['breite'];
-$hoehe = $_POST ['hoehe'];
-$kategorie = $_POST['kategorie'];
-$schwiergkeitsgrad = $_POST['schwiergkeitsgrad'];
+$width = $_POST ['width'];
+$length = $_POST ['length'];
+$category = $_POST['category'];
+$dif = $_POST['dif'];
 $svg = $_POST ['svg_xml'];
 
 $count = 0;
@@ -24,15 +24,15 @@ foreach ( $xml->SVG as $child ) {
 
 // Name Already taken else create Child Node
 if ($count > 0) {
-	echo ("Name vergeben!");
+	echo ("Name already taken!");
 } else {
 	$newChild = $xml->addChild ( "SVG" );
-	$newChild->addAttribute ( "Dateiname", "$name.svg" );
+	$newChild->addAttribute ( "Filename", "$name.svg" );
 	$newChild->addChild ( "Name", $name );
-	$newChild->addChild ( "Kategorie", $kategorie );
-	$newChild->addChild ( "Breite", $breite );
-	$newChild->addChild ( "Hoehe", $hoehe );
-	$newChild->addChild ( "schwiergkeitsgrad", $schwiergkeitsgrad );
+	$newChild->addChild ( "Category", $category );
+	$newChild->addChild ( "Width", $width );
+	$newChild->addChild ( "Length", $length );
+	$newChild->addChild ( "Dif", $dif );
 	
 	// Format XML and save
 	$dom = new DOMDocument ( '1.0' );
@@ -40,7 +40,7 @@ if ($count > 0) {
 	$dom->formatOutput = true;
 	$dom->loadXML ( $xml->asXML () );
 	$dom->save ( '../SVG_index.xml' );
-	echo ("gespeichert");
+	echo ("saved");
 	
 	// SAVE SVG FILE
 	$svg_sxe = simplexml_load_string ( $svg );
@@ -52,7 +52,7 @@ if ($count > 0) {
 	$svgdom->loadXML ( $svg_sxe->asXML () );
 	$svgdom->save ( '../SVGs/' . $name . '.svg' );
 	
-	// $SVG_sxe->asXml('../SVGs/' .$name .'.svg');
+	
 }
 
 ?>

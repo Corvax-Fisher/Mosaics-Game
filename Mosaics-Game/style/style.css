@@ -10,7 +10,7 @@ h1 {
 	float: left;
 }
 
-#messages {
+#messages, #save_messages {
 	display: none;
 }
 

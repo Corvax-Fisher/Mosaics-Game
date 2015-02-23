@@ -90,13 +90,9 @@
 			</div>
 			<div class="col-md-2">
 				<form>
-<<<<<<< HEAD
-					<input id="okBtn" type="button" value="auswählen" onClick="gridSizeOk()" class="btn btn-default" disabled=true>
-=======
-					<button id="okBtn" type="button" value="auswählen" class="btn btn-success" onClick="gridSizeOk()">
+					<button id="okBtn" type="button" value="auswählen" class="btn btn-success" onClick="gridSizeOk()" disabled="true">
 						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> okay!
 					</button>
->>>>>>> 2ffe10634f1cd58b1d5130fbf6d0632117495c84
 				</form>			
 			</div>
 		</div>
@@ -144,10 +140,10 @@
 					<ul id="history" class="list-group">
 					</ul>
 					<form>
-						<button id="undoBtn" type="button" value="rückgängig" class="btn btn-default" onClick="undoCommand()">
+						<button id="undoBtn" type="button" value="undo" class="btn btn-default" onClick="undoCommand()">
 						  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> undo
 						</button>
-						<button id="redoBtn" type="button" value="wiederherstellen" class="btn btn-default" onClick="redoCommand()">
+						<button id="redoBtn" type="button" value="redo" class="btn btn-default" onClick="redoCommand()">
 						  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> redo
 						</button>
 					</form>	
@@ -172,7 +168,7 @@
 					    Category
 					    <span class="caret"></span>
 					  </button>
-					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					  <ul class="dropdown-menu catdd" role="menu" aria-labelledby="dropdownMenu1">
 					    <li> <a href="#">Flowers & Nature</a></li>
 					  	<li> <a href="#">Countries & Flags</a></li>
 					  	<li> <a href="#">Humans & Animals</a></li>
@@ -181,50 +177,30 @@
 					  	<li> <a href="#">Individual Patterns</a></li>
 					  </ul>
 					</div>
-<<<<<<< HEAD
 					<div class="form-group">
 						<div class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" id="category_dropdown" data-toggle="dropdown" aria-expanded="true">
-						    Kategorie
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dif_dropdown" data-toggle="dropdown" aria-expanded="true">
+						    Difficulty
 						    <span class="caret"></span>
 						  </button>
-						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						    <li> <a href="#">Choice1</a></li>
-						  	<li> <a href="#">Choice2</a></li>
-						  	<li> <a href="#">Choice3</a></li>
-						  	<li> <a href="#">Choice4</a></li>
+						  <ul class="dropdown-menu difdd" role="menu" aria-labelledby="dropdownMenu1">
+						    <li> <a href="#">Easy</a></li>
+						  	<li> <a href="#">Normal</a></li>
+						  	<li> <a href="#">Hard</a></li>
 						  </ul>
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<div class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" id="schwiergkeitsgrad_dropdown" data-toggle="dropdown" aria-expanded="true">
-						    Schwiergkeitsgrad
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						    <li> <a href="#">Leicht</a></li>
-						  	<li> <a href="#">Mittel</a></li>
-						  	<li> <a href="#">Schwer</a></li>
-						  </ul>
-						</div>
-					</div>
-						
-					<div class="form-group">
-						<input value ="speichern" type="button" onclick="save()" class="btn btn-primary"/>
-						<label id="gespeichert"></label>
-					</div>		
 				</form>
 			</div>
-=======
 				</div>	
 				<div class="form-group">
+				<div id="save_messages" class="row alert alert-danger" role="alert">
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <div class="whitespace">&nbsp;</div><div id="save_err"> </div>
+			</div>
 					<input id="saveBtn" value ="save" type="button" onclick="save()" class="btn btn-primary"/>
-					<label id="gespeichert"></label>
 				</div>		
 			</form>
->>>>>>> 2ffe10634f1cd58b1d5130fbf6d0632117495c84
 		</div>
 	</div>
 </body>
