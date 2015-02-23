@@ -13,6 +13,16 @@ redoHistory = [];
 
 function setGridSize() {
 
+	document.getElementById("okBtn").disabled = false;
+	// Hide Radio Button
+	// document.getElementById("GridSelect").style.visibility="hidden";
+
+	// If drop down list is used
+	// var selectedValue = document.getElementById("gridSelect").value;
+	// document.getElementById("gridSelect").disabled = true;
+	// End If
+
+
 	// If radio buttons are used
 	var gridSelect = document.getElementById("gridSelect");
 	var selectedValue = "";
@@ -204,9 +214,14 @@ function draw(form) {
 
 $(function() {
 
-	$(".dropdown-menu").on('click', 'li a', function() {
+	$(".catdd").on('click', 'li a', function() {
 		$("#category_dropdown").text($(this).text());
 		$("#category_dropdown").val($(this).text());
+	});
+	
+	$(".difdd").on('click', 'li a', function() {
+		$("#dif_dropdown").text($(this).text());
+		$("#dif_dropdown").val($(this).text());
 	});
 	
 	enableAndDisableElements(true);
@@ -220,19 +235,38 @@ $(function() {
 	}
 });
 
+
+
+
+
+
 // SAVE
 function save() {
 
+	if (undoHistory.length == 0){
+		document.getElementById("save_err").innerHTML = "Please draw something first";
+		document.getElementById("save_messages").style.display = "block";
+		return;
+	}
+	
 	if (document.getElementById("inputFileNameToSaveAs").value == "") {
-		alert("Bitte Name eingeben");
+		document.getElementById("save_err").innerHTML = "Please choose name";
+		document.getElementById("save_messages").style.display = "block";
 		return;
 	}
 
 	if (document.getElementById("category_dropdown").value == "") {
-		alert("Bitte Kategorie eingeben");
+		document.getElementById("save_err").innerHTML = "Please choose category";
+		document.getElementById("save_messages").style.display = "block";
 		return;
 	}
-
+	
+	if (document.getElementById("dif_dropdown").value == "") {
+		document.getElementById("save_err").innerHTML = "Please choose difficulty";
+		document.getElementById("save_messages").style.display = "block";
+		return;
+	}
+	
 	var svg = document.getElementsByTagName("svg")[0];
 
 	// Extract the data as SVG text string
@@ -245,78 +279,25 @@ function save() {
 		url : 'PHP/EDIT_SVG_index.php',
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
-			'kategorie' : $("#category_dropdown").val(),
-			'breite' : bounds[0],
-			'hoehe' : bounds[1],
+			'category' : $("#category_dropdown").val(),
+			'dif' : $("#dif_dropdown").val(),
+			'width' : bounds[0],
+			'length' : bounds[1],
 			'svg_xml' : svg_xml
 		},
 
 		success : function(response) {
-			$("#gespeichert").text(response);
+			document.getElementById("save_messages").style.display = "block";
+			$("#save_err").text(response);
+			
 		}
 
 	});
 
 }
 
-// if (document.getElementById("inputFileNameToSaveAs").value == ""){
-// alert("Bitte Name und Kategorie eingeben");
-// return;
-// }
-
-// //Create AJAX
-// if (window.XMLHttpRequest)
-// {
-// var xmlhttp=new XMLHttpRequest();
-//	  	 	
-// xmlhttp.onreadystatechange = function() {
-// if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-// alert(xmlhttp.responseText);
-// }
-// }
-// }
-// alert("TEST");
-// xmlhttp.open("POST", "Edit_SVG_index.php" , true);
-// xmlhttp.send();
-
-// // Get the d3js SVG element
-//
-// var svg = document.getElementsByTagName("svg")[0];
-//
-//
-// // Extract the data as SVG text string
-// var svg_xml = new XMLSerializer().serializeToString(svg);
-//    
-// //PRETIFY will noch nicht ganz so
-// //var svg_xml_beauty = new vkbeautify.xmlmin(svg_xml);
-// //console.log(svg_xml_beauty);
-// var textFileAsBlob = new Blob([svg_xml], {type:'image/svg+xml'});
-// var fileNameToSaveAs =
-// document.getElementById("inputFileNameToSaveAs").value;
-//
-// var downloadLink = document.createElement("a");
-// downloadLink.download = fileNameToSaveAs;
-// downloadLink.innerHTML = "Download File";
-// if (window.webkitURL != null)
-// {
-// // Chrome allows the link to be clicked
-// // without actually adding it to the DOM.
-// downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-// }
-// else
-// {
-// // Firefox requires the link to be added to the DOM
-// // before it can be clicked.
-// downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-// downloadLink.onclick = destroyClickedElement;
-// downloadLink.style.display = "none";
-// document.body.appendChild(downloadLink);
-// }
-//
-// downloadLink.click();
-
 function enableAndDisableElements(bool) {
-	var elements = ["resetBtn","cmdLine","cmdBtn","redoBtn","undoBtn","inputFileNameToSaveAs","category_dropdown","saveBtn"];
+	var elements = ["resetBtn","cmdLine","cmdBtn","redoBtn","undoBtn","inputFileNameToSaveAs","category_dropdown","dif_dropdown","saveBtn"];
 	var i;
 	
 	for(i=0;i<elements.length;i++) {

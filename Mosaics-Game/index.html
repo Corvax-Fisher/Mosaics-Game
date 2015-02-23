@@ -1,16 +1,17 @@
 <!DOCTYPE html>
- 
+
 <html lang="en">
 
 <head>
-	<title>Test SVG</title>
-	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Kurzbeschreibung" />
+<title>Test SVG</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kurzbeschreibung" />
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 
 	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
@@ -24,32 +25,37 @@
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
-	  <div class="container-fluid">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">Mosaics-Game</a>
-	    </div>
-	
-	    <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Editor<span class="sr-only">(current)</span></a></li>
-	        <li><a href="#">Game</a></li>
-	        <li><a href="#">About Us</a></li>
-	      </ul>
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Mosaics-Game</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Editor<span class="sr-only">(current)</span></a></li>
+					<li><a href="#">Game</a></li>
+					<li><a href="#">About Us</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
 	</nav>
-	
+
 	<div class="container">
 		<div class="page-header">
-		  <h1>Editor <small>Create your own pattern</small></h1>
+			<h1>
+				Editor <small>Create your own pattern</small>
+			</h1>
 		</div>
 		<div class="selectionArea jumbotron row">
 			<div class="col-md-4">
@@ -58,132 +64,167 @@
 			<div class="col-md-6">
 				<form id="gridSelect" action="" onchange="setGridSize()">
 					<div class="radio">
-						<label>
-						<input type="radio" name="GridSize" value="8x8">
-						8x8
+						<label> <input type="radio" name="GridSize" value="8x8">
+							8x8
 						</label>
 					</div>
 					<div class="radio">
-						<label>
-						<input type="radio" name="GridSize" value="12x12">
-						12x12
+						<label> <input type="radio" name="GridSize" value="12x12">
+							12x12
 						</label>
 					</div>
 					<div class="radio">
-						<label>
-						<input type="radio" name="GridSize" value="12x18">
-						12x18
+						<label> <input type="radio" name="GridSize" value="12x18">
+							12x18
 						</label>
 					</div>
 					<div class="radio">
-						<label>
-						<input type="radio" name="GridSize" value="18x12">
-						18x12
+						<label> <input type="radio" name="GridSize" value="18x12">
+							18x12
 						</label>
 					</div>
 					<div class="radio">
-						<label>
-						<input type="radio" name="GridSize" value="24x24">
-						24x24
+						<label> <input type="radio" name="GridSize" value="24x24">
+							24x24
 						</label>
 					</div>
 				</form>
 			</div>
 			<div class="col-md-2">
 				<form>
-					<button id="okBtn" type="button" value="auswählen" class="btn btn-success" onClick="gridSizeOk()">
-						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> okay!
+					<button id="okBtn" type="button" value="auswählen"
+						class="btn btn-success" onClick="gridSizeOk()" disabled="true">
+						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+						okay!
 					</button>
-				</form>			
+				</form>
 			</div>
 		</div>
-		
+
 		<div class="jumbotron row">
-			<form name="cmdForm" action="" onsubmit="return draw(this)" class="form-inline col-md-12">
+			<form name="cmdForm" action="" onsubmit="return draw(this)"
+				class="form-inline col-md-12">
 				<div class="form-group">
-					<input id="cmdLine" placeholder="type a command" autofocus="autofocus" type="text" 
-					name="cmd" class="form-control cmd"/>
+					<input id="cmdLine" placeholder="type a command"
+						autofocus="autofocus" type="text" name="cmd"
+						class="form-control cmd" />
 				</div>
 				<div class="form-group">
-					<input id="cmdBtn" name="OK" value ="OK" type="submit" class="btn btn-default"/>
-				</div>				
-			</form>		
+					<input id="cmdBtn" name="OK" value="OK" type="submit"
+						class="btn btn-default" />
+				</div>
+			</form>
 		</div>
-		
+
 		<div class="jumbotron">
 			<div id="messages" class="row alert alert-danger" role="alert">
-			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			  <div class="whitespace">&nbsp;</div><div id="err"> </div>
+				<span class="glyphicon glyphicon-exclamation-sign"
+					aria-hidden="true"></span>
+				<div class="whitespace">&nbsp;</div>
+				<div id="err"></div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-7">
-					<svg id="mosaics" width=0  height=0>
+					<svg id="mosaics" width=0 height=0>
 						<defs>
 							<pattern id="pattern1" x="0" y="0" width="40" height="40"
-									patternUnits="userSpaceOnUse">
-								<line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke:#c1cdc1; stroke-width:2;" />
-					   			<line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke:#c1cdc1; stroke-width:2;" />
+							patternUnits="userSpaceOnUse">
+								<line id="hline" x1="1" y1="1" x2="40" y2="1"
+							style="stroke:#c1cdc1; stroke-width:2;" />
+					   			<line id="vline" x1="1" y1="0" x2="1" y2="40"
+							style="stroke:#c1cdc1; stroke-width:2;" />
 					      	</pattern>
 					   	</defs>
 					        
 					    <rect x="0" y="0" width=0 height=0
-								style="stroke: black; fill: url(#pattern1);" />
+							style="stroke: black; fill: url(#pattern1);" />
 					</svg>
 				</div>
-							
+
 				<div class="documentationArea col-md-3">
 					<p>Hallo, hier kommt der Katalog rein.. bald :)</p>
-					<p id="clrs"> </p>
+					<p id="clrs"></p>
 				</div>
 				<div class="documentationArea col-md-2">
 					<div>My Commands:</div>
 					<ul id="history" class="list-group">
 					</ul>
 					<form>
-						<button id="undoBtn" type="button" value="rückgängig" class="btn btn-default" onClick="undoCommand()">
-						  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> undo
+						<button id="undoBtn" type="button" value="undo"
+							class="btn btn-default" onClick="undoCommand()">
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							undo
 						</button>
-						<button id="redoBtn" type="button" value="wiederherstellen" class="btn btn-default" onClick="redoCommand()">
-						  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> redo
+						<button id="redoBtn" type="button" value="redo"
+							class="btn btn-default" onClick="redoCommand()">
+							<span class="glyphicon glyphicon-chevron-right"
+								aria-hidden="true"></span> redo
 						</button>
-					</form>	
+					</form>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="jumbotron row">
-			<form class="form-inline col-md-6">
-				<button id="resetBtn" type="button" value="reset" class="btn btn-danger" onClick="window.location.reload()">
-					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> delete pattern
+			<form class="form-inline col-md-4">
+				<button id="resetBtn" type="button" value="reset"
+					class="btn btn-danger" onClick="window.location.reload()">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					delete pattern
 				</button>
 			</form>
-			<form class="form-inline col-md-6">
+			<form class="form-inline col-md-8">
 				<div class="form-group">
-					<label for="inputFileNameToSaveAs">Save pattern:</label>
-					<input placeholder="type your pattern name" id="inputFileNameToSaveAs" class="form-control"/>
+					<label for="inputFileNameToSaveAs">Save pattern:</label> <input
+						placeholder="type your pattern name" id="inputFileNameToSaveAs"
+						class="form-control" onkeydown="if (event.keyCode == 13) document.getElementById('saveBtn').click()"/>
 				</div>
 				<div class="form-group">
 					<div class="dropup">
-					  <button class="btn btn-default dropdown-toggle" type="button" id="category_dropdown" data-toggle="dropdown" aria-expanded="true">
-					    Category
-					    <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-					    <li> <a href="#">Flowers & Nature</a></li>
-					  	<li> <a href="#">Countries & Flags</a></li>
-					  	<li> <a href="#">Humans & Animals</a></li>
-					  	<li> <a href="#">Things</a></li>
-					  	<li> <a href="#">Symmetrical Patterns</a></li>
-					  	<li> <a href="#">Individual Patterns</a></li>
-					  </ul>
+						<button class="btn btn-default dropdown-toggle" type="button"
+							id="category_dropdown" data-toggle="dropdown"
+							aria-expanded="true">
+							Category <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu catdd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a href="#">Flowers & Nature</a></li>
+							<li><a href="#">Countries & Flags</a></li>
+							<li><a href="#">Humans & Animals</a></li>
+							<li><a href="#">Things</a></li>
+							<li><a href="#">Symmetrical Patterns</a></li>
+							<li><a href="#">Individual Patterns</a></li>
+						</ul>
 					</div>
-				</div>	
+				</div>
 				<div class="form-group">
-					<input id="saveBtn" value ="save" type="button" onclick="save()" class="btn btn-primary"/>
-					<label id="gespeichert"></label>
-				</div>		
+					<div class="dropup">
+						<button class="btn btn-default dropdown-toggle" type="button"
+							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true">
+							Difficulty <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu difdd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a href="#">Easy</a></li>
+							<li><a href="#">Normal</a></li>
+							<li><a href="#">Hard</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<input id="saveBtn" value="save" type="button" onclick="save()"
+						class="btn btn-primary" />
+				</div>
 			</form>
+		</div>
+		<div class="jumbotron">
+			<div id="save_messages" class="row alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign"
+					aria-hidden="true"></span>
+				<div class="whitespace">&nbsp;</div>
+				<div id="save_err"></div>
+			</div>
 		</div>
 	</div>
 </body>
