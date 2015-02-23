@@ -7,4 +7,11 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
+  <SVG Filename="as.svg">
+    <Name>as</Name>
+    <Category/>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif/>
+  </SVG>
 </SVGFiles>
