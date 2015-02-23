@@ -92,7 +92,7 @@
 			<div class="col-md-2">
 				<form>
 					<button id="okBtn" type="button" value="auswählen"
-						class="btn btn-success" onClick="gridSizeOk()" disabled="true">
+						class="btn btn-success" onClick="gridSizeOk()" disabled="disabled">
 						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 						okay!
 					</button>
@@ -115,7 +115,7 @@
 			</form>
 		</div>
 
-		<div class="jumbotron">
+		<div id="editor" class="jumbotron">
 			<div id="messages" class="row alert alert-danger" role="alert">
 				<span class="glyphicon glyphicon-exclamation-sign"
 					aria-hidden="true"></span>
@@ -124,8 +124,8 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-7">
-					<svg id="mosaics" width=0 height=0>
+				<div align="center" class="col-md-6">
+					<svg id="mosaics">
 						<defs>
 							<pattern id="pattern1" x="0" y="0" width="40" height="40"
 							patternUnits="userSpaceOnUse">
@@ -141,13 +141,17 @@
 					</svg>
 				</div>
 
-				<div class="documentationArea col-md-3">
-					<p>Hallo, hier kommt der Katalog rein.. bald :)</p>
-					<p id="clrs"></p>
+				<div class="col-md-3">
+					<p>What can I do?</p>
+					<div class="panel-group scrollable" id="accordion" role="tablist"
+						aria-multiselectable="true">
+						
+					</div>
 				</div>
-				<div class="documentationArea col-md-2">
-					<div>My Commands:</div>
-					<ul id="history" class="list-group">
+				
+				<div class="col-md-3">
+					<p>History:</p>
+					<ul id="history" class="scrollable">
 					</ul>
 					<form>
 						<button id="undoBtn" type="button" value="undo"
@@ -188,9 +192,9 @@
 						</button>
 						<ul class="dropdown-menu catdd" role="menu"
 							aria-labelledby="dropdownMenu1">
-							<li><a href="#">Flowers & Nature</a></li>
-							<li><a href="#">Countries & Flags</a></li>
-							<li><a href="#">Humans & Animals</a></li>
+							<li><a href="#">Flowers &amp; Nature</a></li>
+							<li><a href="#">Countries &amp; Flags</a></li>
+							<li><a href="#">Humans &amp; Animals</a></li>
 							<li><a href="#">Things</a></li>
 							<li><a href="#">Symmetrical Patterns</a></li>
 							<li><a href="#">Individual Patterns</a></li>

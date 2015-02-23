@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+	<syntax>
+		<command>
+			square(x,y,color)
+		</command>
+		<description>
+			Draw one square in a cell, three parameters needed. Parameters 'x' and 'y' define the position
+			of the cell. Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			circle(x,y,color)
+		</command>
+		<description>
+			Draw one circle in a cell, three parameters needed. Parameters 'x' and 'y' define the position
+			of the cell. Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			line(x,y,from,to,color)
+		</command>
+		<description>
+			Draw one line in a cell, five parameters needed. Parameters 'x' and 'y' define the position
+			of the cell. Parameters 'from' and 'to' define the position of where the line should
+			start and end in the cell, see 'extra definitions'. 
+			Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			triangle(x,y,a,b,c,color)
+		</command>
+		<description>
+			Draw one triangle in a cell, six parameters needed. Parameters 'x' and 'y' define the position
+			of the cell. Parameters 'a', 'b' and 'c' define the three corner points of your triangle in the cell, see 'extra definitions'. 
+			Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			rectangle(x,y,width,height,color)
+		</command>
+		<description>
+			Draw a rectangle over multiple cells, five parameters needed. Parameters 'x' and 'y' define the position
+			of the beginning cell. Parameters 'width' and 'height' are measured in the number of cells.
+			Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			squares(x1,y1...x2,y2,color)
+		</command>
+		<description>
+			To safe your number of commands: Draw multiple same squares in your pattern, five parameters needed. Parameters 'x1' and 'y1' define the position
+			of the beginning cell. Parameters 'x2' and 'y2' define the position
+			of the ending cell. The position of the ending cell has to be bigger than the position of the beginning cell. 
+			Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			circles(x1,y1...x2,y2,color)
+		</command>
+		<description>
+			To safe your number of commands: Draw multiple same circles in your pattern, five parameters needed. Parameters 'x1' and 'y1' define the position
+			of the beginning cell. Parameters 'x2' and 'y2' define the position
+			of the ending cell. The position of the ending cell has to be bigger than the position of the beginning cell. Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			lines(x1,y1...x2,y2,from,to,color)
+		</command>
+		<description>
+			To safe your number of commands: Draw multiple same lines in your pattern, seven parameters needed. Parameters 'x1' and 'y1' define the position
+			of the beginning cell. Parameters 'x2' and 'y2' define the position
+			of the ending cell. The position of the ending cell has to be bigger than the position of the beginning cell. Parameters 'from' and 'to' define the position of where the line should
+			start and end in the cell, see 'extra definitions'. 
+			Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			triangles(x1,y1...x2,y2,a,b,c,color)
+		</command>
+		<description>
+			To safe your number of commands: Draw multiple same triangles in your pattern, eight parameters needed. Parameters 'x1' and 'y1' define the position
+			of the beginning cell. Parameters 'x2' and 'y2' define the position
+			of the ending cell. The position of the ending cell has to be bigger than the position of the beginning cell. Parameters 'a', 'b' and 'c' define the three corner points of your triangle in the cell, see 'extra definitions'. 
+			Parameter 'color' defines the color of the element, see 'available colors'.
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			available colors
+		</command>
+		<description>
+			Following colors can be used for the elements: 'aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime',
+			'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal',
+			'yellow' 
+		</description>
+	</syntax>
+	<syntax>
+		<command>
+			extra definitions 
+		</command>
+		<description>
+			The following extra definitions are needed for the commands line[s] and triangle[s]. These definitions describe the positions in one cell. TopLeft: 'TL or LT', TopCenter: 'TC or CT', TopRight: 'TR or RT',
+			CenterLeft: 'CL or LC', Center: 'CC', CenterRight: 'CR or RC',
+			BottomLeft: 'BL or LB', BottomCenter: 'BC or CB' and BottomRight: 'BR or RB'. All the shortcuts are not case sensitive.
+		</description>
+	</syntax>
+</root>

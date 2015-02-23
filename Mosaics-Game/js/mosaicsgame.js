@@ -46,12 +46,10 @@ function setGridSize() {
 	// bounds[0] = col;
 	// bounds[1] = row;
 
-	var strValidColors = "";
-	for (var i = 0; i < validColors.length; i++)
-		strValidColors += "<span style=color:" + validColors[i] + ">"
-				+ validColors[i] + "</span>" + ", ";
-	document.getElementById("clrs").innerHTML = "Verf&uumlgbare Farben: <br>"
-			+ strValidColors;
+//	var strValidColors = "";
+//	for (var i = 0; i < validColors.length; i++)
+//		strValidColors += "<span style=color:" + validColors[i] + ">"
+//				+ validColors[i] + "</span>" + ", ";
 
 	// Set SVG-Canvas attributes
 	var svg = document.getElementsByTagName("svg")[0];
@@ -497,6 +495,8 @@ function draw(form) {
 		document.getElementById("messages").style.display = "none";
 	}
 	
+	$('#history').scrollTop($('#history')[0].scrollHeight);
+	
 	return false;
 }
 
@@ -523,12 +523,11 @@ $(function() {
 	for (i=1;i<jumbotronArray.length;i++) {
 		jumbotronArray[i].style.backgroundColor = "#F8F8F8";
 	}
+	
+	//read syntax.xml and show in syntax catalog
+	readXMLAndShowSyntaxCatalog();
+	
 });
-
-
-
-
-
 
 // SAVE
 function save() {
@@ -560,7 +559,7 @@ function save() {
 	$.ajax({
 
 		type : 'POST',
-		url : 'PHP/EDIT_SVG_index.php',
+		url : 'php/EDIT_SVG_index.php',
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
 			'category' : $("#category_dropdown").val(),
@@ -586,4 +585,32 @@ function enableAndDisableElements(bool) {
 		document.getElementById(elements[i]).disabled = bool;
 	}
 	
+}
+
+function readXMLAndShowSyntaxCatalog() {
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET","xml/syntax.xml",false);
+	xmlhttp.send();
+	xmlDoc=xmlhttp.responseXML;
+	var x=xmlDoc.getElementsByTagName("syntax");
+	
+	for (i=0;i<x.length;i++) {
+		$("#accordion").append(
+		"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
+		+i+
+		"'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"
+		+i+
+		"' aria-expanded='false' aria-controls='collapse"
+		+i+
+		"'>"
+		+x[i].getElementsByTagName('command')[0].childNodes[0].nodeValue+
+		"</a></h4></div><div id='collapse"
+		+i+
+		"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"
+		+i+
+		"'><div class='panel-body'>"
+		+x[i].getElementsByTagName('description')[0].childNodes[0].nodeValue+
+		"</div></div></div>");
+		
+	}
 }
