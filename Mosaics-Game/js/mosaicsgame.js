@@ -575,6 +575,7 @@ function save() {
 
 		success : function(response) {
 			$("#save_err").text(response);
+			location.reload();
 		}
 
 	});
