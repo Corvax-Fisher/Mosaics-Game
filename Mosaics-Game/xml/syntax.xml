@@ -93,24 +93,4 @@
 			Parameter 'color' defines the color of the element, see 'available colors'.
 		</description>
 	</syntax>
-	<syntax>
-		<command>
-			available colors
-		</command>
-		<description>
-			Following colors can be used for the elements: 'aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime',
-			'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal',
-			'yellow' 
-		</description>
-	</syntax>
-	<syntax>
-		<command>
-			extra definitions 
-		</command>
-		<description>
-			The following extra definitions are needed for the commands line[s] and triangle[s]. These definitions describe the positions in one cell. TopLeft: 'TL or LT', TopCenter: 'TC or CT', TopRight: 'TR or RT',
-			CenterLeft: 'CL or LC', Center: 'CC', CenterRight: 'CR or RC',
-			BottomLeft: 'BL or LB', BottomCenter: 'BC or CB' and BottomRight: 'BR or RB'. All the shortcuts are not case sensitive.
-		</description>
-	</syntax>
 </root>

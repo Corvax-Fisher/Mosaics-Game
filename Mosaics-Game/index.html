@@ -3,28 +3,28 @@
 <html lang="en">
 
 <head>
-<title>Test SVG</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Kurzbeschreibung" />
+	<title>Test SVG</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Kurzbeschreibung" />
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
+	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-cmds.js"></script>
-	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
+	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
 	
+	<link href="style/jquery-ui.css" rel="stylesheet">
 	<link rel="stylesheet" href="style/bootstrap.min.css">
 	<link href="style/style.css" rel="stylesheet">
 		
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-static-top">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -101,8 +101,8 @@
 			</div>
 		</div>
 
-		<div class="jumbotron row">
-			<form name="cmdForm" action="" onsubmit="return draw(this)"
+		<div id="editorCmd" class="jumbotron row">
+			<form align="center" name="cmdForm" action="" onsubmit="return draw(this)"
 				class="form-inline col-md-12">
 				<div class="form-group">
 					<input id="cmdLine" placeholder="type a command"
@@ -143,46 +143,64 @@
 				</div>
 
 				<div class="col-md-3">
-					<p>What can I do?</p>
-					<div class="panel-group scrollable" id="accordion" role="tablist"
-						aria-multiselectable="true">
-						
+					<div class="boxes">
+						<h3>What can I do?</h3>
+						<div class="panel-group scrollable" id="accordion" role="tablist"
+							aria-multiselectable="true">	
+						</div>
+					</div>
+					<div class="boxes" id="extraColors">
+						<h3 class="headingColors">Available colors</h3>
+						<div id="spanColors"></div>
 					</div>
 				</div>
 				
 				<div class="col-md-3">
-					<p>History:</p>
-					<ul id="history" class="scrollable">
-					</ul>
-					<form>
-						<button id="undoBtn" type="button" value="undo" disabled=true
-							class="btn btn-default" onClick="undoCommand()">
-							<span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
-							undo
-						</button>
-						<button id="redoBtn" type="button" value="redo" disabled=true
-							class="btn btn-default" onClick="redoCommand()">
-							<span class="glyphicon glyphicon-chevron-right"
-								aria-hidden="true"></span> redo
-						</button>
-					</form>
+					<div class="boxes">
+						<h3>History:</h3>
+						<ul id="history" class="scrollable">
+						</ul>
+						<form>
+							<button id="undoBtn" type="button" value="undo" disabled=disabled
+								class="btn btn-default" onClick="undoCommand()">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
+								undo
+							</button>
+							<button id="redoBtn" type="button" value="redo" disabled=disabled
+								class="btn btn-default" onClick="redoCommand()">
+								<span class="glyphicon glyphicon-chevron-right"
+									aria-hidden="true"></span> redo
+							</button>
+						</form>
+					</div>
+					<div class="boxes" id="extraDefinitions">
+						<h3>Extra definitions</h3>
+						<p>Describe the positions in one cell. Abbrevations: [C]enter, [T]op, [B]ottom, [L]eft, [R]ight:</p>
+						<img src="images/extradefinitions.png">
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="jumbotron row">
-			<form class="form-inline col-md-4">
+			<form class="form-inline col-md-6">
 				<button id="resetBtn" type="button" value="reset"
 					class="btn btn-danger" onClick="window.location.reload()">
 					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 					delete pattern
 				</button>
+				<div id="save_messages" class="row alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign"
+						aria-hidden="true"></span>
+					<div class="whitespace">&nbsp;</div>
+					<div id="save_err"></div>
+				</div>
 			</form>
-			<form class="form-inline col-md-8" onsubmit="return save()">
+			<form class="form-inline col-md-6" onsubmit="return save()">
 				<div class="form-group">
 					<label for="inputFileNameToSaveAs">Save pattern:</label> 
 					<input
-						placeholder="type your pattern name" id="inputFileNameToSaveAs"
+						placeholder="type a name" id="inputFileNameToSaveAs"
 						class="form-control"/>
 				</div>
 				<div class="form-group">
@@ -224,12 +242,7 @@
 			</form>
 		</div>
 		<div class="jumbotron">
-			<div id="save_messages" class="row alert alert-danger" role="alert">
-				<span class="glyphicon glyphicon-exclamation-sign"
-					aria-hidden="true"></span>
-				<div class="whitespace">&nbsp;</div>
-				<div id="save_err"></div>
-			</div>
+			
 		</div>
 	</div>
 </body>

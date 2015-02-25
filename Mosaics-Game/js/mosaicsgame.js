@@ -2,12 +2,13 @@
  * main mosaics game library
  */
 
-// globals
+//globals
 cellsize = 40;
 bounds = [ 8, 8 ];
 validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
-		"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
-		"yellow" ];
+               "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
+               "yellow" ];
+var availableCmds = ["circle","circles","line","lines","rectangle","square","squares","triangle","triangles"];
 undoHistory = [];
 redoHistory = [];
 
@@ -45,11 +46,6 @@ function setGridSize() {
 
 	// bounds[0] = col;
 	// bounds[1] = row;
-
-//	var strValidColors = "";
-//	for (var i = 0; i < validColors.length; i++)
-//		strValidColors += "<span style=color:" + validColors[i] + ">"
-//				+ validColors[i] + "</span>" + ", ";
 
 	// Set SVG-Canvas attributes
 	var svg = document.getElementsByTagName("svg")[0];
@@ -99,14 +95,14 @@ function gridSizeOk() {
 
 	document.getElementById("okBtn").disabled = true;
 	enableAndDisableElements(false);
-	
+
 	var jumbotronArray = document.getElementsByClassName("jumbotron");
 	var i;
 	jumbotronArray[0].style.border = "";
 	for (i=1;i<jumbotronArray.length;i++) {
 		jumbotronArray[i].style.backgroundColor = "#EEEEEE";
 	}
-	
+
 	//Iterate Grid Numbers
 	var svg = document.getElementsByTagName("svg")[0];
 	var number;
@@ -131,7 +127,9 @@ function gridSizeOk() {
 		number.appendChild(document.createTextNode(i + 1));
 		svg.appendChild(number);
 	}
-
+	
+	$( "#cmdLine" ).focus();
+	$('html, body').animate({ scrollTop: ($('#editorCmd').offset().top)}, 'slow');
 }
 
 function executeCommand(cmdName, cmdParams) {
@@ -166,12 +164,12 @@ function executeCommand(cmdName, cmdParams) {
 	case "lines":
 		lines(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
 				+ cmdParams[2]), cmdParams[3].toLowerCase(), cmdParams[4]
-				.toLowerCase(), cmdParams[5]);
+		.toLowerCase(), cmdParams[5]);
 		break;
 	case "triangles":
 		triangles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
 				+ cmdParams[2]), cmdParams[3].toLowerCase(), cmdParams[4]
-				.toLowerCase(), cmdParams[5].toLowerCase(), cmdParams[6]);
+		.toLowerCase(), cmdParams[5].toLowerCase(), cmdParams[6]);
 		break;
 	}
 }
@@ -179,7 +177,7 @@ function executeCommand(cmdName, cmdParams) {
 function draw(form) {
 	if (document.getElementById("err").innerHTML.length > 0)
 		document.getElementById("err").innerHTML = "";
-		
+
 	var cmd = form.cmd.value.split("(");
 	if (cmd.length == 2) {
 		var params = cmd[1].split(",");
@@ -187,7 +185,7 @@ function draw(form) {
 			document.getElementById("err").innerHTML = "Closing bracket is missing.";
 		else {
 			params[params.length - 1] = params[params.length - 1].replace(")",
-					"");
+			"");
 			if (validateParameters(cmd[0], params)) {
 				executeCommand(cmd[0], params);
 				manageHistory(form.cmd.value);
@@ -195,19 +193,19 @@ function draw(form) {
 		}
 	} else
 		document.getElementById("err").innerHTML = "Opening bracket is missing.";
-	
+
 	if (document.getElementById("err").innerHTML.length > 0) {
 		document.getElementById("messages").style.display = "block";
 	} else {
 		document.getElementById("messages").style.display = "none";
 	}
-	
+
 	$('#history').scrollTop($('#history')[0].scrollHeight);
-	
+
 	return false;
 }
 
-// Dropdown Button for categora handler
+//Dropdown Button for categora handler
 
 $(function() {
 
@@ -215,28 +213,64 @@ $(function() {
 		$("#category_dropdown").text($(this).text());
 		$("#category_dropdown").val($(this).text());
 	});
-	
+
 	$(".difdd").on('click', 'li a', function() {
 		$("#dif_dropdown").text($(this).text());
 		$("#dif_dropdown").val($(this).text());
 	});
-	
+
 	enableAndDisableElements(true);
 	$( ".jumbotron" ).blur();
 	var jumbotronArray = document.getElementsByClassName("jumbotron");
 	var i;
-	
+
 	jumbotronArray[0].style.border = "thick solid black";
 	for (i=1;i<jumbotronArray.length;i++) {
 		jumbotronArray[i].style.backgroundColor = "#F8F8F8";
 	}
-	
+
 	//read syntax.xml and show in syntax catalog
 	readXMLAndShowSyntaxCatalog();
-	
+
+	//autocomplete function for command
+	$( "#cmdLine" )
+	// don't navigate away from the field on tab when selecting an item
+	.bind( "keydown", function( event ) {
+		if ( event.keyCode === $.ui.keyCode.TAB &&
+				$( this ).autocomplete( "instance" ).menu.active ) {
+			event.preventDefault();
+		}
+	})
+	.autocomplete({
+		minLength: 0,
+		source: availableCmds,
+		focus: function() {
+			// prevent value inserted on focus
+			return false;
+		},
+		select: function( event, ui ) {
+			var terms = split( this.value );
+			// remove the current input
+			terms.pop();
+			// add the selected item
+			terms.push( ui.item.value );
+			// add placeholder to get the comma-and-space at the end
+			terms.push( "" );
+			this.value = terms.join( "(" );
+			return false;
+		}
+	});
+
+	//show the colors available in the div
+	showExtraColors();
 });
 
-// SAVE
+//split value for autocomplete 
+function split( val ) {
+	return val.split( /,\s*/ );
+}
+
+//SAVE
 function save() {
 	var err = false;
 
@@ -253,13 +287,13 @@ function save() {
 		document.getElementById("save_err").innerHTML = "Please choose difficulty";
 		err=true;
 	}
-	
+
 	if(err == true) {
 		document.getElementById("save_messages").style.display = "block";
 		window.scrollTo(0,document.body.scrollHeight);
 		return false;
 	}
-	
+
 	var svg = document.getElementsByTagName("svg")[0];
 
 	// Extract the data as SVG text string
@@ -282,22 +316,22 @@ function save() {
 		success : function(response) {
 			document.getElementById("save_messages").style.display = "block";
 			$("#save_err").text(response);
-			
+
 		}
 
 	});
-	
+
 	return false;
 }
 
 function enableAndDisableElements(bool) {
 	var elements = ["resetBtn","cmdLine","cmdBtn","inputFileNameToSaveAs","category_dropdown","dif_dropdown","saveBtn"];
 	var i;
-	
+
 	for(i=0;i<elements.length;i++) {
 		document.getElementById(elements[i]).disabled = bool;
 	}
-	
+
 }
 
 function readXMLAndShowSyntaxCatalog() {
@@ -306,24 +340,32 @@ function readXMLAndShowSyntaxCatalog() {
 	xmlhttp.send();
 	xmlDoc=xmlhttp.responseXML;
 	var x=xmlDoc.getElementsByTagName("syntax");
-	
+
 	for (i=0;i<x.length;i++) {
 		$("#accordion").append(
-		"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
-		+i+
-		"'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"
-		+i+
-		"' aria-expanded='false' aria-controls='collapse"
-		+i+
-		"'>"
-		+x[i].getElementsByTagName('command')[0].childNodes[0].nodeValue+
-		"</a></h4></div><div id='collapse"
-		+i+
-		"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"
-		+i+
-		"'><div class='panel-body'>"
-		+x[i].getElementsByTagName('description')[0].childNodes[0].nodeValue+
+				"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
+				+i+
+				"'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"
+				+i+
+				"' aria-expanded='false' aria-controls='collapse"
+				+i+
+				"'>"
+				+x[i].getElementsByTagName('command')[0].childNodes[0].nodeValue+
+				"</a></h4></div><div id='collapse"
+				+i+
+				"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"
+				+i+
+				"'><div class='panel-body'>"
+				+x[i].getElementsByTagName('description')[0].childNodes[0].nodeValue+
 		"</div></div></div>");
-		
+
 	}
+}
+
+function showExtraColors() {
+	var strValidColors = "";
+	for (var i = 0; i < validColors.length; i++)
+	strValidColors += "<span style=color:" + validColors[i] + ">"
+	+ validColors[i] + "</span>" + " ";
+	$("#spanColors").append(strValidColors);
 }
