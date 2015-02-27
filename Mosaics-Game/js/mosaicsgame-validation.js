@@ -94,8 +94,13 @@ function validateParameters(cmd, params) {
 	
 	//validate number of parameters
 	switch(cmd) {
+	case "clearcell":
+		paramCount = 2;
+		if(params.length != paramCount) err=true;
+		break;
 	case "square":
 	case "circle":
+	case "clearcells":
 		paramCount = 3;
 		if(params.length != paramCount) err=true;
 		break;
@@ -124,8 +129,20 @@ function validateParameters(cmd, params) {
 	}
 	
 	if(err) {
+		var requiredParams = paramCount;
+		var receivedParams = params.length;
+		
+		if(cmd.charAt(cmd.length-1) == "s") {
+			requiredParams++;
+			receivedParams++;
+			if(params[1].indexOf("...") == -1) {
+				document.getElementById("err").innerHTML = 
+					"Range operator (...) is missing.";
+				return 0;
+			}
+		}
 		document.getElementById("err").innerHTML = 
-			"Invalid number of parameters (required " + paramCount + ", got "+params.length+").";
+			"Invalid number of parameters (required " + requiredParams + ", got "+ receivedParams + ").";
 		return 0;
 	}
 	
@@ -212,3 +229,47 @@ function validateParameters(cmd, params) {
 	}
 	return 1;
 }
+
+function compareSVGs() {
+	var user_svg_elements = $("#mosaics > *[id^='e']");
+	var template_svg_elements = $("#mosaics-template > *[id^='te']");
+	var template_child, user_child;
+	
+	// 1st check if counts of svg elements are equal
+	if(template_svg_elements.length == user_svg_elements.length) {
+		for(var i = 0; i < user_svg_elements.length; i++) {
+			// get user svg element
+			user_child = user_svg_elements.eq(i);
+			// find corresponding template svg element
+			template_child = $("#t" + user_child.attr("id"));
+			if( template_child.get(0) != undefined ) {
+				// 2nd check if counts of svg attributes are equal
+				if( user_child.get(0).attributes.length ==
+					template_child.get(0).attributes.length) {
+					for(var j = 1; j < user_child.get(0).attributes.length; j++) {
+						// 3rd check if attribute names and values are equal
+						if( user_child.get(0).attributes[j].name !=
+							template_child.get(0).attributes[j].name ||
+							user_child.get(0).attributes[j].value !=
+							template_child.get(0).attributes[j].value ) 
+						{
+							// attribute values and names are not equal
+							return false;							
+						}
+					}
+				}
+			} else {
+				// template has no element at the corresponding position
+				// ==> number of elements are equal, positions are not equal
+				return false;
+			}
+		}
+		// element counts, id's (and therefore implicitly the positions)
+		// and attribute names and values were equal
+		return true;
+	} else {
+		// element counts were not equal 
+		return false;
+	}
+}
+

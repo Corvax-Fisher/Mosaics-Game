@@ -8,8 +8,27 @@ bounds = [ 8, 8 ];
 validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
 		"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
 		"yellow" ];
+
+colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)", 
+				"black" 	: "rgb(0, 0, 0)", 
+				"blue" 		: "rgb(0, 0, 255)", 
+				"fuchsia"	: "rgb(255, 0, 255)", 
+				"gray"		: "rgb(128, 128, 128)", 
+				"green"		: "rgb(0, 128, 0)", 
+				"lime"		: "rgb(0, 255, 0)",
+				"maroon"	: "rgb(128, 0, 0)", 
+				"navy"		: "rgb(0, 0, 128)", 
+				"olive"		: "rgb(128, 128, 0)", 
+				"orange"	: "rgb(255, 165, 0)", 
+				"purple"	: "rgb(128, 0, 128)", 
+				"red"		: "rgb(255, 0, 0)", 
+				"silver"	: "rgb(192, 192, 192)", 
+				"teal"		: "rgb(0, 128, 128)",
+				"yellow" 	: "rgb(255, 255, 0)"};
+
 undoHistory = [];
 redoHistory = [];
+elementHistory = [];
 
 function setGridSize() {
 
@@ -136,6 +155,9 @@ function gridSizeOk() {
 
 function executeCommand(cmdName, cmdParams) {
 	switch (cmdName) {
+	case "clearcell":
+		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]), true );
+		break;
 	case "square":
 		square(cmdParams[0], cmdParams[1], cmdParams[2]);
 		break;
@@ -154,6 +176,10 @@ function executeCommand(cmdName, cmdParams) {
 		triangle(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
 				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(),
 				cmdParams[5]);
+		break;
+	case "clearcells":
+		deleteElements( new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
+				+ cmdParams[2]), true );
 		break;
 	case "squares":
 		squares(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
@@ -191,6 +217,7 @@ function draw(form) {
 			if (validateParameters(cmd[0], params)) {
 				executeCommand(cmd[0], params);
 				manageHistory(form.cmd.value);
+				if(compareSVGs()) $("#err").html("You won!");				
 			}
 		}
 	} else
@@ -301,13 +328,13 @@ function enableAndDisableElements(bool) {
 }
 
 function readXMLAndShowSyntaxCatalog() {
-	xmlhttp=new XMLHttpRequest();
+	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET","xml/syntax.xml",false);
 	xmlhttp.send();
-	xmlDoc=xmlhttp.responseXML;
+	var xmlDoc=xmlhttp.responseXML;
 	var x=xmlDoc.getElementsByTagName("syntax");
 	
-	for (i=0;i<x.length;i++) {
+	for (var i=0;i<x.length;i++) {
 		$("#accordion").append(
 		"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
 		+i+
@@ -327,3 +354,28 @@ function readXMLAndShowSyntaxCatalog() {
 		
 	}
 }
+
+function loadSVG(svgName) {
+	var xmlHttp, xmlDoc, xmlDocSVGElement;
+	var mosaicsTemplate, mosaicsTemplateElements;
+	
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("GET","SVGs/" + svgName,false);
+	xmlHttp.send();
+	
+	xmlDoc = xmlHttp.responseXML;
+	xmlDocSVGElement = xmlDoc.getElementById("mosaics");
+	
+	mosaicsTemplate = $("#mosaics-template");
+	mosaicsTemplate.attr("width",362);
+	mosaicsTemplate.attr("height",362);
+	mosaicsTemplate.append(xmlDocSVGElement.childNodes);
+	
+	mosaicsTemplateElements = $("#mosaics-template > *[id^='e']");
+	for(var i = 0; i < mosaicsTemplateElements.length; i++) {
+		mosaicsTemplateElements.get(i).attributes[0].value = 
+			"t" + mosaicsTemplateElements.get(i).attributes[0].value;
+	}
+	
+}
+

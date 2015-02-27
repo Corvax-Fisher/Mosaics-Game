@@ -17,7 +17,7 @@ function square(col, row, clr) {
 	element.setAttribute("width", cellsize - 2);
 	element.setAttribute("height", cellsize - 2);
 
-	element.style.fill = clr;
+	element.style.fill = colorToRGB[clr];
 
 	root.appendChild(element);
 }
@@ -36,7 +36,7 @@ function circle(col, row, clr) {
 	element.setAttribute("cx", cellsize / 2 + 1 + pos[0]);
 	element.setAttribute("cy", cellsize / 2 + 1 + pos[1]);
 
-	element.style.fill = clr;
+	element.style.fill = colorToRGB[clr];
 
 	root.appendChild(element);
 }
@@ -67,7 +67,7 @@ function line(col, row, p1, p2, clr) {
 	element.setAttribute("x2", p2Offset[0] + pos[0]);
 	element.setAttribute("y2", p2Offset[1] + pos[1]);
 
-	element.style.stroke = clr;
+	element.style.stroke = colorToRGB[clr];
 	element.style.strokeWidth = 2;
 
 	root.appendChild(element);
@@ -93,7 +93,7 @@ function triangle(col, row, p1, p2, p3, clr) {
 					+ Number(p2Offset[1] + pos[1]) + " "
 					+ Number(p3Offset[0] + pos[0]) + ","
 					+ Number(p3Offset[1] + pos[1]));
-	element.style.fill = clr;
+	element.style.fill = colorToRGB[clr];
 
 	root.appendChild(element);
 }
@@ -130,21 +130,59 @@ function triangles(posBounds, p1, p2, p3, clr) {
 	}
 }
 
-function deleteElement(pos) {
-	var root = document.getElementsByTagName("svg")[0];
-	var child = root.getElementById("e" + pos.col + '_' + pos.row);
-	if (child)
-		root.removeChild(child);
+function deleteElement(pos, addToHistory) {
+	var element = $("#e" + pos.col + '_' + pos.row);
+	if( element.get(0) != undefined ) {		
+		if(addToHistory) elementHistory.push(element);
+		element.remove();
+	} else {
+		if(addToHistory) elementHistory.push(undefined);
+	}
 }
 
-function deleteElements(posBounds) {
+function deleteElements(posBounds, addToHistory) {
 	var pos = new position("0,0");
 	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
 		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
 			pos.col = i;
 			pos.row = j;
-			deleteElement(pos);
+			deleteElement(pos, addToHistory);
 		}
+	}
+}
+
+function restoreDeletedElements(cmd, params) {
+	var element;
+	var mosaicsSVG = $("#mosaics");
+	if( cmd[1].indexOf("...") == -1) {
+		element = elementHistory.pop();
+		if(element) mosaicsSVG.append(element);
+	}
+	else {
+		var bounds = new positionBounds(params[0] + "," + params[1] + "," + params[2].replace(")","") );
+		var numberOfDeletedElements = 
+			(bounds.endPos.col-bounds.startPos.col+1)*(bounds.endPos.row-bounds.startPos.row+1);
+		for( var i = 0; i < numberOfDeletedElements ; i++) {
+			element = elementHistory.pop();
+			if(element) mosaicsSVG.append(element);
+		}
+	}
+}
+
+function deleteElementsAddedByPrevCmd(cmd, params) {
+	if( cmd[1].indexOf("...") == -1 ) {
+		// it's not an arry command
+		if( cmd[0] == "rectangle" ) {
+			var p2 = new position(params[2] + "," + params[3]);
+			p2.col += Number(params[0]) - 1;
+			p2.row += Number(params[1]) - 1;
+			var bounds = new positionBounds(params[0] + "," + params[1] + "..."
+					+ p2.toString());
+			deleteElements(bounds, false);
+		} else
+			deleteElement(new position(params[0] + "," + params[1]), false);
+	} else {
+		deleteElements(new positionBounds(params[0] + "," + params[1] + "," + params[2]), false);
 	}
 }
 
@@ -154,24 +192,16 @@ function undoCommand() {
 	if (fullCmd == undefined)
 		return;
 	else {
-		redoHistory.push(fullCmd);
-		document.getElementById("redoBtn").disabled = false;
-		// delete elements that were added with the last command
 		var cmd = fullCmd.split("(");
 		var params = cmd[1].split(",");
-		if (cmd[1].indexOf("...") == -1) {
-			// it's not an arry command
-			if (cmd[0] == "rectangle") {
-				var p2 = new position(params[2] + "," + params[3]);
-				p2.col += Number(params[0]) - 1;
-				p2.row += Number(params[1]) - 1;
-				var bounds = new positionBounds(params[0] + "," + params[1] + "..."
-						+ p2.toString());
-				deleteElements(bounds);
-			} else
-				deleteElement(new position(params[0] + "," + params[1]));
+
+		redoHistory.push(fullCmd);
+		document.getElementById("redoBtn").disabled = false;
+		
+		if( cmd[0].indexOf("clearcell") != -1) {
+			restoreDeletedElements(cmd, params);
 		} else {
-			deleteElements(new positionBounds(params[0] + "," + params[1] + "," + params[2]));
+			deleteElementsAddedByPrevCmd(cmd, params);
 		}
 		
 		var historyListGroup = document.getElementById("history");
@@ -186,20 +216,22 @@ function undoCommand() {
 			}
 		}
 		
-		//execute second last command to add elements that may have been overwritten
 		fullCmd = undoHistory.pop();
-		if (fullCmd == undefined) {
-			document.getElementById("undoBtn").disabled = true;
-			return;
-		}
-		else {
-			cmd = fullCmd.split("(");
-			var params = cmd[1].split(",");
-			params[params.length - 1] = params[params.length - 1].replace(")",
-					"");
-			executeCommand(cmd[0], params);
-			undoHistory.push(fullCmd);
-		}
+		cmd = fullCmd.split("(");
+		if( cmd[0].indexOf("clearcell") == -1) {
+			//execute second last command to add elements that may have been overwritten
+			if (fullCmd == undefined) {
+				document.getElementById("undoBtn").disabled = true;
+				return;
+			}
+			else {
+				var params = cmd[1].split(",");
+				params[params.length - 1] = 
+					params[params.length - 1].replace(")","");
+				executeCommand(cmd[0], params);
+				undoHistory.push(fullCmd);
+			}
+		} else undoHistory.push(fullCmd);
 	}
 }
 
