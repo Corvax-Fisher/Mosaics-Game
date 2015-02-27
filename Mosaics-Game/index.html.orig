@@ -3,13 +3,34 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
+<title>Test SVG</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kurzbeschreibung" />
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+
+
+<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
+<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
+
+<link rel="stylesheet" href="style/bootstrap.min.css">
+<link href="style/style.css" rel="stylesheet">
+=======
 	<title>Test SVG</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Kurzbeschreibung" />
+>>>>>>> 28bbd7a916e932d2c54b730c48740340bdf63049
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
 	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
