@@ -21,11 +21,4 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
-  <SVG Filename="a.svg">
-    <Name>a</Name>
-    <Category>Things</Category>
-    <Width>12</Width>
-    <Length>18</Length>
-    <Dif>Easy</Dif>
-  </SVG>
 </SVGFiles>

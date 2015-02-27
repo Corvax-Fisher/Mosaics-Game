@@ -56,24 +56,24 @@ if ($count > 0) {
 	
 	
 // 	//Load SVG for Thumbnail
-// 	$svg_sxe2 = simplexml_load_string ( $svg );
-// 	//Edit Svg for Thumbnail
-// 	$attWidth = 'width';
-// 	$attHeight= 'height';
-// 	$widthpx = $svg_sxe2->attributes()->$attWidth;
-// 	$heightpx = $svg_sxe2->attributes()->$attHeight;
-// 	$svg_sxe2->attributes()->$attWidth = $widthpx / 4;
-// 	$svg_sxe2->attributes()->$attHeight = $heightpx / 4;
+	$svg_sxe_thumb = simplexml_load_string ( $svg );
+	//Edit Svg for Thumbnail
+	$attWidth = 'width';
+	$attHeight= 'height';
+	$widthpx = $svg_sxe_thumb->attributes()->$attWidth;
+	$heightpx = $svg_sxe_thumb->attributes()->$attHeight;
+	$svg_sxe_thumb->attributes()->$attWidth = $widthpx / 4;
+	$svg_sxe_thumb->attributes()->$attHeight = $heightpx / 4;
 	
-// 	// Create Thumbnail
-// 	$svgdom2 = new DOMDocument ( '1.0' );
-// 	$svgdom2->preserveWhiteSpace = false;
-// 	$svgdom2->formatOutput = true;
-// 	$svgdom2->loadXML ( $svg_sxe2->asXML () );
+	// Create Thumbnail
+	$svgdomthumb = new DOMDocument ( '1.0' );
+	$svgdomthumb->preserveWhiteSpace = false;
+	$svgdomthumb->formatOutput = true;
+	$svgdomthumb->loadXML ( $svg_sxe_thumb->asXML () );
 	
 	
 	
-//	$svgdom2->save ( '../SVGs/' . $name . 'thumb' . '.svg' );
+	$svgdomthumb->save ( '../SVGs/thumbnails/' . $name . '.svg' );
 	
 	
 	
