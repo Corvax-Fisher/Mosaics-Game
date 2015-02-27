@@ -21,4 +21,25 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
+  <SVG Filename=".svg">
+    <Name/>
+    <Category/>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif/>
+  </SVG>
+  <SVG Filename="test23.svg">
+    <Name>test23</Name>
+    <Category>Things</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="bu.svg">
+    <Name>bu</Name>
+    <Category/>
+    <Width>12</Width>
+    <Length>18</Length>
+    <Dif>Normal</Dif>
+  </SVG>
 </SVGFiles>

@@ -119,27 +119,36 @@ function validateParameters(cmd, params) {
 		if(params.length != paramCount) err=true;
 		break;
 	default:
-		document.getElementById("err").innerHTML = "Unbekannter Befehl.";
+		document.getElementById("err").innerHTML = "Unknown command.";
 	return 0;
 	}
 	
 	if(err) {
 		document.getElementById("err").innerHTML = 
-			"Parameteranzahl ung&uumlltig (" + paramCount + " erwartet, "+params.length+" bekommen).";
+			"Invalid number of parameters (required " + paramCount + ", got "+params.length+").";
 		return 0;
 	}
 	
-	if(cmd.charAt(cmd.length-1) == "s") {
+	if(cmd.charAt(cmd.length-1) == "s" || cmd == "rectangle") {
 		//validate position bounds
-		var posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2]);
+		var posBounds;
+		if(cmd == "rectangle") {
+			var p2 = new position(params[2] + "," + params[3]);
+			p2.col += Number(params[0]) - 1;
+			p2.row += Number(params[1]) - 1;
+			posBounds = new positionBounds(params[0] + "," + params[1] + "..."
+					+ p2.toString());
+		}
+		else posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2]);
+		
 		if(!validateCellPositionBounds(posBounds) ) {
-			document.getElementById("err").innerHTML = "Ung&uumlltiger Positionsbereich.";
+			document.getElementById("err").innerHTML = "Invalid position bounds.";
 			return 0;
 		}
 	} else {
 		//validate position
 		if(!validateCellPosition(params[0], params[1]) ) {
-			document.getElementById("err").innerHTML = "Ung&uumlltige Position.";
+			document.getElementById("err").innerHTML = "Invalid position.";
 			return 0;
 		}		
 	}
@@ -168,7 +177,7 @@ function validateParameters(cmd, params) {
 	}
 	
 	if(err) {
-		document.getElementById("err").innerHTML = "Ung&uumlltige Farbe.";
+		document.getElementById("err").innerHTML = "Invalid color.";
 		return 0;
 	}
 	
@@ -178,9 +187,9 @@ function validateParameters(cmd, params) {
 		if(cmd == "line") errCode = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
 		else errCode = validateLine(params[3].toLowerCase(), params[4].toLowerCase());
 		if(errCode == -1)
-			document.getElementById("err").innerHTML = "Ung&uumlltige Punkte.";
+			document.getElementById("err").innerHTML = "Invalid points.";
 		else if(errCode == -2)
-			document.getElementById("err").innerHTML = "Ung&uumlltige Linie (Punkte sind identisch).";
+			document.getElementById("err").innerHTML = "Invalid line (points are equal).";
 		if(errCode < 0 ) return 0;
 	}
 	
@@ -194,10 +203,10 @@ function validateParameters(cmd, params) {
 		if(	!validatePoint(params[i].toLowerCase() ) || 
 			!validatePoint(params[i+1].toLowerCase() ) || 
 			!validatePoint(params[i+2].toLowerCase() ) ) {
-			document.getElementById("err").innerHTML = "Ung&uumlltige Punkte.";
+			document.getElementById("err").innerHTML = "Invalid points.";
 			return 0;			
 		} else if( !validateTriangle(params[i].toLowerCase(), params[i+1].toLowerCase(), params[i+2].toLowerCase() ) ) {
-			document.getElementById("err").innerHTML = "Ung&uumlltiges Dreieck (Fl&aumlche ist 0).";
+			document.getElementById("err").innerHTML = "Invalid triangle (area equals zero).";
 			return 0;
 		}
 	}

@@ -1,13 +1,90 @@
 body {
   	padding-top: 50px;
+  	font-family: Arial;
+}
+
+a, p {
+	font-size: 14px !important;
+}
+
+img {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
 }
 
 h1 {
 	text-align: center;
 }
 
+h3 {
+	margin-top: 10px;
+}
+
+#spanColors {
+	background-color: white;
+}
+
 #err, .glyphicon-exclamation-sign, .whitespace {
 	float: left;
+}
+
+.scrollable {
+    height: 200px;
+    line-height: 2em;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.boxes {
+	border-radius: 5px;
+	background-color: #E0E0E0;
+	padding: 5px;
+	margin: 5px;
+}
+
+.col-md-3 {
+	padding: 5px;
+}
+
+#extraColors {
+	font-weight: bold;
+	margin-top: 59px;
+}
+
+#accordion {
+	line-height: 1.5em;
+	text-align: justify;
+}
+
+#accordion, #spanColors{
+	padding: 2px;
+}
+
+#spanColors {
+	border-radius: 5px;
+}
+
+.panel-heading {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#editor {
+	height: 550px;
+}
+
+#undoBtn, #redoBtn {
+	margin-top: 20px;
+}
+
+li {
+    border-top: 1px solid #ccc;
 }
 
 #messages, #save_messages {
@@ -24,8 +101,12 @@ h1 {
 }
 
 .jumbotron {
-	padding: 10px;
-	margin: 5px;
+	padding: 8px !important;
+	margin: 3px;
+}
+
+.list-group-item {
+	padding: 2px;
 }
 
 .radio input[type="radio"] {
@@ -38,11 +119,21 @@ h1 {
 	line-height: 35px;
 }
 
-.documentationArea {
-	background-color:#c1c1c1;
-}
-
 .cmd {
 	width: 330px !important;
 }
 
+.container {
+	margin-bottom: 30px;
+}
+
+#save_messages, #resetBtn {
+	float: left;
+	margin: 0;
+	padding: 6px 12px;
+	width: 50%;
+}
+
+#inputFileNameToSaveAs {
+	width: 110px;
+}
