@@ -137,3 +137,7 @@ li {
 #inputFileNameToSaveAs {
 	width: 110px;
 }
+
+.dropdown-menu li:hover {
+    cursor: pointer;
+}

@@ -51,6 +51,7 @@ function setGridSize() {
 	var svg = document.getElementsByTagName("svg")[0];
 	svg.setAttribute("width", cellsize * (Number(bounds[0]) + 1) + 2);
 	svg.setAttribute("height", cellsize * (Number(bounds[1]) + 1) + 2);
+	svg.setAttribute("viewBox", "0 0 " + (cellsize * (Number(bounds[0]) + 1) + 2) + " " + (cellsize * (Number(bounds[1]) + 1) + 2));
 
 	// Set pattern attributes
 	var pattern = svg.getElementById("pattern1");
@@ -299,6 +300,7 @@ function save() {
 	// Extract the data as SVG text string
 	var svg_xml = new XMLSerializer().serializeToString(svg);
 
+	
 	// Jquery AJAX
 	$.ajax({
 
@@ -316,13 +318,19 @@ function save() {
 		success : function(response) {
 			document.getElementById("save_messages").style.display = "block";
 			$("#save_err").text(response);
-
+			if (response == "saved"){
+				setTimeout(function(){
+					   window.location.reload(1);
+					}, 5000);
+			} 
 		}
 
 	});
 
 	return false;
 }
+
+
 
 function enableAndDisableElements(bool) {
 	var elements = ["resetBtn","cmdLine","cmdBtn","inputFileNameToSaveAs","category_dropdown","dif_dropdown","saveBtn"];
