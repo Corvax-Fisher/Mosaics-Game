@@ -45,12 +45,13 @@ if ($count > 0) {
 	// SAVE SVG FILE
 	$svg_sxe = simplexml_load_string ( $svg );
 	
-	// Format XML and save indented tree rather than one line
+	// Format SVG and save
 	$svgdom = new DOMDocument ( '1.0' );
 	$svgdom->preserveWhiteSpace = false;
 	$svgdom->formatOutput = true;
 	$svgdom->loadXML ( $svg_sxe->asXML () );
 	$svgdom->save ( '../SVGs/' . $name . '.svg' );
+	
 	
 	
 }
