@@ -23,5 +23,5 @@
   <text id="n06" x="20" y="268" text-anchor="middle">6</text>
   <text id="n07" x="20" y="308" text-anchor="middle">7</text>
   <text id="n08" x="20" y="348" text-anchor="middle">8</text>
-  <circle id="e11" r="19" cx="61" cy="61" style="fill: rgb(0, 0, 0);"/>
+  <circle id="e1_1" r="19" cx="61" cy="61" style="fill: rgb(0, 0, 0);"/>
 </svg>
