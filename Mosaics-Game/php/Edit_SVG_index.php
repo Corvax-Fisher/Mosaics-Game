@@ -40,7 +40,7 @@ if ($count > 0) {
 	$dom->formatOutput = true;
 	$dom->loadXML ( $xml->asXML () );
 	$dom->save ( '../xml/SVG_index.xml' );
-	echo ("saved");
+	
 	
 	// SAVE SVG FILE
 	$svg_sxe = simplexml_load_string ( $svg );
@@ -53,9 +53,7 @@ if ($count > 0) {
 	$svgdom->save ( '../SVGs/' . $name . '.svg' );
 	
 	
-	
-	
-// 	//Load SVG for Thumbnail
+ 	//Load SVG for Thumbnail
 	$svg_sxe_thumb = simplexml_load_string ( $svg );
 	//Edit Svg for Thumbnail
 	$attWidth = 'width';
@@ -76,7 +74,7 @@ if ($count > 0) {
 	$svgdomthumb->save ( '../SVGs/thumbnails/' . $name . '.svg' );
 	
 	
-	
+	echo ("saved");
 	
 }
 
