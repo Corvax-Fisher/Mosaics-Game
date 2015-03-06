@@ -83,7 +83,8 @@
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button"
-							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true" value="All levels">
+							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true"
+							value="All levels">
 							Level <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu difdd" role="menu"
@@ -102,9 +103,9 @@
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
 					</ol>
-					
+
 					<div class="carousel-inner" role="listbox"></div>
-					
+
 					<a class="left carousel-control" href="#myCarousel" role="button"
 						data-slide="prev"> <span
 						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -152,27 +153,60 @@
 			</div>
 
 			<div class="row">
-				<div align="center" class="col-md-6">
-					<svg id="mosaics">
-						<defs>
-							<pattern id="pattern1" x="0" y="0" width="40" height="40"
-							patternUnits="userSpaceOnUse">
-								<line id="hline" x1="1" y1="1" x2="40" y2="1"
-							style="stroke:#c1cdc1; stroke-width:2;" />
-					   			<line id="vline" x1="1" y1="0" x2="1" y2="40"
-							style="stroke:#c1cdc1; stroke-width:2;" />
-					      	</pattern>
-					   	</defs>
-					        
-					    <rect x="0" y="0" width=0 height=0
-							style="stroke: black; fill: url(#pattern1);" />
-					</svg>
+				<div id="pattern_empty" align="center" class="col-md-6">
+					<p>leer</p>
 				</div>
-
+				<div id="pattern_pattern" align="center" class="col-md-6">
+					<p>pattern</p>
+				</div>
 			</div>
 		</div>
 
-		<div class="jumbotron row"></div>
+		<div class="jumbotron row">
+			<div class="col-md-3">
+				<div class="boxes">
+					<h3>What can I do?</h3>
+					<div class="panel-group scrollable" id="accordion" role="tablist"
+						aria-multiselectable="true"></div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="boxes">
+					<h3 class="headingColors">Available colors</h3>
+					<div id="spanColors"></div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="boxes">
+					<h3>Extra definitions</h3>
+					<p>Describe the positions in one cell. Abbrevations: [C]enter,
+						[T]op, [B]ottom, [L]eft, [R]ight:</p>
+					<img src="images/extradefinitions.png">
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="boxes">
+					<h3>History:</h3>
+					<ul id="history" class="scrollable">
+					</ul>
+					<form>
+						<button id="undoBtn" type="button" value="undo" disabled=disabled
+							class="btn btn-default" onClick="undoCommand()">
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
+							undo
+						</button>
+						<button id="redoBtn" type="button" value="redo" disabled=disabled
+							class="btn btn-default" onClick="redoCommand()">
+							<span class="glyphicon glyphicon-chevron-right"
+								aria-hidden="true"></span> redo
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 		<div class="jumbotron"></div>
 	</div>
 </body>

@@ -239,20 +239,21 @@ function draw(form) {
 $(function() {
 	bindDropdownClickFunction();
 	
+	// show the colors available in the div
+	showExtraColors();
+	
+	// read syntax.xml and show in syntax catalog
+	readXMLAndShowSyntaxCatalog();
+	
+	//autocomplete the commands for user friendly blub
+	autocompleteCommands();
+	
 	if (filename == "index.html") {
 		enableAndDisableElements(true);
 
 		var jumbotronArray = document.getElementsByClassName("jumbotron");
 		jumbotronArray[0].style.border = "thick solid black";
 
-		// read syntax.xml and show in syntax catalog
-		readXMLAndShowSyntaxCatalog();
-
-		// show the colors available in the div
-		showExtraColors();
-
-		//autocomplete the commands for user friendly blub
-		autocompleteCommands();
 	} else if (filename = "game.html") {
 		var cvalue = "All categories";
 		var lvalue = "All levels";
@@ -402,15 +403,19 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 		$(".carousel-indicators li:first").addClass("active");
 		$(".carousel-inner .item:first").addClass("active");
 	}
+	
+	$( ".carousel-caption .row .col-md-3" ).click(function() {
+//		MARTIN: Muster im Game anzeigen lassennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+		alert( "Handler for .click() called." );
+		});
 
 }
 
 function appendPattern(object) {
-	
 	$(".carousel-caption .row:last").append(
 			"<div class='col-md-3'><img src='svgs/"
 			+ object.getAttribute('Filename')
-			+ "' alt='' style='width:60px;height:60px'><p>" 
+			+ "' alt='' style='width:90px;height:90px'><p>" 
 			+ object.getElementsByTagName('Name')[0].childNodes[0].nodeValue 
 			+ "/ " 
 			+ object.getElementsByTagName('Category')[0].childNodes[0].nodeValue 

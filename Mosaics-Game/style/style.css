@@ -89,16 +89,31 @@ li {
 
 .carousel {
   height: 200px;
-  margin-bottom: 60px;
 }
 
 .carousel-caption {
   z-index: 10;
+  padding-bottom: 10px !important;
+}
+
+.carousel-caption p {
+  font-size: 10px !important;
+}
+
+.carousel-indicators {
+	bottom: 0px;
 }
 
 .carousel .item {
   height: 200px;
-  background-color: #777;
+}
+
+.carousel-control.left {
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0px, rgba(0, 0, 0, 0) 100%);
+}
+
+.carousel-control.right {
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0.2) 100%);
 }
 
 #messages, #save_messages {
