@@ -87,6 +87,20 @@ li {
     border-top: 1px solid #ccc;
 }
 
+.carousel {
+  height: 200px;
+  margin-bottom: 60px;
+}
+
+.carousel-caption {
+  z-index: 10;
+}
+
+.carousel .item {
+  height: 200px;
+  background-color: #777;
+}
+
 #messages, #save_messages {
 	display: none;
 }

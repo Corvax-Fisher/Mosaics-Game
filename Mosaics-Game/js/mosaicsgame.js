@@ -5,12 +5,15 @@
 //globals
 cellsize = 40;
 bounds = [ 8, 8 ];
-validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
-               "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
-               "yellow" ];
-var availableCmds = ["circle","circles","line","lines","rectangle","square","squares","triangle","triangles"];
+validColors = [ "aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+                "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
+                "yellow" ];
+var availableCmds = [ "circle", "circles", "line", "lines", "rectangle",
+                      "square", "squares", "triangle", "triangles" ];
 undoHistory = [];
 redoHistory = [];
+var url = window.location.pathname;
+var filename = url.substring(url.lastIndexOf('/')+1);
 
 function setGridSize() {
 
@@ -22,7 +25,6 @@ function setGridSize() {
 	// var selectedValue = document.getElementById("gridSelect").value;
 	// document.getElementById("gridSelect").disabled = true;
 	// End If
-
 
 	// If radio buttons are used
 	var gridSelect = document.getElementById("gridSelect");
@@ -99,11 +101,11 @@ function gridSizeOk() {
 	var jumbotronArray = document.getElementsByClassName("jumbotron");
 	var i;
 	jumbotronArray[0].style.border = "";
-	for (i=1;i<jumbotronArray.length;i++) {
+	for (i = 1; i < jumbotronArray.length; i++) {
 		jumbotronArray[i].style.backgroundColor = "#EEEEEE";
 	}
 
-	//Iterate Grid Numbers
+	// Iterate Grid Numbers
 	var svg = document.getElementsByTagName("svg")[0];
 	var number;
 	var pos;
@@ -127,9 +129,11 @@ function gridSizeOk() {
 		number.appendChild(document.createTextNode(i + 1));
 		svg.appendChild(number);
 	}
-	
-	$( "#cmdLine" ).focus();
-	$('html, body').animate({ scrollTop: ($('#editorCmd').offset().top)}, 'slow');
+
+	$("#cmdLine").focus();
+	$('html, body').animate({
+		scrollTop : ($('#editorCmd').offset().top)
+	}, 'slow');
 }
 
 function executeCommand(cmdName, cmdParams) {
@@ -205,92 +209,56 @@ function draw(form) {
 	return false;
 }
 
-//Dropdown Button for categora handler
-
 $(function() {
+	bindDropdownClickFunction();
+	
+	if (filename == "index.html") {
+		enableAndDisableElements(true);
 
-	$(".catdd").on('click', 'li a', function() {
-		$("#category_dropdown").text($(this).text());
-		$("#category_dropdown").val($(this).text());
-	});
+		var jumbotronArray = document.getElementsByClassName("jumbotron");
+		jumbotronArray[0].style.border = "thick solid black";
 
-	$(".difdd").on('click', 'li a', function() {
-		$("#dif_dropdown").text($(this).text());
-		$("#dif_dropdown").val($(this).text());
-	});
+		// read syntax.xml and show in syntax catalog
+		readXMLAndShowSyntaxCatalog();
 
-	enableAndDisableElements(true);
-	$( ".jumbotron" ).blur();
-	var jumbotronArray = document.getElementsByClassName("jumbotron");
-	var i;
+		// show the colors available in the div
+		showExtraColors();
 
-	jumbotronArray[0].style.border = "thick solid black";
-	for (i=1;i<jumbotronArray.length;i++) {
-		jumbotronArray[i].style.backgroundColor = "#F8F8F8";
+		//autocomplete the commands for user friendly blub
+		autocompleteCommands();
+	} else if (filename = "game.html") {
+		var cvalue = "All categories";
+		var lvalue = "All levels";
+		readXMLandShowPatternCatalog(cvalue,lvalue)
 	}
-
-	//read syntax.xml and show in syntax catalog
-	readXMLAndShowSyntaxCatalog();
-
-	//autocomplete function for command
-	$( "#cmdLine" )
-	// don't navigate away from the field on tab when selecting an item
-	.bind( "keydown", function( event ) {
-		if ( event.keyCode === $.ui.keyCode.TAB &&
-				$( this ).autocomplete( "instance" ).menu.active ) {
-			event.preventDefault();
-		}
-	})
-	.autocomplete({
-		minLength: 0,
-		source: availableCmds,
-		focus: function() {
-			// prevent value inserted on focus
-			return false;
-		},
-		select: function( event, ui ) {
-			var terms = split( this.value );
-			// remove the current input
-			terms.pop();
-			// add the selected item
-			terms.push( ui.item.value );
-			// add placeholder to get the comma-and-space at the end
-			terms.push( "" );
-			this.value = terms.join( "(" );
-			return false;
-		}
-	});
-
-	//show the colors available in the div
-	showExtraColors();
 });
 
-//split value for autocomplete 
-function split( val ) {
-	return val.split( /,\s*/ );
+//split value for autocomplete
+function split(val) {
+	return val.split(/,\s*/);
 }
 
 //SAVE
 function save() {
 	var err = false;
 
-	if (undoHistory.length == 0){
+	if (undoHistory.length == 0) {
 		document.getElementById("save_err").innerHTML = "Please draw something first";
-		err=true;
+		err = true;
 	} else if (document.getElementById("inputFileNameToSaveAs").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose name";
-		err=true;
+		err = true;
 	} else if (document.getElementById("category_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose category";
-		err=true;
+		err = true;
 	} else if (document.getElementById("dif_dropdown").value == "") {
 		document.getElementById("save_err").innerHTML = "Please choose difficulty";
-		err=true;
+		err = true;
 	}
 
-	if(err == true) {
+	if (err == true) {
 		document.getElementById("save_messages").style.display = "block";
-		window.scrollTo(0,document.body.scrollHeight);
+		window.scrollTo(0, document.body.scrollHeight);
 		return false;
 	}
 
@@ -325,47 +293,172 @@ function save() {
 }
 
 function enableAndDisableElements(bool) {
-	var elements = ["resetBtn","cmdLine","cmdBtn","inputFileNameToSaveAs","category_dropdown","dif_dropdown","saveBtn"];
+	var elements = [ "resetBtn", "cmdLine", "cmdBtn", "inputFileNameToSaveAs",
+	                 "category_dropdown", "dif_dropdown", "saveBtn" ];
 	var i;
 
-	for(i=0;i<elements.length;i++) {
+	for (i = 0; i < elements.length; i++) {
 		document.getElementById(elements[i]).disabled = bool;
 	}
 
 }
 
 function readXMLAndShowSyntaxCatalog() {
-	xmlhttp=new XMLHttpRequest();
-	xmlhttp.open("GET","xml/syntax.xml",false);
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "xml/syntax.xml", false);
 	xmlhttp.send();
-	xmlDoc=xmlhttp.responseXML;
-	var x=xmlDoc.getElementsByTagName("syntax");
+	xmlDoc = xmlhttp.responseXML;
+	var x = xmlDoc.getElementsByTagName("syntax");
 
-	for (i=0;i<x.length;i++) {
-		$("#accordion").append(
+	for (i = 0; i < x.length; i++) {
+		$("#accordion")
+		.append(
 				"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
-				+i+
-				"'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"
-				+i+
-				"' aria-expanded='false' aria-controls='collapse"
-				+i+
-				"'>"
-				+x[i].getElementsByTagName('command')[0].childNodes[0].nodeValue+
-				"</a></h4></div><div id='collapse"
-				+i+
-				"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"
-				+i+
-				"'><div class='panel-body'>"
-				+x[i].getElementsByTagName('description')[0].childNodes[0].nodeValue+
-		"</div></div></div>");
+				+ i
+				+ "'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"
+				+ i
+				+ "' aria-expanded='false' aria-controls='collapse"
+				+ i
+				+ "'>"
+				+ x[i].getElementsByTagName('command')[0].childNodes[0].nodeValue
+				+ "</a></h4></div><div id='collapse"
+				+ i
+				+ "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"
+				+ i
+				+ "'><div class='panel-body'>"
+				+ x[i].getElementsByTagName('description')[0].childNodes[0].nodeValue
+				+ "</div></div></div>");
 
 	}
+}
+
+function readXMLandShowPatternCatalog(cvalue,lvalue) {
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "SVG_index.xml", false);
+	xmlhttp.send();
+	xmlDoc = xmlhttp.responseXML;
+	var y = xmlDoc.getElementsByTagName("SVG");
+
+	$("#myCarousel").html("<ol class='carousel-indicators'></ol><div class='carousel-inner'"
+			+" role='listbox'></div><a class='left carousel-control'" 
+			+" href='#myCarousel' role='button' data-slide='prev'> "
+			+ "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>"
+			+"<span class='sr-only'>Previous</span>"			
+			+"</a> <a class='right carousel-control' href='#myCarousel' role='button' "		
+			+" data-slide='next'> <span "
+			+"class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"
+			+"<span class='sr-only'>Next</span></a>");
+
+	if (cvalue == "All categories" && lvalue == "All levels"){
+		for (i = 0; i < y.length; i++) {
+			if (i%4 == 0) {
+				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+i+"'></li>");
+				$(".carousel-inner").append("<div class='item'><div class='container'><div class='carousel-caption'><div class='row'></div></div></div></div>");
+			}
+
+			$(".carousel-caption .row:last").append(
+					"<div class='col-md-3'><img src='svgs/thumbnails/"
+					+ y[i].getAttribute('Filename')
+					+ "' alt=''><p>" 
+					+ y[i].getElementsByTagName('Name')[0].childNodes[0].nodeValue 
+					+ "/ " 
+					+ y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue 
+					+ "/ " 
+					+ y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue 
+					+ "</p></div>");
+		}
+	} else if (cvalue != "All categories" || lvalue != "All levels"){
+		
+		var z = 0;
+		
+		for (i = 0; i < y.length; i++) {
+			if (i%4 == 0) {
+				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+z+"'></li>");
+				$(".carousel-inner").append("<div class='item'><div class='container'><div class='carousel-caption'><div class='row'></div></div></div></div>");
+				if (z == 0) z++;
+			}
+			
+			if (y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue == cvalue || y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue == lvalue) {
+				
+				$(".carousel-caption .row:last").append(
+						"<div class='col-md-3'><img src='svgs/thumbnails/"
+						+ y[i].getAttribute('Filename')
+						+ "' alt=''><p>" 
+						+ y[i].getElementsByTagName('Name')[0].childNodes[0].nodeValue 
+						+ "/ " 
+						+ y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue 
+						+ "/ " 
+						+ y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue
+						+ "</p></div>");
+				z++;
+			}
+		}
+	}
+	
+	if ($(".carousel-indicators").length){
+		$(".carousel-indicators li:first").addClass("active");
+		$(".carousel-inner .item:first").addClass("active");
+	}
+
 }
 
 function showExtraColors() {
 	var strValidColors = "";
 	for (var i = 0; i < validColors.length; i++)
-	strValidColors += "<span style=color:" + validColors[i] + ">"
-	+ validColors[i] + "</span>" + " ";
+		strValidColors += "<span style=color:" + validColors[i] + ">"
+		+ validColors[i] + "</span>" + " ";
 	$("#spanColors").append(strValidColors);
 }
+
+function autocompleteCommands() {
+	//autocomplete function for command
+	$("#cmdLine")
+	// don't navigate away from the field on tab when selecting an item
+	.bind(
+			"keydown",
+			function(event) {
+				if (event.keyCode === $.ui.keyCode.TAB
+						&& $(this).autocomplete("instance").menu.active) {
+					event.preventDefault();
+				}
+			}).autocomplete({
+				minLength : 0,
+				source : availableCmds,
+				focus : function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select : function(event, ui) {
+					var terms = split(this.value);
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push(ui.item.value);
+					// add placeholder to get the comma-and-space at the end
+					terms.push("");
+					this.value = terms.join("(");
+					return false;
+				}
+			});
+}
+
+function bindDropdownClickFunction() {
+	$(".catdd").on('click', 'li a', function() {
+		$("#category_dropdown").text($(this).text());
+		$("#category_dropdown").val($(this).text());
+		
+		if (filename = "game.html"){
+			readXMLandShowPatternCatalog($("#category_dropdown").val(),$("#dif_dropdown").val());
+		}
+	});
+
+	$(".difdd").on('click', 'li a', function() {
+		$("#dif_dropdown").text($(this).text());
+		$("#dif_dropdown").val($(this).text());
+		
+		if (filename = "game.html"){
+			readXMLandShowPatternCatalog($("#category_dropdown").val(),$("#dif_dropdown").val());
+		}
+	});
+}
+
