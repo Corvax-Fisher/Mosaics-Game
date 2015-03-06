@@ -35,4 +35,18 @@
     <Length>12</Length>
     <Dif>Easy</Dif>
   </SVG>
+  <SVG Filename="whaaaat.svg">
+    <Name>whaaaat</Name>
+    <Category>Things</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="ok.svg">
+    <Name>ok</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif>Hard</Dif>
+  </SVG>
 </SVGFiles>
