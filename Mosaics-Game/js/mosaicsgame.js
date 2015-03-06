@@ -408,9 +408,9 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 function appendPattern(object) {
 	
 	$(".carousel-caption .row:last").append(
-			"<div class='col-md-3'><img src='svgs/thumbnails/"
+			"<div class='col-md-3'><img src='svgs/"
 			+ object.getAttribute('Filename')
-			+ "' alt=''><p>" 
+			+ "' alt='' style='width:60px;height:60px'><p>" 
 			+ object.getElementsByTagName('Name')[0].childNodes[0].nodeValue 
 			+ "/ " 
 			+ object.getElementsByTagName('Category')[0].childNodes[0].nodeValue 
