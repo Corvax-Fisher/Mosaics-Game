@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<SVGFiles>
+<SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3schools.com ../xml/SVG_index.xsd">
   <SVG Filename="zacki.svg">
     <Name>zacki</Name>
     <Category>Things</Category>
@@ -34,5 +34,19 @@
     <Width>12</Width>
     <Length>12</Length>
     <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="whaaaat.svg">
+    <Name>whaaaat</Name>
+    <Category>Things</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="ok.svg">
+    <Name>ok</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif>Hard</Dif>
   </SVG>
 </SVGFiles>
