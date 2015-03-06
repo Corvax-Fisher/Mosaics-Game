@@ -5,15 +5,33 @@
 //globals
 cellsize = 40;
 bounds = [ 8, 8 ];
-validColors = [ "aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
-                "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
-                "yellow" ];
-var availableCmds = [ "circle", "circles", "line", "lines", "rectangle",
-                      "square", "squares", "triangle", "triangles" ];
+validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+               "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
+               "yellow" ];
+var availableCmds = ["circle","circles","line","lines","rectangle","square","squares","triangle","triangles"];
+
+colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)", 
+				"black" 	: "rgb(0, 0, 0)", 
+				"blue" 		: "rgb(0, 0, 255)", 
+				"fuchsia"	: "rgb(255, 0, 255)", 
+				"gray"		: "rgb(128, 128, 128)", 
+				"green"		: "rgb(0, 128, 0)", 
+				"lime"		: "rgb(0, 255, 0)",
+				"maroon"	: "rgb(128, 0, 0)", 
+				"navy"		: "rgb(0, 0, 128)", 
+				"olive"		: "rgb(128, 128, 0)", 
+				"orange"	: "rgb(255, 165, 0)", 
+				"purple"	: "rgb(128, 0, 128)", 
+				"red"		: "rgb(255, 0, 0)", 
+				"silver"	: "rgb(192, 192, 192)", 
+				"teal"		: "rgb(0, 128, 128)",
+				"yellow" 	: "rgb(255, 255, 0)"};
+
 undoHistory = [];
 redoHistory = [];
 var url = window.location.pathname;
 var filename = url.substring(url.lastIndexOf('/')+1);
+elementHistory = [];
 
 function setGridSize() {
 
@@ -53,6 +71,7 @@ function setGridSize() {
 	var svg = document.getElementsByTagName("svg")[0];
 	svg.setAttribute("width", cellsize * (Number(bounds[0]) + 1) + 2);
 	svg.setAttribute("height", cellsize * (Number(bounds[1]) + 1) + 2);
+	svg.setAttribute("viewBox", "0 0 " + (cellsize * (Number(bounds[0]) + 1) + 2) + " " + (cellsize * (Number(bounds[1]) + 1) + 2));
 
 	// Set pattern attributes
 	var pattern = svg.getElementById("pattern1");
@@ -138,6 +157,9 @@ function gridSizeOk() {
 
 function executeCommand(cmdName, cmdParams) {
 	switch (cmdName) {
+	case "clearcell":
+		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]), true );
+		break;
 	case "square":
 		square(cmdParams[0], cmdParams[1], cmdParams[2]);
 		break;
@@ -156,6 +178,10 @@ function executeCommand(cmdName, cmdParams) {
 		triangle(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
 				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(),
 				cmdParams[5]);
+		break;
+	case "clearcells":
+		deleteElements( new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
+				+ cmdParams[2]), true );
 		break;
 	case "squares":
 		squares(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
@@ -193,6 +219,7 @@ function draw(form) {
 			if (validateParameters(cmd[0], params)) {
 				executeCommand(cmd[0], params);
 				manageHistory(form.cmd.value);
+				if(compareSVGs()) $("#err").html("You won!");				
 			}
 		}
 	} else
@@ -267,6 +294,7 @@ function save() {
 	// Extract the data as SVG text string
 	var svg_xml = new XMLSerializer().serializeToString(svg);
 
+	
 	// Jquery AJAX
 	$.ajax({
 
@@ -284,13 +312,19 @@ function save() {
 		success : function(response) {
 			document.getElementById("save_messages").style.display = "block";
 			$("#save_err").text(response);
-
+			if (response == "saved"){
+				setTimeout(function(){
+					   window.location.reload(1);
+					}, 5000);
+			} 
 		}
 
 	});
 
 	return false;
 }
+
+
 
 function enableAndDisableElements(bool) {
 	var elements = [ "resetBtn", "cmdLine", "cmdBtn", "inputFileNameToSaveAs",
@@ -304,15 +338,14 @@ function enableAndDisableElements(bool) {
 }
 
 function readXMLAndShowSyntaxCatalog() {
-	xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "xml/syntax.xml", false);
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET","xml/syntax.xml",false);
 	xmlhttp.send();
-	xmlDoc = xmlhttp.responseXML;
-	var x = xmlDoc.getElementsByTagName("syntax");
-
-	for (i = 0; i < x.length; i++) {
-		$("#accordion")
-		.append(
+	var xmlDoc=xmlhttp.responseXML;
+	var x=xmlDoc.getElementsByTagName("syntax");
+	
+	for (var i=0;i<x.length;i++) {
+		$("#accordion").append(
 				"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
 				+ i
 				+ "'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"

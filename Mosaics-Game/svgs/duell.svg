@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="362" height="362">
+<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="362" height="362" viewBox="0 0 800 800">
   <defs>
     <pattern id="pattern1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
       <line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke: rgb(0, 0, 0); stroke-width: 2px;"/>

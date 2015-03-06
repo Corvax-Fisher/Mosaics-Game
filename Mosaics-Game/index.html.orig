@@ -3,13 +3,34 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
+<title>Test SVG</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kurzbeschreibung" />
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+
+
+<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
+<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
+
+<link rel="stylesheet" href="style/bootstrap.min.css">
+<link href="style/style.css" rel="stylesheet">
+=======
 	<title>Test SVG</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Kurzbeschreibung" />
+>>>>>>> 28bbd7a916e932d2c54b730c48740340bdf63049
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script>
 	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
@@ -40,9 +61,9 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="editor.html">Editor<span class="sr-only">(current)</span></a></li>
-					<li><a href="game.html">Game</a></li>
-					<li><a href="about.html">About Us</a></li>
+					<li class="active"><a href="#">Editor<span class="sr-only">(current)</span></a></li>
+					<li><a href="#">Game</a></li>
+					<li><a href="#">About Us</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
