@@ -367,7 +367,7 @@ function readXMLAndShowSyntaxCatalog() {
 
 function readXMLandShowPatternCatalog(cvalue,lvalue) {
 	xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "SVG_index.xml", false);
+	xmlhttp.open("GET", "xml/SVG_index.xml", false);
 	xmlhttp.send();
 	xmlDoc = xmlhttp.responseXML;
 	var y = xmlDoc.getElementsByTagName("SVG");
@@ -388,11 +388,11 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+i+"'></li>");
 				$(".carousel-inner").append("<div class='item'><div class='container'><div class='carousel-caption'><div class='row'></div></div></div></div>");
 			}
-
 			$(".carousel-caption .row:last").append(
-					"<div class='col-md-3'><img src='svgs/thumbnails/"
+					"<div class='col-md-3'><img src='SVGs/" 
 					+ y[i].getAttribute('Filename')
-					+ "' alt=''><p>" 
+					+ "' alt='' style='width:60px;height:60px'><p>"
+					//"<div class='col-md-3'><svg>"+resizedSVG+"</svg><p>" 
 					+ y[i].getElementsByTagName('Name')[0].childNodes[0].nodeValue 
 					+ "/ " 
 					+ y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue 
@@ -412,11 +412,10 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 			}
 			
 			if (y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue == cvalue || y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue == lvalue) {
-				
 				$(".carousel-caption .row:last").append(
-						"<div class='col-md-3'><img src='svgs/thumbnails/"
+						"<div class='col-md-3'><img src='SVGs/" 
 						+ y[i].getAttribute('Filename')
-						+ "' alt=''><p>" 
+						+ "' alt='' style='width:60px;height:60px'><p>"
 						+ y[i].getElementsByTagName('Name')[0].childNodes[0].nodeValue 
 						+ "/ " 
 						+ y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue 
@@ -434,6 +433,7 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 	}
 
 }
+
 
 function showExtraColors() {
 	var strValidColors = "";

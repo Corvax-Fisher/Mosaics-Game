@@ -7,20 +7,6 @@
     <Length>8</Length>
     <Dif>Easy</Dif>
   </SVG>
-  <SVG Filename="duell.svg">
-    <Name>duell</Name>
-    <Category>Symmetrical Patterns</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Normal</Dif>
-  </SVG>
-  <SVG Filename="duell2.svg">
-    <Name>duell2</Name>
-    <Category>Things</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Normal</Dif>
-  </SVG>
   <SVG Filename="mouth.svg">
     <Name>mouth</Name>
     <Category>Individual Patterns</Category>
@@ -28,11 +14,25 @@
     <Length>8</Length>
     <Dif>Normal</Dif>
   </SVG>
-  <SVG Filename="test23.svg">
-    <Name>test23</Name>
+  <SVG Filename="Groesste.svg">
+    <Name>Groesste</Name>
     <Category>Things</Category>
-    <Width>18</Width>
-    <Length>12</Length>
+    <Width>24</Width>
+    <Length>24</Length>
     <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="mittel.svg">
+    <Name>mittel</Name>
+    <Category>Things</Category>
+    <Width>12</Width>
+    <Length>18</Length>
+    <Dif>Hard</Dif>
+  </SVG>
+  <SVG Filename="mittelere.svg">
+    <Name>mittelere</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif>Easy</Dif>
   </SVG>
 </SVGFiles>
