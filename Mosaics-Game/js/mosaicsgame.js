@@ -8,7 +8,12 @@ bounds = [ 8, 8 ];
 validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
                "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
                "yellow" ];
-var availableCmds = ["circle","circles","line","lines","rectangle","square","squares","triangle","triangles"];
+var availableCmds = ["circle","circles",
+                     "line","lines",
+                     "rectangle",
+                     "square","squares",
+                     "triangle","triangles",
+                     "clearcell", "clearcells"];
 
 colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)", 
 				"black" 	: "rgb(0, 0, 0)", 
@@ -29,9 +34,10 @@ colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)",
 
 undoHistory = [];
 redoHistory = [];
+elementHistory = {};
+
 var url = window.location.pathname;
 var filename = url.substring(url.lastIndexOf('/')+1);
-elementHistory = [];
 
 function setGridSize() {
 
@@ -155,10 +161,16 @@ function gridSizeOk() {
 	}, 'slow');
 }
 
-function executeCommand(cmdName, cmdParams) {
+function executeCommand(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	var cmdName = cmdAndParams[0], cmdParams = cmdAndParams[1];
+	
+	cmdParams = cmdParams.replace(")","");
+	cmdParams = cmdParams.split(",");
+	
 	switch (cmdName) {
 	case "clearcell":
-		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]), true );
+		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]) );
 		break;
 	case "square":
 		square(cmdParams[0], cmdParams[1], cmdParams[2]);
@@ -181,7 +193,7 @@ function executeCommand(cmdName, cmdParams) {
 		break;
 	case "clearcells":
 		deleteElements( new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]), true );
+				+ cmdParams[2]) );
 		break;
 	case "squares":
 		squares(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
@@ -204,31 +216,50 @@ function executeCommand(cmdName, cmdParams) {
 	}
 }
 
-function draw(form) {
-	if (document.getElementById("err").innerHTML.length > 0)
-		document.getElementById("err").innerHTML = "";
-
-	var cmd = form.cmd.value.split("(");
-	if (cmd.length == 2) {
-		var params = cmd[1].split(",");
-		if (params[params.length - 1].indexOf(")") == -1)
-			document.getElementById("err").innerHTML = "Closing bracket is missing.";
-		else {
-			params[params.length - 1] = params[params.length - 1].replace(")",
-			"");
-			if (validateParameters(cmd[0], params)) {
-				executeCommand(cmd[0], params);
-				manageHistory(form.cmd.value);
-				if(compareSVGs()) $("#err").html("You won!");				
-			}
+function parseCommand(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	if (cmdAndParams.length == 2) {
+		var cmd= cmdAndParams[0], params = cmdAndParams[1];
+		
+		if(cmd.charAt(cmd.length-1) == "s" && params.indexOf("...") == -1) {
+			document.getElementById("err").innerHTML = "Range operator (...) is missing.";
+			return 0;
 		}
-	} else
-		document.getElementById("err").innerHTML = "Opening bracket is missing.";
+		
+		if (params.indexOf(")") == -1) {
+			document.getElementById("err").innerHTML = "Closing bracket is missing.";
+			return 0;
+		}
 
-	if (document.getElementById("err").innerHTML.length > 0) {
-		document.getElementById("messages").style.display = "block";
 	} else {
-		document.getElementById("messages").style.display = "none";
+		document.getElementById("err").innerHTML = "Opening bracket is missing.";
+		return 0;
+	}
+	
+	return 1;
+}
+
+function showWinMessage() {
+	$.colorbox( { 	inline: true, 
+		href: "#win-message", 
+		width: "300px", 
+		close:'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>' 
+	} );
+}
+
+function draw(cmdLine) {
+	$("#err").html("");
+
+	if(parseCommand(cmdLine) && validateParameters(cmdLine)) {
+		executeCommand(cmdLine);
+		manageHistory(cmdLine);
+		if(compareSVGs()) showWinMessage();
+	}
+
+	if ($("#err").html().length > 0) {
+		$("#messages").css("display", "block");
+	} else {
+		$("#messages").css("display", "none");
 	}
 
 	$('#history').scrollTop($('#history')[0].scrollHeight);
@@ -239,11 +270,10 @@ function draw(form) {
 $(function() {
 	bindDropdownClickFunction();
 	
-	if (filename == "index.html") {
+	if (filename == "index.html" || filename == "") {
 		enableAndDisableElements(true);
 
-		var jumbotronArray = document.getElementsByClassName("jumbotron");
-		jumbotronArray[0].style.border = "thick solid black";
+		$(".jumbotron:first").css("border", "thick solid black");
 
 		// read syntax.xml and show in syntax catalog
 		readXMLAndShowSyntaxCatalog();
@@ -256,7 +286,7 @@ $(function() {
 	} else if (filename = "game.html") {
 		var cvalue = "All categories";
 		var lvalue = "All levels";
-		readXMLandShowPatternCatalog(cvalue,lvalue)
+		readXMLandShowPatternCatalog(cvalue,lvalue);
 	}
 });
 
@@ -270,26 +300,26 @@ function save() {
 	var err = false;
 
 	if (undoHistory.length == 0) {
-		document.getElementById("save_err").innerHTML = "Please draw something first";
+		$("#save_err").html("Please draw something first");
 		err = true;
-	} else if (document.getElementById("inputFileNameToSaveAs").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose name";
+	} else if ($("#inputFileNameToSaveAs").val() == "") {
+		$("#save_err").html("Please choose name");
 		err = true;
-	} else if (document.getElementById("category_dropdown").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose category";
+	} else if ($("#category_dropdown").val() == "") {
+		$("#save_err").html("Please choose category");
 		err = true;
-	} else if (document.getElementById("dif_dropdown").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose difficulty";
+	} else if ($("#dif_dropdown").val() == "") {
+		$("#save_err").html("Please choose difficulty");
 		err = true;
 	}
 
 	if (err == true) {
-		document.getElementById("save_messages").style.display = "block";
+		$("#save_messages").css("display", "block");
 		window.scrollTo(0, document.body.scrollHeight);
 		return false;
 	}
 
-	var svg = document.getElementsByTagName("svg")[0];
+	var svg = $("#mosaics").get(0);
 
 	// Extract the data as SVG text string
 	var svg_xml = new XMLSerializer().serializeToString(svg);
@@ -310,7 +340,7 @@ function save() {
 		},
 
 		success : function(response) {
-			document.getElementById("save_messages").style.display = "block";
+			$("#save_messages").css("display", "block");
 			$("#save_err").text(response);
 			if (response == "saved"){
 				setTimeout(function(){

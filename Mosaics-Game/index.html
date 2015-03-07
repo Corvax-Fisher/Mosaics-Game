@@ -15,9 +15,11 @@
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-cmds.js"></script>
 	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
+	<script type="text/JavaScript" src="js/jquery.colorbox-min.js"></script>
 	
 	<link href="style/jquery-ui.css" rel="stylesheet">
-	<link rel="stylesheet" href="style/bootstrap.min.css">
+	<link href="style/colorbox.css" rel="stylesheet">
+	<link href="style/bootstrap.min.css" rel="stylesheet">
 	<link href="style/style.css" rel="stylesheet">
 		
 </head>
@@ -101,7 +103,7 @@
 		</div>
 
 		<div id="editorCmd" class="jumbotron row">
-			<form align="center" name="cmdForm" action="" onsubmit="return draw(this)"
+			<form align="center" name="cmdForm" action="" onsubmit="return draw(cmdLine.value)"
 				class="form-inline col-md-12">
 				<div class="form-group">
 					<input id="cmdLine" placeholder="type a command"
@@ -242,6 +244,13 @@
 		</div>
 		<div class="jumbotron">
 			
+		</div>
+	</div>
+	
+	<!-- This contains the hidden content for inline calls -->
+	<div style='display:none'>
+		<div id='win-message' style='padding:10px; background:#fff;'>
+			<div class='alert alert-success' role='alert'><p>Congratulations, You won!</p></div>
 		</div>
 	</div>
 </body>

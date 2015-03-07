@@ -89,8 +89,14 @@ function validateTriangle(p1,p2,p3) {
 	return !p1v.normalizedDistanceTo(p2v).equals( p1v.normalizedDistanceTo(p3v) );
 }
 
-function validateParameters(cmd, params) {
+function validateParameters(cmdLine) {
 	var err=false, paramCount = 0;
+	
+	var cmdAndParams = cmdLine.split("(");
+	var cmd = cmdAndParams[0], params = cmdAndParams[1];
+	
+	params = params.replace(")","");
+	params = params.split(/[,|(\.\.\.)]+/);
 	
 	//validate number of parameters
 	switch(cmd) {
@@ -100,49 +106,40 @@ function validateParameters(cmd, params) {
 		break;
 	case "square":
 	case "circle":
-	case "clearcells":
 		paramCount = 3;
+		if(params.length != paramCount) err=true;
+		break;
+	case "clearcells":
+		paramCount = 4;
 		if(params.length != paramCount) err=true;
 		break;
 	case "squares":
 	case "circles":
-		paramCount = 4;
-		if(params.length != paramCount) err=true;
-		break;
 	case "rectangle":
 	case "line":
 		paramCount = 5;
 		if(params.length != paramCount) err=true;
 		break;
 	case "triangle":
-	case "lines":
 		paramCount = 6;
 		if(params.length != paramCount) err=true;
 		break;
-	case "triangles":
+	case "lines":
 		paramCount = 7;
+		if(params.length != paramCount) err=true;
+		break;
+	case "triangles":
+		paramCount = 8;
 		if(params.length != paramCount) err=true;
 		break;
 	default:
 		document.getElementById("err").innerHTML = "Unknown command.";
-	return 0;
+		return 0;
 	}
 	
 	if(err) {
-		var requiredParams = paramCount;
-		var receivedParams = params.length;
-		
-		if(cmd.charAt(cmd.length-1) == "s") {
-			requiredParams++;
-			receivedParams++;
-			if(params[1].indexOf("...") == -1) {
-				document.getElementById("err").innerHTML = 
-					"Range operator (...) is missing.";
-				return 0;
-			}
-		}
 		document.getElementById("err").innerHTML = 
-			"Invalid number of parameters (required " + requiredParams + ", got "+ receivedParams + ").";
+			"Invalid number of parameters (required " + paramCount + ", got "+ params.length + ").";
 		return 0;
 	}
 	
@@ -156,7 +153,9 @@ function validateParameters(cmd, params) {
 			posBounds = new positionBounds(params[0] + "," + params[1] + "..."
 					+ p2.toString());
 		}
-		else posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2]);
+		else posBounds = new positionBounds(
+				params[0] + "," + params[1] + "..." +
+				params[2] + "," + params[3]);
 		
 		if(!validateCellPositionBounds(posBounds) ) {
 			document.getElementById("err").innerHTML = "Invalid position bounds.";
@@ -171,38 +170,18 @@ function validateParameters(cmd, params) {
 	}
 	
 	//validate color
-	switch(cmd) {
-	case "square":
-	case "circle":
-		if(!validateColor(params[2])) err=true;
-		break;
-	case "squares":
-	case "circles":
-		if(!validateColor(params[3])) err=true;
-		break;
-	case "rectangle":
-	case "line":
-		if(!validateColor(params[4])) err=true;
-		break;
-	case "triangle":
-	case "lines":
-		if(!validateColor(params[5])) err=true;
-		break;
-	case "triangles":
-		if(!validateColor(params[6])) err=true;
-		break;
-	}
-	
-	if(err) {
-		document.getElementById("err").innerHTML = "Invalid color.";
-		return 0;
+	if(cmd.indexOf("clearcell") == -1) {
+		if(!validateColor(params[params.length-1])) {
+			document.getElementById("err").innerHTML = "Invalid color.";
+			return 0;
+		}		
 	}
 	
 	//validate line
-	if(cmd == "line" || cmd == "lines") {
+	if(cmd.indexOf("line") != -1) {
 		var errCode;
 		if(cmd == "line") errCode = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
-		else errCode = validateLine(params[3].toLowerCase(), params[4].toLowerCase());
+		else errCode = validateLine(params[4].toLowerCase(), params[5].toLowerCase());
 		if(errCode == -1)
 			document.getElementById("err").innerHTML = "Invalid points.";
 		else if(errCode == -2)
@@ -211,11 +190,11 @@ function validateParameters(cmd, params) {
 	}
 	
 	//validate triangle
-	if(cmd == "triangle" || cmd == "triangles") {
+	if(cmd.indexOf("triangle") != -1) {
 		var i;
 		
 		if(cmd == "triangle") i = 2;
-		else i = 3;
+		else i = 4;
 		
 		if(	!validatePoint(params[i].toLowerCase() ) || 
 			!validatePoint(params[i+1].toLowerCase() ) || 
