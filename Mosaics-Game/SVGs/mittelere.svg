@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="522" height="522" viewBox="0 0 522 522">
+  <defs>
+    <pattern id="pattern1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <line id="hline" x1="1" y1="1" x2="40" y2="1" style="stroke: rgb(0, 0, 0); stroke-width: 2px;"/>
+      <line id="vline" x1="1" y1="0" x2="1" y2="40" style="stroke: rgb(0, 0, 0); stroke-width: 2px;"/>
+    </pattern>
+  </defs>
+  <rect x="40" y="40" width="482" height="482" style="stroke: black; fill: url(#pattern1);"/>
+  <text id="n10" x="60" y="28" text-anchor="middle">1</text>
+  <text id="n20" x="100" y="28" text-anchor="middle">2</text>
+  <text id="n30" x="140" y="28" text-anchor="middle">3</text>
+  <text id="n40" x="180" y="28" text-anchor="middle">4</text>
+  <text id="n50" x="220" y="28" text-anchor="middle">5</text>
+  <text id="n60" x="260" y="28" text-anchor="middle">6</text>
+  <text id="n70" x="300" y="28" text-anchor="middle">7</text>
+  <text id="n80" x="340" y="28" text-anchor="middle">8</text>
+  <text id="n90" x="380" y="28" text-anchor="middle">9</text>
+  <text id="n100" x="420" y="28" text-anchor="middle">10</text>
+  <text id="n110" x="460" y="28" text-anchor="middle">11</text>
+  <text id="n120" x="500" y="28" text-anchor="middle">12</text>
+  <text id="n01" x="20" y="68" text-anchor="middle">1</text>
+  <text id="n02" x="20" y="108" text-anchor="middle">2</text>
+  <text id="n03" x="20" y="148" text-anchor="middle">3</text>
+  <text id="n04" x="20" y="188" text-anchor="middle">4</text>
+  <text id="n05" x="20" y="228" text-anchor="middle">5</text>
+  <text id="n06" x="20" y="268" text-anchor="middle">6</text>
+  <text id="n07" x="20" y="308" text-anchor="middle">7</text>
+  <text id="n08" x="20" y="348" text-anchor="middle">8</text>
+  <text id="n09" x="20" y="388" text-anchor="middle">9</text>
+  <text id="n010" x="20" y="428" text-anchor="middle">10</text>
+  <text id="n011" x="20" y="468" text-anchor="middle">11</text>
+  <text id="n012" x="20" y="508" text-anchor="middle">12</text>
+  <circle id="e3_3" r="19" cx="141" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e3_4" r="19" cx="141" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e3_5" r="19" cx="141" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e3_6" r="19" cx="141" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e4_3" r="19" cx="181" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e4_4" r="19" cx="181" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e4_5" r="19" cx="181" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e4_6" r="19" cx="181" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e5_3" r="19" cx="221" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e5_4" r="19" cx="221" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e5_5" r="19" cx="221" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e5_6" r="19" cx="221" cy="261" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e6_3" r="19" cx="261" cy="141" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e6_4" r="19" cx="261" cy="181" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e6_5" r="19" cx="261" cy="221" style="fill: rgb(255, 0, 0);"/>
+  <circle id="e6_6" r="19" cx="261" cy="261" style="fill: rgb(255, 0, 0);"/>
+</svg>

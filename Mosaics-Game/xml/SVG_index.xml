@@ -1,25 +1,11 @@
 <?xml version="1.0"?>
-<SVGFiles>
+<SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3schools.com ../xml/SVG_index.xsd">
   <SVG Filename="zacki.svg">
     <Name>zacki</Name>
     <Category>Things</Category>
     <Width>8</Width>
     <Length>8</Length>
     <Dif>Easy</Dif>
-  </SVG>
-  <SVG Filename="duell.svg">
-    <Name>duell</Name>
-    <Category>Symmetrical Patterns</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Normal</Dif>
-  </SVG>
-  <SVG Filename="duell2.svg">
-    <Name>duell2</Name>
-    <Category>Things</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Normal</Dif>
   </SVG>
   <SVG Filename="mouth.svg">
     <Name>mouth</Name>
@@ -28,11 +14,39 @@
     <Length>8</Length>
     <Dif>Normal</Dif>
   </SVG>
-  <SVG Filename="test23.svg">
-    <Name>test23</Name>
+  <SVG Filename="Groesste.svg">
+    <Name>Groesste</Name>
+    <Category>Things</Category>
+    <Width>24</Width>
+    <Length>24</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="mittel.svg">
+    <Name>mittel</Name>
+    <Category>Things</Category>
+    <Width>12</Width>
+    <Length>18</Length>
+    <Dif>Hard</Dif>
+  </SVG>
+  <SVG Filename="mittelere.svg">
+    <Name>mittelere</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="whaaaat.svg">
+    <Name>whaaaat</Name>
     <Category>Things</Category>
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="ok.svg">
+    <Name>ok</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif>Hard</Dif>
   </SVG>
 </SVGFiles>

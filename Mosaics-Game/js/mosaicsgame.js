@@ -270,19 +270,20 @@ function draw(cmdLine) {
 $(function() {
 	bindDropdownClickFunction();
 	
+	// show the colors available in the div
+	showExtraColors();
+	
+	// read syntax.xml and show in syntax catalog
+	readXMLAndShowSyntaxCatalog();
+	
+	//autocomplete the commands for user friendly blub
+	autocompleteCommands();
+	
 	if (filename == "index.html" || filename == "") {
 		enableAndDisableElements(true);
 
 		$(".jumbotron:first").css("border", "thick solid black");
 
-		// read syntax.xml and show in syntax catalog
-		readXMLAndShowSyntaxCatalog();
-
-		// show the colors available in the div
-		showExtraColors();
-
-		//autocomplete the commands for user friendly blub
-		autocompleteCommands();
 	} else if (filename = "game.html") {
 		var cvalue = "All categories";
 		var lvalue = "All levels";
@@ -397,7 +398,7 @@ function readXMLAndShowSyntaxCatalog() {
 
 function readXMLandShowPatternCatalog(cvalue,lvalue) {
 	xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "SVG_index.xml", false);
+	xmlhttp.open("GET", "xml/SVG_index.xml", false);
 	xmlhttp.send();
 	xmlDoc = xmlhttp.responseXML;
 	var y = xmlDoc.getElementsByTagName("SVG");
@@ -411,58 +412,46 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 			+" data-slide='next'> <span "
 			+"class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"
 			+"<span class='sr-only'>Next</span></a>");
+	
+	var z = 0;
+	
+	for (i = 0; i < y.length; i++) {
+		var ccvalue = y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue == cvalue;
+		var llvalue = y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue == lvalue;
 
-	if (cvalue == "All categories" && lvalue == "All levels"){
-		for (i = 0; i < y.length; i++) {
-			if (i%4 == 0) {
-				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+i+"'></li>");
+		if ((ccvalue && llvalue) || (ccvalue && lvalue == "All levels") || (llvalue && cvalue == "All categories") || (cvalue == "All categories" && lvalue == "All levels")) {
+			if (z%4 == 0) {
+				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+(z+1)+"'></li>");
 				$(".carousel-inner").append("<div class='item'><div class='container'><div class='carousel-caption'><div class='row'></div></div></div></div>");
 			}
-
-			$(".carousel-caption .row:last").append(
-					"<div class='col-md-3'><img src='svgs/thumbnails/"
-					+ y[i].getAttribute('Filename')
-					+ "' alt=''><p>" 
-					+ y[i].getElementsByTagName('Name')[0].childNodes[0].nodeValue 
-					+ "/ " 
-					+ y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue 
-					+ "/ " 
-					+ y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue 
-					+ "</p></div>");
-		}
-	} else if (cvalue != "All categories" || lvalue != "All levels"){
-		
-		var z = 0;
-		
-		for (i = 0; i < y.length; i++) {
-			if (i%4 == 0) {
-				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+z+"'></li>");
-				$(".carousel-inner").append("<div class='item'><div class='container'><div class='carousel-caption'><div class='row'></div></div></div></div>");
-				if (z == 0) z++;
-			}
-			
-			if (y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue == cvalue || y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue == lvalue) {
-				
-				$(".carousel-caption .row:last").append(
-						"<div class='col-md-3'><img src='svgs/thumbnails/"
-						+ y[i].getAttribute('Filename')
-						+ "' alt=''><p>" 
-						+ y[i].getElementsByTagName('Name')[0].childNodes[0].nodeValue 
-						+ "/ " 
-						+ y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue 
-						+ "/ " 
-						+ y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue
-						+ "</p></div>");
-				z++;
-			}
-		}
+			appendPattern(y[i]);
+			z++;		
+		} 
 	}
 	
 	if ($(".carousel-indicators").length){
 		$(".carousel-indicators li:first").addClass("active");
 		$(".carousel-inner .item:first").addClass("active");
 	}
+	
+	$( ".carousel-caption .row .col-md-3" ).click(function() {
+//		MARTIN: Muster im Game anzeigen lassennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+		alert( "Handler for .click() called." );
+		});
 
+}
+
+function appendPattern(object) {
+	$(".carousel-caption .row:last").append(
+			"<div class='col-md-3'><img src='svgs/"
+			+ object.getAttribute('Filename')
+			+ "' alt='' style='width:90px;height:90px'><p>" 
+			+ object.getElementsByTagName('Name')[0].childNodes[0].nodeValue 
+			+ "/ " 
+			+ object.getElementsByTagName('Category')[0].childNodes[0].nodeValue 
+			+ "/ " 
+			+ object.getElementsByTagName('Dif')[0].childNodes[0].nodeValue
+			+ "</p></div>");
 }
 
 function showExtraColors() {
