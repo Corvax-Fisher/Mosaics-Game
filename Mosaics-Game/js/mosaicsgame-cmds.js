@@ -273,6 +273,16 @@ function addCmdToListGroup() {
 }
 
 function manageHistory(command) {
+	var cmdAndParams = command.split("(");
+	var cmd = cmdAndParams[0], params = cmdAndParams[1];
+	
+	params = params.replace(")","");
+	params = params.split(/,|\.\.\./);
+	
+	if(	$("#color_dropdown").val() != "(None)" && 
+		requiredParamCountForCmd(cmd) == params.length+1)
+		command = command.replace(")","," + $("#color_dropdown").val() + ")");
+	
 	undoHistory.push(command);
 	redoHistory = [];
 	removeRedoCmdsFromListGroup();
@@ -323,6 +333,18 @@ function positionBounds(pB) {
 	if (positions.length == 2) {
 		this.startPos = new position(positions[0]);
 		this.endPos = new position(positions[1]);
+		if(this.startPos.col > this.endPos.col)
+		{
+			var tmp = this.startPos.col;
+			this.startPos.col = this.endPos.col;
+			this.endPos.col = tmp;
+		}
+		if(this.startPos.row > this.endPos.row)
+		{
+			var tmp = this.startPos.row;
+			this.startPos.row = this.endPos.row;
+			this.endPos.row = tmp;
+		}
 	} else {
 		this.startPos = this.endPos = new position("-1,-1");
 	}

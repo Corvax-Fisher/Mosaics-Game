@@ -89,107 +89,89 @@ function validateTriangle(p1,p2,p3) {
 	return !p1v.normalizedDistanceTo(p2v).equals( p1v.normalizedDistanceTo(p3v) );
 }
 
-function validateParameters(cmdLine) {
-	var err=false, paramCount = 0;
-	
-	var cmdAndParams = cmdLine.split("(");
-	var cmd = cmdAndParams[0], params = cmdAndParams[1];
-	
-	params = params.replace(")","");
-	params = params.split(/[,|(\.\.\.)]+/);
-	
-	//validate number of parameters
+function requiredParamCountForCmd(cmd) {
 	switch(cmd) {
-	case "clearcell":
-		paramCount = 2;
-		if(params.length != paramCount) err=true;
-		break;
-	case "square":
-	case "circle":
-		paramCount = 3;
-		if(params.length != paramCount) err=true;
-		break;
-	case "clearcells":
-		paramCount = 4;
-		if(params.length != paramCount) err=true;
-		break;
-	case "squares":
-	case "circles":
-	case "rectangle":
-	case "line":
-		paramCount = 5;
-		if(params.length != paramCount) err=true;
-		break;
-	case "triangle":
-		paramCount = 6;
-		if(params.length != paramCount) err=true;
-		break;
-	case "lines":
-		paramCount = 7;
-		if(params.length != paramCount) err=true;
-		break;
-	case "triangles":
-		paramCount = 8;
-		if(params.length != paramCount) err=true;
-		break;
-	default:
-		document.getElementById("err").innerHTML = "Unknown command.";
-		return 0;
+		case "clearcell":	return 2;
+		
+		case "square":
+		case "circle":		return 3;
+		
+		case "clearcells":	return 4;
+		
+		case "squares":
+		case "circles":
+		case "rectangle":
+		case "line":		return 5;
+		
+		case "triangle":	return 6;
+		
+		case "lines":		return 7;
+		
+		case "triangles":	return 8;
+		default:			return -1;
+	}
+}
+
+function validateNumberOfParams(cmd, params) {
+	var paramCount = requiredParamCountForCmd(cmd);
+	
+	if(paramCount == -1) {
+		$("#err").html("Unknown command.");
+		return false;		
 	}
 	
-	if(err) {
-		document.getElementById("err").innerHTML = 
-			"Invalid number of parameters (required " + paramCount + ", got "+ params.length + ").";
-		return 0;
+	if($("#color_dropdown").val() != "(None)" &&
+			params.length == paramCount-1)
+		return true;
+	
+	if(params.length != paramCount) {
+		$("#err").html("Invalid number of parameters (required " + 
+				paramCount + ", got "+ params.length + ").");
+		return false;
 	}
 	
+	return true;
+}
+
+function validatePositionParams(cmd, params) {
 	if(cmd.charAt(cmd.length-1) == "s" || cmd == "rectangle") {
 		//validate position bounds
 		var posBounds;
-		if(cmd == "rectangle") {
-			var p2 = new position(params[2] + "," + params[3]);
-			p2.col += Number(params[0]) - 1;
-			p2.row += Number(params[1]) - 1;
-			posBounds = new positionBounds(params[0] + "," + params[1] + "..."
-					+ p2.toString());
-		}
+		if(cmd == "rectangle") 
+			posBounds = rectangleBounds(params);
 		else posBounds = new positionBounds(
 				params[0] + "," + params[1] + "..." +
 				params[2] + "," + params[3]);
 		
 		if(!validateCellPositionBounds(posBounds) ) {
-			document.getElementById("err").innerHTML = "Invalid position bounds.";
-			return 0;
+			$("#err").html("Invalid position bounds.");
+			return false;
 		}
 	} else {
 		//validate position
 		if(!validateCellPosition(params[0], params[1]) ) {
-			document.getElementById("err").innerHTML = "Invalid position.";
-			return 0;
+			$("#err").html("Invalid position.");
+			return false;
 		}		
 	}
-	
-	//validate color
-	if(cmd.indexOf("clearcell") == -1) {
-		if(!validateColor(params[params.length-1])) {
-			document.getElementById("err").innerHTML = "Invalid color.";
-			return 0;
-		}		
-	}
-	
-	//validate line
+	return true;
+}
+
+function validateLineParams(cmd, params) {
 	if(cmd.indexOf("line") != -1) {
 		var errCode;
 		if(cmd == "line") errCode = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
 		else errCode = validateLine(params[4].toLowerCase(), params[5].toLowerCase());
-		if(errCode == -1)
-			document.getElementById("err").innerHTML = "Invalid points.";
-		else if(errCode == -2)
-			document.getElementById("err").innerHTML = "Invalid line (points are equal).";
-		if(errCode < 0 ) return 0;
+		
+		if(errCode == -1) $("#err").html("Invalid points.");
+		else if(errCode == -2) $("#err").html("Invalid line (points are equal).");
+		
+		if(errCode < 0 ) return false;
 	}
-	
-	//validate triangle
+	return true;
+}
+
+function validateTriangleParams(cmd, params) {
 	if(cmd.indexOf("triangle") != -1) {
 		var i;
 		
@@ -199,13 +181,43 @@ function validateParameters(cmdLine) {
 		if(	!validatePoint(params[i].toLowerCase() ) || 
 			!validatePoint(params[i+1].toLowerCase() ) || 
 			!validatePoint(params[i+2].toLowerCase() ) ) {
-			document.getElementById("err").innerHTML = "Invalid points.";
-			return 0;			
+			$("#err").html("Invalid points.");
+			return false;			
 		} else if( !validateTriangle(params[i].toLowerCase(), params[i+1].toLowerCase(), params[i+2].toLowerCase() ) ) {
-			document.getElementById("err").innerHTML = "Invalid triangle (area equals zero).";
-			return 0;
+			$("#err").html("Invalid triangle (area equals zero).");
+			return false;
 		}
 	}
+	return true;
+}
+
+function validateColorParam(cmd, params) {
+	if(cmd.indexOf("clearcell") == -1 && params.length == requiredParamCountForCmd(cmd)) {
+		if(!validateColor(params[params.length-1])) {
+			$("#err").html("Invalid color.");
+			return false;
+		}		
+	}
+	return true;
+}
+
+function validateParameters(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	var cmd = cmdAndParams[0], params = cmdAndParams[1];
+	
+	params = params.replace(")","");
+	params = params.split(/,|\.\.\./);
+	
+	if(!validateNumberOfParams(cmd, params)) return 0;
+	
+	if(!validatePositionParams(cmd, params)) return 0;
+	
+	if(!validateLineParams(cmd, params)) return 0;
+	
+	if(!validateTriangleParams(cmd, params)) return 0;
+	
+	if(!validateColorParam(cmd, params)) return 0;
+
 	return 1;
 }
 
@@ -215,7 +227,8 @@ function compareSVGs() {
 	var template_child, user_child;
 	
 	// 1st check if counts of svg elements are equal
-	if(template_svg_elements.length == user_svg_elements.length) {
+	if(template_svg_elements.length == user_svg_elements.length &&
+			template_svg_elements.length != 0) {
 		for(var i = 0; i < user_svg_elements.length; i++) {
 			// get user svg element
 			user_child = user_svg_elements.eq(i);
@@ -225,12 +238,11 @@ function compareSVGs() {
 				// 2nd check if counts of svg attributes are equal
 				if( user_child.get(0).attributes.length ==
 					template_child.get(0).attributes.length) {
-					for(var j = 1; j < user_child.get(0).attributes.length; j++) {
+					for(var j = 0; j < user_child.get(0).attributes.length; j++) {
+						if( user_child.get(0).attributes[j].name == "id") continue;
 						// 3rd check if attribute names and values are equal
-						if( user_child.get(0).attributes[j].name !=
-							template_child.get(0).attributes[j].name ||
-							user_child.get(0).attributes[j].value !=
-							template_child.get(0).attributes[j].value ) 
+						if( user_child.get(0).attributes[j].value !=
+							template_child.attr(user_child.get(0).attributes[j].name) ) 
 						{
 							// attribute values and names are not equal
 							return false;							
