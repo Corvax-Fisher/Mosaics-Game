@@ -49,4 +49,46 @@
     <Length>12</Length>
     <Dif>Hard</Dif>
   </SVG>
+  <SVG Filename="America.svg">
+    <Name>America</Name>
+    <Category>Countries and Flags</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="Americas.svg">
+    <Name>Americas</Name>
+    <Category>Countries and Flags</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="Germany.svg">
+    <Name>Germany</Name>
+    <Category>Countries and Flags</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="Daenemark.svg">
+    <Name>Daenemark</Name>
+    <Category>Countries and Flags</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="Bahrain.svg">
+    <Name>Bahrain</Name>
+    <Category>Countries and Flags</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Hard</Dif>
+  </SVG>
+  <SVG Filename="Smiley1.svg">
+    <Name>Smiley1</Name>
+    <Category>Humans and Animals</Category>
+    <Width>24</Width>
+    <Length>24</Length>
+    <Dif>Normal</Dif>
+  </SVG>
 </SVGFiles>

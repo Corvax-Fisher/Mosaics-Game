@@ -257,7 +257,7 @@ $(function() {
 	} else if (filename = "game.html") {
 		var cvalue = "All categories";
 		var lvalue = "All levels";
-		readXMLandShowPatternCatalog(cvalue,lvalue)
+		readXMLandShowPatternCatalog(cvalue,lvalue);
 	}
 });
 
