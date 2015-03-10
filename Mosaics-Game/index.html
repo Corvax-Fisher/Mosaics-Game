@@ -3,7 +3,8 @@
 <html lang="en">
 
 <head>
-	<title>Test SVG</title>
+	<title>Mosaics-Game</title>
+	
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,9 +18,8 @@
 	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
 	
 	<link href="style/jquery-ui.css" rel="stylesheet">
-	<link rel="stylesheet" href="style/bootstrap.min.css">
-	<link href="style/style.css" rel="stylesheet">
-		
+	<link href="style/bootstrap.min.css" rel="stylesheet">
+	<link href="style/style.css" rel="stylesheet">		
 </head>
 
 <body>
@@ -53,46 +53,44 @@
 	<div class="container">
 		<div class="page-header">
 			<h1>
-				Editor <small>Create your own pattern</small>
+				Editor<br><small>Create your own mosaic</small>
 			</h1>
 		</div>
 		<div class="selectionArea jumbotron row">
 			<div class="col-md-4">
-				<div>Select a size for your pattern and start:</div>
+				<div>Select a size for your mosaic and start:</div>
 			</div>
 			<div class="col-md-6">
-				<form id="gridSelect" action="" onchange="setGridSize()">
-					<div class="radio">
-						<label> <input type="radio" name="GridSize" value="8x8">
-							8x8
-						</label>
-					</div>
-					<div class="radio">
-						<label> <input type="radio" name="GridSize" value="12x12">
-							12x12
-						</label>
-					</div>
-					<div class="radio">
-						<label> <input type="radio" name="GridSize" value="12x18">
-							12x18
-						</label>
-					</div>
-					<div class="radio">
-						<label> <input type="radio" name="GridSize" value="18x12">
-							18x12
-						</label>
-					</div>
-					<div class="radio">
-						<label> <input type="radio" name="GridSize" value="24x24">
-							24x24
-						</label>
-					</div>
-				</form>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="8x8"> 8x8
+					</label> 
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="12x12"> 12x12
+					</label>
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="12x18"> 12x18
+					</label>
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="18x12"> 18x12
+					</label>
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="24x24"> 24x24
+					</label>
+				</div>
 			</div>
 			<div class="col-md-2">
 				<form>
 					<button id="okBtn" type="button" value="auswählen"
-						class="btn btn-success" onClick="gridSizeOk()" disabled="disabled">
+						class="btn btn-success mosaicsElement" onClick="gridSizeOk()" disabled="disabled">
 						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 						okay!
 					</button>
@@ -101,16 +99,29 @@
 		</div>
 
 		<div id="editorCmd" class="jumbotron row">
-			<form align="center" name="cmdForm" action="" onsubmit="return draw(this)"
+			<form align="center" name="cmdForm" action="" onsubmit="return draw(cmdLine.value)"
 				class="form-inline col-md-12">
 				<div class="form-group">
 					<input id="cmdLine" placeholder="type a command"
 						autofocus="autofocus" type="text" name="cmd"
-						class="form-control cmd" />
+						class="form-control cmd mosaicsElement" />
 				</div>
 				<div class="form-group">
 					<input id="cmdBtn" name="OK" value="OK" type="submit"
-						class="btn btn-default" />
+						class="btn btn-default mosaicsElement" />
+				</div>
+				<div class="form-group">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
+							id="color_dropdown" data-toggle="dropdown"
+							aria-expanded="true" value="(None)">
+							Default color <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu coldd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a>(None)</a></li>
+						</ul>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -127,17 +138,17 @@
 				<div align="center" class="col-md-6">
 					<svg id="mosaics">
 						<defs>
-							<pattern id="pattern1" x="0" y="0" width="40" height="40"
-							patternUnits="userSpaceOnUse">
-								<line id="hline" x1="1" y1="1" x2="40" y2="1"
-							style="stroke:#c1cdc1; stroke-width:2;" />
-					   			<line id="vline" x1="1" y1="0" x2="1" y2="40"
-							style="stroke:#c1cdc1; stroke-width:2;" />
+							<pattern 	id="mosaics-grid-pattern" x="0" y="0" width="40" height="40"
+										patternUnits="userSpaceOnUse">
+								<line	id="hline" x1="1" y1="1" x2="40" y2="1"
+										style="stroke:#c1cdc1; stroke-width:2;" />
+					   			<line 	id="vline" x1="1" y1="0" x2="1" y2="40"
+										style="stroke:#c1cdc1; stroke-width:2;" />
 					      	</pattern>
 					   	</defs>
 					        
 					    <rect x="0" y="0" width=0 height=0
-							style="stroke: black; fill: url(#pattern1);" />
+							style="stroke: black; fill: url(#mosaics-grid-pattern);" />
 					</svg>
 				</div>
 
@@ -160,15 +171,19 @@
 						<ul id="history" class="scrollable">
 						</ul>
 						<form>
-							<button id="undoBtn" type="button" value="undo" disabled=disabled
-								class="btn btn-default" onClick="undoCommand()">
-								<span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
+							<button id="undoBtn" type="button" value="undo"
+									class="btn btn-default mosaicsElement" onClick="undoCommand()">
+								<span class="glyphicon glyphicon-chevron-left" 
+									aria-hidden=true>
+								</span>
 								undo
 							</button>
-							<button id="redoBtn" type="button" value="redo" disabled=disabled
-								class="btn btn-default" onClick="redoCommand()">
+							<button id="redoBtn" type="button" value="redo"
+									class="btn btn-default mosaicsElement" onClick="redoCommand()">
 								<span class="glyphicon glyphicon-chevron-right"
-									aria-hidden="true"></span> redo
+									aria-hidden="true">
+								</span>
+								redo
 							</button>
 						</form>
 					</div>
@@ -184,7 +199,7 @@
 		<div class="jumbotron row">
 			<form class="form-inline col-md-6">
 				<button id="resetBtn" type="button" value="reset"
-					class="btn btn-danger" onClick="window.location.reload()">
+					class="btn btn-danger mosaicsElement" onClick="window.location.reload()">
 					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 					delete pattern
 				</button>
@@ -200,11 +215,11 @@
 					<label for="inputFileNameToSaveAs">Save pattern:</label> 
 					<input
 						placeholder="type a name" id="inputFileNameToSaveAs"
-						class="form-control"/>
+						class="form-control mosaicsElement"/>
 				</div>
 				<div class="form-group">
 					<div class="dropup">
-						<button class="btn btn-default dropdown-toggle" type="button"
+						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
 							id="category_dropdown" data-toggle="dropdown"
 							aria-expanded="true">
 							Category <span class="caret"></span>
@@ -222,7 +237,7 @@
 				</div>
 				<div class="form-group">
 					<div class="dropup">
-						<button class="btn btn-default dropdown-toggle" type="button"
+						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
 							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true">
 							Difficulty <span class="caret"></span>
 						</button>
@@ -236,7 +251,7 @@
 				</div>
 				<div class="form-group">
 					<input id="saveBtn" value="save" type="submit"
-						class="btn btn-primary" />
+						class="btn btn-primary mosaicsElement" />
 				</div>
 			</form>
 		</div>

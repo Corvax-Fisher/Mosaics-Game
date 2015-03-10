@@ -3,58 +3,96 @@
  */
 
 //globals
-cellsize = 40;
-bounds = [ 8, 8 ];
-validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+var cellsize = 40;
+var bounds = [ 8, 8 ];
+
+var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
                "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
                "yellow" ];
-var availableCmds = ["circle","circles","line","lines","rectangle","square","squares","triangle","triangles"];
 
-colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)", 
-				"black" 	: "rgb(0, 0, 0)", 
-				"blue" 		: "rgb(0, 0, 255)", 
-				"fuchsia"	: "rgb(255, 0, 255)", 
-				"gray"		: "rgb(128, 128, 128)", 
-				"green"		: "rgb(0, 128, 0)", 
-				"lime"		: "rgb(0, 255, 0)",
-				"maroon"	: "rgb(128, 0, 0)", 
-				"navy"		: "rgb(0, 0, 128)", 
-				"olive"		: "rgb(128, 128, 0)", 
-				"orange"	: "rgb(255, 165, 0)", 
-				"purple"	: "rgb(128, 0, 128)", 
-				"red"		: "rgb(255, 0, 0)", 
-				"silver"	: "rgb(192, 192, 192)", 
-				"teal"		: "rgb(0, 128, 128)",
-				"yellow" 	: "rgb(255, 255, 0)"};
+var availableCmds = ["circle","circles",
+                     "line","lines",
+                     "rectangle",
+                     "square","squares",
+                     "triangle","triangles",
+                     "clearcell", "clearcells"];
 
-undoHistory = [];
-redoHistory = [];
-var url = window.location.pathname;
-var filename = url.substring(url.lastIndexOf('/')+1);
-elementHistory = [];
+var colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)", 
+					"black" 	: "rgb(0, 0, 0)", 
+					"blue" 		: "rgb(0, 0, 255)", 
+					"fuchsia"	: "rgb(255, 0, 255)", 
+					"gray"		: "rgb(128, 128, 128)", 
+					"green"		: "rgb(0, 128, 0)", 
+					"lime"		: "rgb(0, 255, 0)",
+					"maroon"	: "rgb(128, 0, 0)", 
+					"navy"		: "rgb(0, 0, 128)", 
+					"olive"		: "rgb(128, 128, 0)", 
+					"orange"	: "rgb(255, 165, 0)", 
+					"purple"	: "rgb(128, 0, 128)", 
+					"red"		: "rgb(255, 0, 0)", 
+					"silver"	: "rgb(192, 192, 192)", 
+					"teal"		: "rgb(0, 128, 128)",
+					"yellow" 	: "rgb(255, 255, 0)"};
 
-function setGridSize() {
+var undoHistory = [],
+redoHistory = [],
+elementHistory = {};
 
-	document.getElementById("okBtn").disabled = false;
-	// Hide Radio Button
-	// document.getElementById("GridSelect").style.visibility="hidden";
+var url = window.location.pathname,
+filename = url.substring(url.lastIndexOf('/')+1);
 
-	// If drop down list is used
-	// var selectedValue = document.getElementById("gridSelect").value;
-	// document.getElementById("gridSelect").disabled = true;
-	// End If
+var $svg;
 
-	// If radio buttons are used
-	var gridSelect = document.getElementById("gridSelect");
-	var selectedValue = "";
-	for (var i = 0; i < gridSelect.elements.length; i++) {
-		// gridSelect.elements.item(i).disabled = true;
-		if (gridSelect.elements.item(i).checked)
-			selectedValue = gridSelect.elements.item(i).value;
+$(function() {
+	bindDropdownClickFunction();
+	
+	// show the colors available in the div
+	showExtraColors();
+	
+	// read syntax.xml and show in syntax catalog
+	loadSyntaxCatalogueFromXML();
+	
+	//autocomplete the commands for user friendly blub
+	autocompleteCommands();
+	
+	$colorList = $(".coldd");
+	$.each(validColors, function(i,color) {
+		$colorList.append("<li><a>" + color + "</a></li>");
+	});
+	
+	$(".mosaicsElement").attr("disabled", true);
+
+	if (filename == "index.html" || filename == "") {
+		
+		$("input[type='radio']").attr("disabled", false);
+		$("input[type='radio']").prop("checked", false);
+
+		$(".jumbotron:first").css("border", "thick solid black");
+		$("input[type='radio']").change(function(){
+			if(this.checked) setGridSize(this.value);
+		});
+
+	} else if (filename == "game.html") {
+		
+		$.post("xml/SVG_index.xml", function(data) {
+			$svg = $(data).find("SVG");
+			showPatternCatalogue("All categories","All levels");
+		});
+		
+		$("#okBtn").click(function() {
+			$("#mosaics-user").attr("id","mosaics");
+			gridSizeOk();
+			$(".jumbotron.row:first").fadeOut();
+		});
+
 	}
-	// End If
+});
 
-	bounds = selectedValue.split("x");
+function setGridSize(size) {
+
+	$("#okBtn").attr("disabled", false);
+
+	bounds = size.split("x");
 	bounds[0] = Number(bounds[0]);
 	bounds[1] = Number(bounds[1]);
 
@@ -64,63 +102,42 @@ function setGridSize() {
 	else
 		cellsize = 40;
 
-	// bounds[0] = col;
-	// bounds[1] = row;
-
 	// Set SVG-Canvas attributes
-	var svg = document.getElementsByTagName("svg")[0];
-	svg.setAttribute("width", cellsize * (Number(bounds[0]) + 1) + 2);
-	svg.setAttribute("height", cellsize * (Number(bounds[1]) + 1) + 2);
-	svg.setAttribute("viewBox", "0 0 " + (cellsize * (Number(bounds[0]) + 1) + 2) + " " + (cellsize * (Number(bounds[1]) + 1) + 2));
+	var $svg = $("#mosaics");
+	$svg.attr("width", cellsize * (bounds[0] + 1) + 2);
+	$svg.attr("height", cellsize * (bounds[1] + 1) + 2);
+	$svg.attr("viewBox", "0 0 " + (cellsize * (bounds[0] + 1) + 2) + " " + (cellsize * (bounds[1] + 1) + 2));
 
 	// Set pattern attributes
-	var pattern = svg.getElementById("pattern1");
-	pattern.setAttribute("width", cellsize);
-	pattern.setAttribute("height", cellsize);
-	var vline = svg.getElementById("vline");
-	vline.setAttribute("y2", cellsize);
-	var hline = svg.getElementById("hline");
-	hline.setAttribute("x2", cellsize);
+	var $pattern = $("#mosaics-grid-pattern");
+	$pattern.attr("width", cellsize);
+	$pattern.attr("height", cellsize);
+	$("#vline").attr("y2", cellsize);
+	$("#hline").attr("x2", cellsize);
 
 	// Set bounding rect attributes
-	var rect = svg.getElementsByTagName("rect")[0];
-	rect.setAttribute("x", cellsize);
-	rect.setAttribute("y", cellsize);
-	rect.setAttribute("width", cellsize * bounds[0] + 2);
-	rect.setAttribute("height", cellsize * bounds[1] + 2);
-
-	// GridSizeNumber
-	// index = document.createElementNS("http://www.w3.org/2000/svg", "text");
-	// index.setAttribute("id", "index");
-	// pos = cellToPos(bounds[0],bounds[1]);
-	// index.setAttribute("x", 10);
-	// index.setAttribute("y", 15);
-	// index.setAttribute("style","font-size:10px");
-	// index.setAttribute("style","fill:red");
-	// index.setAttribute("text-anchor","right");
-	// index.appendChild(document.createTextNode(bounds[0] +" x " + bounds[1]));
-	// svg.appendChild(index);
+	var $rect = $svg.find("rect:first");
+	$rect.attr("x", cellsize);
+	$rect.attr("y", cellsize);
+	$rect.attr("width", cellsize * bounds[0] + 2);
+	$rect.attr("height", cellsize * bounds[1] + 2);
 
 }
 
 function gridSizeOk() {
 	// Disable radio buttons
-	var gridSelect = document.getElementById("gridSelect");
-	for (var i = 0; i < gridSelect.elements.length; i++) {
-		gridSelect.elements.item(i).disabled = true;
-	}
+	$("input[type='radio']").attr("disabled", true);
 
 	// Change Grid Color
-	document.getElementById("hline").style.stroke = "black";
-	document.getElementById("vline").style.stroke = "black";
+	$("#hline").css("stroke", "black");
+	$("#vline").css("stroke", "black");
 
-	document.getElementById("okBtn").disabled = true;
-	enableAndDisableElements(false);
+	$(".mosaicsElement").attr("disabled", false);
+	$("#okBtn").attr("disabled", true);
 
 	var jumbotronArray = document.getElementsByClassName("jumbotron");
-	var i;
 	jumbotronArray[0].style.border = "";
-	for (i = 1; i < jumbotronArray.length; i++) {
+	for (var i = 1; i < jumbotronArray.length; i++) {
 		jumbotronArray[i].style.backgroundColor = "#EEEEEE";
 	}
 
@@ -150,15 +167,24 @@ function gridSizeOk() {
 	}
 
 	$("#cmdLine").focus();
-	$('html, body').animate({
-		scrollTop : ($('#editorCmd').offset().top)
-	}, 'slow');
+//	$('html, body').animate({
+//		scrollTop : ($('#editorCmd').offset().top)
+//	}, 'slow');
 }
 
-function executeCommand(cmdName, cmdParams) {
+function executeCommand(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	var cmdName = cmdAndParams[0], cmdParams = cmdAndParams[1];
+	
+	cmdParams = cmdParams.replace(")","");
+	cmdParams = cmdParams.split(",");
+	
+	if($("#color_dropdown").val() != "(None)")
+		cmdParams.push($("#color_dropdown").val());
+	
 	switch (cmdName) {
 	case "clearcell":
-		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]), true );
+		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]) );
 		break;
 	case "square":
 		square(cmdParams[0], cmdParams[1], cmdParams[2]);
@@ -181,7 +207,7 @@ function executeCommand(cmdName, cmdParams) {
 		break;
 	case "clearcells":
 		deleteElements( new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]), true );
+				+ cmdParams[2]) );
 		break;
 	case "squares":
 		squares(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
@@ -204,62 +230,66 @@ function executeCommand(cmdName, cmdParams) {
 	}
 }
 
-function draw(form) {
-	if (document.getElementById("err").innerHTML.length > 0)
-		document.getElementById("err").innerHTML = "";
-
-	var cmd = form.cmd.value.split("(");
-	if (cmd.length == 2) {
-		var params = cmd[1].split(",");
-		if (params[params.length - 1].indexOf(")") == -1)
-			document.getElementById("err").innerHTML = "Closing bracket is missing.";
-		else {
-			params[params.length - 1] = params[params.length - 1].replace(")",
-			"");
-			if (validateParameters(cmd[0], params)) {
-				executeCommand(cmd[0], params);
-				manageHistory(form.cmd.value);
-				if(compareSVGs()) $("#err").html("You won!");				
-			}
+function parseCommand(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	if (cmdAndParams.length == 2) {
+		var cmd= cmdAndParams[0], params = cmdAndParams[1];
+		
+		if(cmd.charAt(cmd.length-1) == "s" && params.indexOf("...") == -1) {
+			$("#err").html("Range operator (...) is missing.");
+			return 0;
 		}
-	} else
-		document.getElementById("err").innerHTML = "Opening bracket is missing.";
+		
+		if (params.indexOf(")") == -1) {
+			$("#err").html("Closing bracket is missing.");
+			return 0;
+		}
 
-	if (document.getElementById("err").innerHTML.length > 0) {
-		document.getElementById("messages").style.display = "block";
 	} else {
-		document.getElementById("messages").style.display = "none";
+		$("#err").html("Opening bracket is missing.");
+		return 0;
+	}
+	
+	return 1;
+}
+
+function showWinMessage() {
+	$("#win-message")
+		.find("p")
+		.empty()
+		.append("Congratulations, You won!<br>" +
+			"You finished the mosaic with " + undoHistory.length + " command(s).");
+	
+	$.colorbox( { 	inline: true, 
+		href: "#win-message",
+		width: "400px", 
+		close:'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>' 
+	} );
+	
+	$("#colorbox").keydown(function(event){
+		if(event.key == "Enter") $.colorbox.close();
+	});
+}
+
+function draw(cmdLine) {
+	$("#err").html("");
+
+	if(parseCommand(cmdLine) && validateParameters(cmdLine)) {
+		executeCommand(cmdLine);
+		manageHistory(cmdLine);
+		if(compareSVGs()) showWinMessage();
+	}
+
+	if ($("#err").html().length > 0) {
+		$("#messages").css("display", "block");
+	} else {
+		$("#messages").css("display", "none");
 	}
 
 	$('#history').scrollTop($('#history')[0].scrollHeight);
 
 	return false;
 }
-
-$(function() {
-	bindDropdownClickFunction();
-	
-	// show the colors available in the div
-	showExtraColors();
-	
-	// read syntax.xml and show in syntax catalog
-	readXMLAndShowSyntaxCatalog();
-	
-	//autocomplete the commands for user friendly blub
-	autocompleteCommands();
-	
-	if (filename == "index.html") {
-		enableAndDisableElements(true);
-
-		var jumbotronArray = document.getElementsByClassName("jumbotron");
-		jumbotronArray[0].style.border = "thick solid black";
-
-	} else if (filename = "game.html") {
-		var cvalue = "All categories";
-		var lvalue = "All levels";
-		readXMLandShowPatternCatalog(cvalue,lvalue);
-	}
-});
 
 //split value for autocomplete
 function split(val) {
@@ -271,26 +301,26 @@ function save() {
 	var err = false;
 
 	if (undoHistory.length == 0) {
-		document.getElementById("save_err").innerHTML = "Please draw something first";
+		$("#save_err").html("Please draw something first");
 		err = true;
-	} else if (document.getElementById("inputFileNameToSaveAs").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose name";
+	} else if ($("#inputFileNameToSaveAs").val() == "") {
+		$("#save_err").html("Please choose name");
 		err = true;
-	} else if (document.getElementById("category_dropdown").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose category";
+	} else if ($("#category_dropdown").val() == "") {
+		$("#save_err").html("Please choose category");
 		err = true;
-	} else if (document.getElementById("dif_dropdown").value == "") {
-		document.getElementById("save_err").innerHTML = "Please choose difficulty";
+	} else if ($("#dif_dropdown").val() == "") {
+		$("#save_err").html("Please choose difficulty");
 		err = true;
 	}
 
 	if (err == true) {
-		document.getElementById("save_messages").style.display = "block";
+		$("#save_messages").css("display", "block");
 		window.scrollTo(0, document.body.scrollHeight);
 		return false;
 	}
 
-	var svg = document.getElementsByTagName("svg")[0];
+	var svg = $("#mosaics").get(0);
 
 	// Extract the data as SVG text string
 	var svg_xml = new XMLSerializer().serializeToString(svg);
@@ -311,7 +341,7 @@ function save() {
 		},
 
 		success : function(response) {
-			document.getElementById("save_messages").style.display = "block";
+			$("#save_messages").css("display", "block");
 			$("#save_err").text(response);
 			if (response == "saved"){
 				setTimeout(function(){
@@ -325,79 +355,69 @@ function save() {
 	return false;
 }
 
-
-
-function enableAndDisableElements(bool) {
-	var elements = [ "resetBtn", "cmdLine", "cmdBtn", "inputFileNameToSaveAs",
-	                 "category_dropdown", "dif_dropdown", "saveBtn" ];
-	var i;
-
-	for (i = 0; i < elements.length; i++) {
-		document.getElementById(elements[i]).disabled = bool;
-	}
-
+function loadSyntaxCatalogueFromXML() {
+	
+	$.post("xml/syntax.xml", function(data) {
+		$syntax = $(data).find("syntax");
+		for (var i=0;i<$syntax.length;i++) {
+			$("#accordion").append(
+					"<div class='panel panel-default'>" +
+						"<div class='panel-heading' role='tab' id='heading"	+ i	+ "'>" + 
+							"<h4 class='panel-title'>" +
+								"<a data-toggle='collapse' data-parent='#accordion' href='#collapse"
+									+ i	+ "' aria-expanded='false' aria-controls='collapse"	+ i	+ "'>"
+									+ $syntax.find('command').eq(i).text() + 
+								"</a>" + 
+							"</h4>" +
+						"</div>" +
+						"<div id='collapse"	+ i	+ "' class='panel-collapse collapse' role='tabpanel'" +
+							"aria-labelledby='heading" + i	+ "'>" + 
+							"<div class='panel-body'>" + $syntax.find('description').eq(i).text() + "</div>" +
+						"</div>" + 
+					"</div>");
+		}
+	});
+	
 }
 
-function readXMLAndShowSyntaxCatalog() {
-	var xmlhttp=new XMLHttpRequest();
-	xmlhttp.open("GET","xml/syntax.xml",false);
-	xmlhttp.send();
-	var xmlDoc=xmlhttp.responseXML;
-	var x=xmlDoc.getElementsByTagName("syntax");
+function showPatternCatalogue(cvalue,lvalue) {
 	
-	for (var i=0;i<x.length;i++) {
-		$("#accordion").append(
-				"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"
-				+ i
-				+ "'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse"
-				+ i
-				+ "' aria-expanded='false' aria-controls='collapse"
-				+ i
-				+ "'>"
-				+ x[i].getElementsByTagName('command')[0].childNodes[0].nodeValue
-				+ "</a></h4></div><div id='collapse"
-				+ i
-				+ "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading"
-				+ i
-				+ "'><div class='panel-body'>"
-				+ x[i].getElementsByTagName('description')[0].childNodes[0].nodeValue
-				+ "</div></div></div>");
-
-	}
-}
-
-function readXMLandShowPatternCatalog(cvalue,lvalue) {
-	xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET", "xml/SVG_index.xml", false);
-	xmlhttp.send();
-	xmlDoc = xmlhttp.responseXML;
-	var y = xmlDoc.getElementsByTagName("SVG");
-
-	$("#myCarousel").html("<ol class='carousel-indicators'></ol><div class='carousel-inner'"
-			+" role='listbox'></div><a class='left carousel-control'" 
-			+" href='#myCarousel' role='button' data-slide='prev'> "
-			+ "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>"
-			+"<span class='sr-only'>Previous</span>"			
-			+"</a> <a class='right carousel-control' href='#myCarousel' role='button' "		
-			+" data-slide='next'> <span "
-			+"class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"
-			+"<span class='sr-only'>Next</span></a>");
+	$(".carousel-indicators").empty();
+	$(".carousel-inner").empty();
 	
-	var z = 0;
+	var z = 0, ccvalue, llvalue;
 	
-	for (i = 0; i < y.length; i++) {
-		var ccvalue = y[i].getElementsByTagName('Category')[0].childNodes[0].nodeValue == cvalue;
-		var llvalue = y[i].getElementsByTagName('Dif')[0].childNodes[0].nodeValue == lvalue;
-
-		if ((ccvalue && llvalue) || (ccvalue && lvalue == "All levels") || (llvalue && cvalue == "All categories") || (cvalue == "All categories" && lvalue == "All levels")) {
+	for (var i = 0; i < $svg.length; i++) {
+		ccvalue = $svg.find('Category').eq(i).text() == cvalue;
+		llvalue = $svg.find('Dif').eq(i).text() == lvalue;
+		
+		if (	(ccvalue && llvalue) || 
+				(ccvalue && lvalue == "All levels") || 
+				(llvalue && cvalue == "All categories") || 
+				(cvalue == "All categories" && lvalue == "All levels")) {
 			if (z%4 == 0) {
 				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+(z+1)+"'></li>");
-				$(".carousel-inner").append("<div class='item'><div class='container'><div class='carousel-caption'><div class='row'></div></div></div></div>");
+				$(".carousel-inner").append("<div class='item'>"+
+												"<div class='container'>"+
+													"<div class='carousel-caption'>"+
+														"<div class='row'></div>"+
+													"</div>"+
+												"</div>"+
+											"</div>");
 			}
-			appendPattern(y[i]);
+			appendPattern($svg.eq(i));
 			z++;		
 		} 
 	}
+	
+	if($(".carousel-inner").children().length == 0)
+		$(".carousel-inner").append("<div class='item'>"+
+										"<div class='container'>"+
+											"<div class='carousel-caption'>"+
+												"<div class='row'></div>"+
+											"</div>"+
+										"</div>"+
+									"</div>");
 	
 	if ($(".carousel-indicators").length){
 		$(".carousel-indicators li:first").addClass("active");
@@ -405,23 +425,23 @@ function readXMLandShowPatternCatalog(cvalue,lvalue) {
 	}
 	
 	$( ".carousel-caption .row .col-md-3" ).click(function() {
-//		MARTIN: Muster im Game anzeigen lassennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
-		alert( "Handler for .click() called." );
-		});
+		var svgpath = $(this).find("img").attr("src");
+		loadSVGs(svgpath);
+	});
 
 }
 
-function appendPattern(object) {
+function appendPattern($svg_indexElement) {
 	$(".carousel-caption .row:last").append(
-			"<div class='col-md-3'><img src='svgs/"
-			+ object.getAttribute('Filename')
-			+ "' alt='' style='width:90px;height:90px'><p>" 
-			+ object.getElementsByTagName('Name')[0].childNodes[0].nodeValue 
-			+ "/ " 
-			+ object.getElementsByTagName('Category')[0].childNodes[0].nodeValue 
-			+ "/ " 
-			+ object.getElementsByTagName('Dif')[0].childNodes[0].nodeValue
-			+ "</p></div>");
+			"<div class='col-md-3'>" +
+					"<img src='svgs/" + $svg_indexElement.attr('Filename') + "' alt=''>" + 
+					"<div class='caption'>" +
+						"<p>" 	+ $svg_indexElement.find('Name').text() + "<br>" 
+								+ $svg_indexElement.find('Category').text() + "<br>" 
+								+ $svg_indexElement.find('Dif').text() + 
+						"</p>" +
+					"</div>" +
+			"</div>");
 }
 
 function showExtraColors() {
@@ -466,21 +486,46 @@ function autocompleteCommands() {
 
 function bindDropdownClickFunction() {
 	$(".catdd").on('click', 'li a', function() {
-		$("#category_dropdown").text($(this).text());
+		$("#category_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#category_dropdown").val($(this).text());
 		
 		if (filename = "game.html"){
-			readXMLandShowPatternCatalog($("#category_dropdown").val(),$("#dif_dropdown").val());
+			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
 
 	$(".difdd").on('click', 'li a', function() {
-		$("#dif_dropdown").text($(this).text());
+		$("#dif_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#dif_dropdown").val($(this).text());
 		
 		if (filename = "game.html"){
-			readXMLandShowPatternCatalog($("#category_dropdown").val(),$("#dif_dropdown").val());
+			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
+	});
+	
+	$(".coldd").on('click', 'li a', function() {
+		$("#color_dropdown").html($(this).text() + ' <span class="caret"></span>');
+		$("#color_dropdown").val($(this).text());
 	});
 }
 
+function loadSVGs(svgPath) {
+	
+	$("#template-mosaics").load(svgPath, function(responseTxt, statusTxt, xhr) {
+		var $templateRect = $("#mosaics rect");
+		
+		$("#mosaics").attr("id", "mosaics-template");
+		var mosaicsTemplateElements = $("#mosaics-template > *[id^='e']");
+		for(var i = 0; i < mosaicsTemplateElements.length; i++) {
+			mosaicsTemplateElements.eq(i).attr("id", "t" + mosaicsTemplateElements.eq(i).attr("id"));
+		}
+		
+		$("#mosaics-user").attr("id", "mosaics");
+		var colCount, rowCount;
+		colCount = (Number($templateRect.attr("width"))-2)/$templateRect.attr("x");
+		rowCount = (Number($templateRect.attr("height"))-2)/$templateRect.attr("y");
+		setGridSize(colCount + "x" + rowCount);
+		$("#mosaics").attr("id", "mosaics-user");
+	});
+	
+}

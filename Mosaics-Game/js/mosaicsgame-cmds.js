@@ -3,42 +3,36 @@
  */
 
 function square(col, row, clr) {
-	var root = document.getElementsByTagName("svg")[0];
-	var child = root.getElementById("e" + col + '_' + row);
-	if (child)
-		root.removeChild(child);
-	var element = document
-			.createElementNS("http://www.w3.org/2000/svg", "rect");
+	var e = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 	var pos = cellToPos(col, row);
 
-	element.setAttribute("id", "e" + col + '_' + row);
-	element.setAttribute("x", pos[0] + 2);
-	element.setAttribute("y", pos[1] + 2);
-	element.setAttribute("width", cellsize - 2);
-	element.setAttribute("height", cellsize - 2);
+	deleteElement( new position(col + "," + row) );
 
-	element.style.fill = colorToRGB[clr];
+	e.setAttribute("id", "e" + col + '_' + row);
+	e.setAttribute("x", pos[0] + 2);
+	e.setAttribute("y", pos[1] + 2);
+	e.setAttribute("width", cellsize - 2);
+	e.setAttribute("height", cellsize - 2);
 
-	root.appendChild(element);
+	e.style.fill = colorToRGB[clr];
+
+	$("#mosaics").append(e);
 }
 
 function circle(col, row, clr) {
-	var root = document.getElementsByTagName("svg")[0];
-	var child = root.getElementById("e" + col + '_' + row);
-	if (child)
-		root.removeChild(child);
-	var element = document.createElementNS("http://www.w3.org/2000/svg",
-			"circle");
+	var e = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 	var pos = cellToPos(col, row);
 
-	element.setAttribute("id", "e" + col + '_' + row);
-	element.setAttribute("r", cellsize / 2 - 1);
-	element.setAttribute("cx", cellsize / 2 + 1 + pos[0]);
-	element.setAttribute("cy", cellsize / 2 + 1 + pos[1]);
+	deleteElement( new position(col + "," + row) );
 
-	element.style.fill = colorToRGB[clr];
+	e.setAttribute("id", "e" + col + '_' + row);
+	e.setAttribute("r", cellsize / 2 - 1);
+	e.setAttribute("cx", cellsize / 2 + 1 + pos[0]);
+	e.setAttribute("cy", cellsize / 2 + 1 + pos[1]);
 
-	root.appendChild(element);
+	e.style.fill = colorToRGB[clr];
+
+	$("#mosaics").append(e);
 }
 
 function rectangle(col, row, width, height, clr) {
@@ -50,52 +44,46 @@ function rectangle(col, row, width, height, clr) {
 }
 
 function line(col, row, p1, p2, clr) {
-	var root = document.getElementsByTagName("svg")[0];
-	var child = root.getElementById("e" + col + '_' + row);
-	if (child)
-		root.removeChild(child);
-	var element = document
-			.createElementNS("http://www.w3.org/2000/svg", "line");
+	var e = document.createElementNS("http://www.w3.org/2000/svg", "line");
 	var pos = cellToPos(col, row);
 
 	var p1Offset = pointOffset(p1);
 	var p2Offset = pointOffset(p2);
+	
+	deleteElement( new position(col + "," + row) );
 
-	element.setAttribute("id", "e" + col + '_' + row);
-	element.setAttribute("x1", p1Offset[0] + pos[0]);
-	element.setAttribute("y1", p1Offset[1] + pos[1]);
-	element.setAttribute("x2", p2Offset[0] + pos[0]);
-	element.setAttribute("y2", p2Offset[1] + pos[1]);
+	e.setAttribute("id", "e" + col + '_' + row);
+	e.setAttribute("x1", p1Offset[0] + pos[0]);
+	e.setAttribute("y1", p1Offset[1] + pos[1]);
+	e.setAttribute("x2", p2Offset[0] + pos[0]);
+	e.setAttribute("y2", p2Offset[1] + pos[1]);
 
-	element.style.stroke = colorToRGB[clr];
-	element.style.strokeWidth = 2;
+	e.style.stroke = colorToRGB[clr];
+	e.style.strokeWidth = 2;
 
-	root.appendChild(element);
+	$("#mosaics").append(e);
 }
 
 function triangle(col, row, p1, p2, p3, clr) {
-	var root = document.getElementsByTagName("svg")[0];
-	var child = root.getElementById("e" + col + '_' + row);
-	if (child)
-		root.removeChild(child);
-	var element = document.createElementNS("http://www.w3.org/2000/svg",
-			"polygon");
+	var e = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 	var pos = cellToPos(col, row);
 
 	var p1Offset = pointOffset(p1);
 	var p2Offset = pointOffset(p2);
 	var p3Offset = pointOffset(p3);
+	
+	deleteElement( new position(col + "," + row) );
 
-	element.setAttribute("id", "e" + col + '_' + row);
-	element.setAttribute("points", p1Offset[0] + pos[0] + ","
+	e.setAttribute("id", "e" + col + '_' + row);
+	e.setAttribute("points", p1Offset[0] + pos[0] + ","
 					+ Number(p1Offset[1] + pos[1]) + " "
 					+ Number(p2Offset[0] + pos[0]) + ","
 					+ Number(p2Offset[1] + pos[1]) + " "
 					+ Number(p3Offset[0] + pos[0]) + ","
 					+ Number(p3Offset[1] + pos[1]));
-	element.style.fill = colorToRGB[clr];
+	e.style.fill = colorToRGB[clr];
 
-	root.appendChild(element);
+	$("#mosaics").append(e);
 }
 
 function squares(posBounds, clr) {
@@ -130,59 +118,65 @@ function triangles(posBounds, p1, p2, p3, clr) {
 	}
 }
 
-function deleteElement(pos, addToHistory) {
+function deleteElement(pos) {
 	var element = $("#e" + pos.col + '_' + pos.row);
-	if( element.get(0) != undefined ) {		
-		if(addToHistory) elementHistory.push(element);
-		element.remove();
-	} else {
-		if(addToHistory) elementHistory.push(undefined);
-	}
+	
+	if(elementHistory[pos.toString()] == undefined) 
+		elementHistory[pos.toString()] = [];
+	elementHistory[pos.toString()].push(element);
+	element.remove();
 }
 
-function deleteElements(posBounds, addToHistory) {
+function deleteElements(posBounds) {
 	var pos = new position("0,0");
 	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
 		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
 			pos.col = i;
 			pos.row = j;
-			deleteElement(pos, addToHistory);
+			deleteElement(pos);
 		}
 	}
+}
+
+function rectangleBounds(params) {
+	var p2 = new position(params[2] + "," + params[3]);
+	p2.col += Number(params[0]) - 1;
+	p2.row += Number(params[1]) - 1;
+	return new positionBounds(params[0] + "," + params[1] + "..."
+			+ p2.toString());
+}
+
+function restoreElements(posBounds) {
+	var element = undefined;
+	var mosaicsSVG = $("#mosaics");
+	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
+		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
+			if(elementHistory[i + "," + j])
+				element = elementHistory[i + "," + j].pop();
+			$("#e" + i + "_" + j).remove();
+			if(element) mosaicsSVG.append(element);
+		}
+	}	
 }
 
 function restoreDeletedElements(cmd, params) {
-	var element;
+	var element = undefined;
 	var mosaicsSVG = $("#mosaics");
 	if( cmd[1].indexOf("...") == -1) {
-		element = elementHistory.pop();
-		if(element) mosaicsSVG.append(element);
-	}
-	else {
-		var bounds = new positionBounds(params[0] + "," + params[1] + "," + params[2].replace(")","") );
-		var numberOfDeletedElements = 
-			(bounds.endPos.col-bounds.startPos.col+1)*(bounds.endPos.row-bounds.startPos.row+1);
-		for( var i = 0; i < numberOfDeletedElements ; i++) {
-			element = elementHistory.pop();
-			if(element) mosaicsSVG.append(element);
-		}
-	}
-}
-
-function deleteElementsAddedByPrevCmd(cmd, params) {
-	if( cmd[1].indexOf("...") == -1 ) {
 		// it's not an arry command
 		if( cmd[0] == "rectangle" ) {
-			var p2 = new position(params[2] + "," + params[3]);
-			p2.col += Number(params[0]) - 1;
-			p2.row += Number(params[1]) - 1;
-			var bounds = new positionBounds(params[0] + "," + params[1] + "..."
-					+ p2.toString());
-			deleteElements(bounds, false);
-		} else
-			deleteElement(new position(params[0] + "," + params[1]), false);
-	} else {
-		deleteElements(new positionBounds(params[0] + "," + params[1] + "," + params[2]), false);
+			var bounds = rectangleBounds(params);
+			restoreElements(bounds);
+		} else {
+			if(elementHistory[params[0] + "," + params[1]])
+				element = elementHistory[params[0] + "," + params[1]].pop();
+			$("#e" + params[0] + "_" + params[1]).remove();
+			if(element) mosaicsSVG.append(element);			
+		}
+	}
+	else {
+		var posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2].replace(")","") );
+		restoreElements(posBounds);
 	}
 }
 
@@ -193,21 +187,17 @@ function undoCommand() {
 		return;
 	else {
 		var cmd = fullCmd.split("(");
-		var params = cmd[1].split(",");
+		var params = cmd[1].replace(")","").split(",");
 
 		redoHistory.push(fullCmd);
 		document.getElementById("redoBtn").disabled = false;
 		
-		if( cmd[0].indexOf("clearcell") != -1) {
-			restoreDeletedElements(cmd, params);
-		} else {
-			deleteElementsAddedByPrevCmd(cmd, params);
-		}
-		
+		restoreDeletedElements(cmd, params);
+
 		var historyListGroup = document.getElementById("history");
 		var listElements = historyListGroup.getElementsByTagName("li");
 		
-		for(var i = listElements.length-1;i>=0;i--) {	
+		for(var i = listElements.length-1; i >= 0; i--) {	
 			if(listElements[i].getAttribute("class") == "list-group-item active")
 			{
 				listElements[i].setAttribute("class","list-group-item");
@@ -216,22 +206,8 @@ function undoCommand() {
 			}
 		}
 		
-		fullCmd = undoHistory.pop();
-		cmd = fullCmd.split("(");
-		if( cmd[0].indexOf("clearcell") == -1) {
-			//execute second last command to add elements that may have been overwritten
-			if (fullCmd == undefined) {
-				document.getElementById("undoBtn").disabled = true;
-				return;
-			}
-			else {
-				var params = cmd[1].split(",");
-				params[params.length - 1] = 
-					params[params.length - 1].replace(")","");
-				executeCommand(cmd[0], params);
-				undoHistory.push(fullCmd);
-			}
-		} else undoHistory.push(fullCmd);
+		if (undoHistory.length == 0) 
+			document.getElementById("undoBtn").disabled = true;
 	}
 }
 
@@ -250,7 +226,7 @@ function redoCommand() {
 		var cmd = fullCmd.split("(");
 		var params = cmd[1].split(",");
 		params[params.length - 1] = params[params.length - 1].replace(")", "");
-		executeCommand(cmd[0], params);
+		executeCommand(fullCmd);
 	}
 	
 	var historyListGroup = document.getElementById("history");
@@ -297,6 +273,16 @@ function addCmdToListGroup() {
 }
 
 function manageHistory(command) {
+	var cmdAndParams = command.split("(");
+	var cmd = cmdAndParams[0], params = cmdAndParams[1];
+	
+	params = params.replace(")","");
+	params = params.split(/,|\.\.\./);
+	
+	if(	$("#color_dropdown").val() != "(None)" && 
+		requiredParamCountForCmd(cmd) == params.length+1)
+		command = command.replace(")","," + $("#color_dropdown").val() + ")");
+	
 	undoHistory.push(command);
 	redoHistory = [];
 	removeRedoCmdsFromListGroup();
@@ -347,6 +333,18 @@ function positionBounds(pB) {
 	if (positions.length == 2) {
 		this.startPos = new position(positions[0]);
 		this.endPos = new position(positions[1]);
+		if(this.startPos.col > this.endPos.col)
+		{
+			var tmp = this.startPos.col;
+			this.startPos.col = this.endPos.col;
+			this.endPos.col = tmp;
+		}
+		if(this.startPos.row > this.endPos.row)
+		{
+			var tmp = this.startPos.row;
+			this.startPos.row = this.endPos.row;
+			this.endPos.row = tmp;
+		}
 	} else {
 		this.startPos = this.endPos = new position("-1,-1");
 	}
