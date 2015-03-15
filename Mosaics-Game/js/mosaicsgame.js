@@ -300,7 +300,7 @@ function save() {
 	$.ajax({
 
 		type : 'POST',
-		url : 'php/EDIT_SVG_index.php',
+		url : 'php/Edit_SVG_index.php',
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
 			'category' : $("#category_dropdown").val(),
