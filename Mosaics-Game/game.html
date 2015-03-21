@@ -57,8 +57,51 @@
 	<div class="container">
 		<div class="page-header">
 			<h1>
-				Game<br><small>Complete the mosaic using as few commands as possible!</small>
+				Game<br>
+				<small>
+					Complete the mosaic using as few commands as possible!
+				</small>
 			</h1>
+			<div class="panel-group scrollable" id="hint" role="tablist"
+				aria-multiselectable="true" 
+				style="height:100%;width:450px;margin-left:auto;margin-right:auto">
+				<a class="collapsed" data-toggle="collapse" data-parent="#hint" 
+					href="#hintcoll" aria-expanded="false" aria-controls="hintcoll">
+					<div class="panel panel-default">
+						<div id="hinth" class="panel-heading" role="tab" >
+							<h4 class="panel-title" style="text-align: center;">
+								Click here if you're playing this game for the first time.
+							</h4>
+						</div>
+					</div>
+				</a>
+						
+				<div aria-expanded="false" id="hintcoll" class="panel-collapse collapse" 
+					role="tabpanel" aria-labelledby="hinth">
+					<div class="panel-body">
+						<ul class="list-group">
+							<li class="list-group-item">
+								1. Choose a mosaic by clicking on it
+							</li>
+							<li class="list-group-item">
+								2. Click 'start playing'
+							</li>
+							<li class="list-group-item">
+								3. Read the 'What can I do?' section bottom left on this page
+							</li>
+							<li class="list-group-item">
+								4. Complete the mosaic by using the available commands
+							</li>
+							<li class="list-group-item">
+								5. Win the game and delight in it :)
+							</li>
+							<li class="list-group-item">
+								6. Repeat these steps and maybe skip step 3
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="jumbotron row">
 			<div class="col-md-2">
@@ -142,12 +185,15 @@
 					<input id="cmdBtn" name="OK" value="OK" type="submit"
 						class="btn btn-default mosaicsElement" />
 				</div>
+				<span style="margin-left:20px;">
+					Default color:
+				</span>
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
 							id="color_dropdown" data-toggle="dropdown"
-							aria-expanded="true" value="(None)">
-							Default color <span class="caret"></span>
+							aria-expanded="true" value="black">
+							black <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu coldd" role="menu"
 							aria-labelledby="dropdownMenu1">
@@ -155,6 +201,22 @@
 						</ul>
 					</div>
 				</div>
+				<div class="form-group">
+					<div class="btn-group" role="group">
+						<button id="undoBtn" type="button" value="undo" style="margin-top:0px;"
+							class="btn btn-default" onClick="undoCommand()">
+							undo <span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
+						</button>
+						<button id="redoBtn" type="button" value="redo" style="margin-top:0px;"
+							class="btn btn-default" onClick="redoCommand()">
+							<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							redo
+						</button>
+					</div>
+				</div>
+				<span style="margin-left:30px;">
+					Command count: <span id="cmdCount"></span>
+				</span>
 			</form>
 		</div>
 
@@ -189,7 +251,7 @@
 		</div>
 
 		<div class="jumbotron row">
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="boxes">
 					<h3>What can I do?</h3>
 					<div class="panel-group scrollable" id="accordion" role="tablist"
@@ -197,38 +259,19 @@
 				</div>
 			</div>
 			
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="boxes">
 					<h3 class="headingColors">Available colors</h3>
 					<div id="spanColors"></div>
 				</div>
 			</div>
 			
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="boxes">
 					<h3>Extra definitions</h3>
 					<p>Describe the positions in one cell. Abbrevations: [C]enter,
 						[T]op, [B]ottom, [L]eft, [R]ight:</p>
 					<img src="images/extradefinitions.png">
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="boxes">
-					<h3>History:</h3>
-					<ul id="history" class="scrollable"></ul>
-					<form>
-						<button id="undoBtn" type="button" value="undo"
-							class="btn btn-default mosaicsElement" onClick="undoCommand()">
-							<span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
-							undo
-						</button>
-						<button id="redoBtn" type="button" value="redo"
-							class="btn btn-default mosaicsElement" onClick="redoCommand()">
-							<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-							redo
-						</button>
-					</form>
 				</div>
 			</div>
 		</div>

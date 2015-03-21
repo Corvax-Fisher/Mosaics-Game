@@ -147,7 +147,8 @@ li {
 }
 
 .list-group-item {
-	padding: 2px;
+	padding: 5px;
+	padding-left: 10px;
 }
 
 .radio input[type="radio"] {

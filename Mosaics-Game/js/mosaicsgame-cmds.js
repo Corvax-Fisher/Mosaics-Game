@@ -86,34 +86,50 @@ function triangle(col, row, p1, p2, p3, clr) {
 	$("#mosaics").append(e);
 }
 
-function squares(posBounds, clr) {
-	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
-		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
-			square(i, j, clr);
+function squares(posRanges, clr) {
+	for (var i = posRanges.colRange.from; 
+			i <= posRanges.colRange.to; 
+			i += posRanges.colRange.inc) {
+		for (var j = posRanges.rowRange.from; 
+			j <= posRanges.rowRange.to; 
+			j += posRanges.rowRange.inc) {
+			square(Math.abs(i), Math.abs(j), clr);
 		}
 	}
 }
 
-function circles(posBounds, clr) {
-	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
-		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
-			circle(i, j, clr);
+function circles(posRanges, clr) {
+	for (var i = posRanges.colRange.from; 
+			i <= posRanges.colRange.to; 
+			i += posRanges.colRange.inc) {
+		for (var j = posRanges.rowRange.from; 
+			j <= posRanges.rowRange.to; 
+			j += posRanges.rowRange.inc) {
+			circle(Math.abs(i), Math.abs(j), clr);
 		}
 	}
 }
 
-function lines(posBounds, p1, p2, clr) {
-	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
-		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
-			line(i, j, p1, p2, clr);
+function lines(posRanges, p1, p2, clr) {
+	for (var i = posRanges.colRange.from; 
+			i <= posRanges.colRange.to; 
+			i += posRanges.colRange.inc) {
+		for (var j = posRanges.rowRange.from; 
+			j <= posRanges.rowRange.to; 
+			j += posRanges.rowRange.inc) {
+			line(Math.abs(i), Math.abs(j), p1, p2, clr);
 		}
 	}
 }
 
-function triangles(posBounds, p1, p2, p3, clr) {
-	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
-		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
-			triangle(i, j, p1, p2, p3, clr);
+function triangles(posRanges, p1, p2, p3, clr) {
+	for (var i = posRanges.colRange.from; 
+			i <= posRanges.colRange.to; 
+			i += posRanges.colRange.inc) {
+		for (var j = posRanges.rowRange.from; 
+			j <= posRanges.rowRange.to; 
+			j += posRanges.rowRange.inc) {
+			triangle(Math.abs(i), Math.abs(j), p1, p2, p3, clr);
 		}
 	}
 }
@@ -127,12 +143,16 @@ function deleteElement(pos) {
 	element.remove();
 }
 
-function deleteElements(posBounds) {
+function deleteElements(posRanges) {
 	var pos = new position("0,0");
-	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
-		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
-			pos.col = i;
-			pos.row = j;
+	for (var i = posRanges.colRange.from; 
+			i <= posRanges.colRange.to; 
+			i += posRanges.colRange.inc) {
+		for (var j = posRanges.rowRange.from; 
+			j <= posRanges.rowRange.to; 
+			j += posRanges.rowRange.inc) {
+			pos.col = Math.abs(i);
+			pos.row = Math.abs(j);
 			deleteElement(pos);
 		}
 	}
@@ -146,14 +166,25 @@ function rectangleBounds(params) {
 			+ p2.toString());
 }
 
-function restoreElements(posBounds) {
+function rectangleRanges(params) {
+	var colRangeStr = params[0] + ":" + (Number(params[0]) + Number(params[2]) - 1).toString();
+	var rowRangeStr = params[1] + ":" + (Number(params[1]) + Number(params[3]) - 1).toString();
+	return new positionRanges(colRangeStr,rowRangeStr);
+}
+
+function restoreElements(posRanges) {
 	var element = undefined;
 	var mosaicsSVG = $("#mosaics");
-	for (var i = posBounds.startPos.col; i <= posBounds.endPos.col; i++) {
-		for (var j = posBounds.startPos.row; j <= posBounds.endPos.row; j++) {
-			if(elementHistory[i + "," + j])
-				element = elementHistory[i + "," + j].pop();
-			$("#e" + i + "_" + j).remove();
+	
+	for (var i = posRanges.colRange.from; 
+			i <= posRanges.colRange.to; 
+			i += posRanges.colRange.inc) {
+		for (var j = posRanges.rowRange.from; 
+			j <= posRanges.rowRange.to; 
+			j += posRanges.rowRange.inc) {
+			if(elementHistory[Math.abs(i) + "," + Math.abs(j)])
+				element = elementHistory[Math.abs(i) + "," + Math.abs(j)].pop();
+			$("#e" + Math.abs(i) + "_" + Math.abs(j)).remove();
 			if(element) mosaicsSVG.append(element);
 		}
 	}	
@@ -162,22 +193,26 @@ function restoreElements(posBounds) {
 function restoreDeletedElements(cmd, params) {
 	var element = undefined;
 	var mosaicsSVG = $("#mosaics");
-	if( cmd[1].indexOf("...") == -1) {
-		// it's not an arry command
-		if( cmd[0] == "rectangle" ) {
-			var bounds = rectangleBounds(params);
-			restoreElements(bounds);
-		} else {
-			if(elementHistory[params[0] + "," + params[1]])
-				element = elementHistory[params[0] + "," + params[1]].pop();
-			$("#e" + params[0] + "_" + params[1]).remove();
-			if(element) mosaicsSVG.append(element);			
-		}
-	}
-	else {
-		var posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2].replace(")","") );
-		restoreElements(posBounds);
-	}
+	// if(cmd.charAt(cmd.length-1) != "s") {
+		// // it's not an arry command
+		// if( cmd == "rectangle" ) {
+			// var ranges = rectangleRanges(params); //rectangleBounds(params);
+			// restoreElements(ranges);
+		// } else {
+			// if(elementHistory[params[0] + "," + params[1]])
+				// element = elementHistory[params[0] + "," + params[1]].pop();
+			// $("#e" + params[0] + "_" + params[1]).remove();
+			// if(element) mosaicsSVG.append(element);			
+		// }
+	// }
+	// else {
+		// var posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2].replace(")","") );
+		// restoreElements(posBounds);
+		var posRanges;
+		if( cmd == "rectangle" ) posRanges = rectangleRanges(params);
+		else posRanges = new positionRanges(params[0],params[1]);
+		restoreElements(posRanges);
+	// }
 }
 
 function undoCommand() {
@@ -186,28 +221,23 @@ function undoCommand() {
 	if (fullCmd == undefined)
 		return;
 	else {
-		var cmd = fullCmd.split("(");
-		var params = cmd[1].replace(")","").split(",");
+		var cmdAndParams = fullCmd.split("(");
+		var cmd = cmdAndParams[0];
+		var params = cmdAndParams[1].replace(")","").split(",");
 
 		redoHistory.push(fullCmd);
 		document.getElementById("redoBtn").disabled = false;
 		
 		restoreDeletedElements(cmd, params);
 
-		var historyListGroup = document.getElementById("history");
-		var listElements = historyListGroup.getElementsByTagName("li");
-		
-		for(var i = listElements.length-1; i >= 0; i--) {	
-			if(listElements[i].getAttribute("class") == "list-group-item active")
-			{
-				listElements[i].setAttribute("class","list-group-item");
-				if(i > 0) listElements[i-1].setAttribute("class","list-group-item active");
-				break;
-			}
-		}
+		$("#cmdCount").text(undoHistory.length);
+		$("#history > li.active")
+			.toggleClass("active")
+			.prev()
+			.toggleClass("active");
 		
 		if (undoHistory.length == 0) 
-			document.getElementById("undoBtn").disabled = true;
+			$("#undoBtn").prop("disabled", true);
 	}
 }
 
@@ -218,7 +248,7 @@ function redoCommand() {
 		return;
 	else {
 		if(redoHistory.length == 0)
-			document.getElementById("redoBtn").disabled = true;
+			$("#redoBtn").prop("disabled", true);
 
 		undoHistory.push(fullCmd);
 		document.getElementById("undoBtn").disabled = false;
@@ -227,49 +257,29 @@ function redoCommand() {
 		var params = cmd[1].split(",");
 		params[params.length - 1] = params[params.length - 1].replace(")", "");
 		executeCommand(fullCmd);
-	}
-	
-	var historyListGroup = document.getElementById("history");
-	var listElements = historyListGroup.getElementsByTagName("li");
-	
-	for(var i = listElements.length-1;i>=-1;i--) {	
-		if(i == -1) {
-			listElements[0].setAttribute("class","list-group-item active");
-			break;
-		}
-		if(listElements[i].getAttribute("class") == "list-group-item active")
-		{
-			listElements[i].setAttribute("class","list-group-item");
-			listElements[i+1].setAttribute("class","list-group-item active");
-			break;
-		}
+		
+		$("#cmdCount").text(undoHistory.length);
+		if($("#history > li.active").length == 0)
+			$("#history > li:first-child").toggleClass("active");
+		else
+			$("#history > li.active")
+				.toggleClass("active")
+				.next()
+				.toggleClass("active");
 	}
 }
 
 function removeRedoCmdsFromListGroup() {
-	var historyListGroup = document.getElementById("history");
-	var listElements = historyListGroup.getElementsByTagName("li");
-	
-	for(var i = listElements.length-1;i>=0;i--) {	
-		if(listElements[i].getAttribute("class") == "list-group-item active")
-			break;
-		else if(listElements[i].getAttribute("class") == "list-group-item")
-			historyListGroup.removeChild(listElements[i]);
-	}
+	var $lastCommand = $("#history > li.active");
+	if($lastCommand.length == 0) $("#history").empty();
+	else $lastCommand.nextAll().remove();
 }
 
-function addCmdToListGroup() {
-	var historyListGroup = document.getElementById("history");
-	var listElements = historyListGroup.getElementsByTagName("li");
-	
-	var li = document.createElement("li");
-	li.setAttribute("class", "list-group-item active");
-	var text = document.createTextNode(undoHistory[undoHistory.length-1]);
-	li.appendChild(text);
-	document.getElementById("history").appendChild(li);
-	
-	if(listElements.length > 1) 
-		listElements[listElements.length-2].setAttribute("class", "list-group-item");
+function addCmdToListGroup(command) {
+	$("#history > li:last-child").toggleClass("active");
+	$("#history")
+		.append("<li class='list-group-item active'>"+
+				command + "</li>");
 }
 
 function manageHistory(command) {
@@ -277,7 +287,7 @@ function manageHistory(command) {
 	var cmd = cmdAndParams[0], params = cmdAndParams[1];
 	
 	params = params.replace(")","");
-	params = params.split(/,|\.\.\./);
+	params = params.split(",");
 	
 	if(	$("#color_dropdown").val() != "(None)" && 
 		requiredParamCountForCmd(cmd) == params.length+1)
@@ -286,9 +296,9 @@ function manageHistory(command) {
 	undoHistory.push(command);
 	redoHistory = [];
 	removeRedoCmdsFromListGroup();
-	addCmdToListGroup();
-	document.getElementById("undoBtn").disabled = false;
-	document.getElementById("redoBtn").disabled = true;
+	addCmdToListGroup(command);
+	$("#undoBtn").prop("disabled", false);
+	$("#redoBtn").prop("disabled", true);
 }
 
 function cellToPos(col, row) {
@@ -348,4 +358,107 @@ function positionBounds(pB) {
 	} else {
 		this.startPos = this.endPos = new position("-1,-1");
 	}
+}
+
+function positionRange(rangeStr) {
+	var range = rangeStr.split(":");
+	
+	if (range.length == 3) {
+		this.from = Number(range[0]);
+		this.inc = Number(range[1]);
+		this.to = Number(range[2]);
+	} else if(range.length == 2) {
+		this.from = Number(range[0]);
+		this.to = Number(range[1]);
+		if(this.to >= this.from) this.inc = 1;
+		else this.inc = -1;
+	} else if(range.length == 1) {
+		this.from = this.to = Number(range[0]);
+		this.inc = 1;
+	} else {
+		this.from = this.to = this.inc = Number.NaN;
+	}
+	
+	this.swapSign = function() {
+		this.from *= -1;
+		this.inc *= -1;
+		this.to *= -1;
+		this.signSwapped = true;
+	}
+	
+	if(this.from > this.to && this.from >= 0 && this.to >= 0) this.swapSign();
+	else this.signSwapped = false;
+	
+	this.validateInc = function() {
+		return  (this.to-this.from >= 0 && this.inc > 0 &&
+				this.inc == parseInt(this.inc) )
+	};
+}
+
+function positionRanges(colStr, rowStr) {
+	this.colRange = new positionRange(colStr);
+	this.rowRange = new positionRange(rowStr);
+	
+	this.validate = function() {
+		var errMsg = "Invalid position Ranges (", err=false;
+		
+		if(this.colRange.signSwapped) this.colRange.swapSign();
+		if(this.rowRange.signSwapped) this.rowRange.swapSign();
+		
+		if(Number.isNaN(this.colRange.from) || 
+			this.colRange.from < 1 ||
+			this.colRange.from > bounds[0] ||
+			this.colRange.from != parseInt(this.colRange.from) ) {
+			errMsg += "colum start position";
+			err = true;
+		}
+		if(Number.isNaN(this.colRange.to) || 
+			this.colRange.to < 1 ||
+			this.colRange.to > bounds[0] ||
+			this.colRange.to != parseInt(this.colRange.to)) {
+			if(err) errMsg += ", ";
+			errMsg += "colum end position";
+			err = true;
+		}
+		
+		if(this.colRange.signSwapped) this.colRange.swapSign();
+		if(this.colRange.inc != 1) {
+			if(!this.colRange.validateInc()) {
+				if(err) errMsg += ", ";
+				errMsg += "colum increment"
+				err = true;
+			}
+		}
+		if(this.colRange.signSwapped) this.colRange.swapSign();
+		
+		if(Number.isNaN(this.rowRange.from) || 
+			this.rowRange.from < 1 ||
+			this.rowRange.from > bounds[1] ||
+			this.rowRange.from != parseInt(this.rowRange.from)) {
+			if(err) errMsg += ", ";
+			errMsg += "row start position"
+			err = true;
+		}
+		if(Number.isNaN(this.rowRange.to) || 
+			this.rowRange.to < 1 ||
+			this.rowRange.to > bounds[1] ||
+			this.rowRange.to != parseInt(this.rowRange.to)) {
+			if(err) errMsg += ", ";
+			errMsg += "row end position"
+			err = true;
+		}
+		
+		if(this.rowRange.signSwapped) this.rowRange.swapSign();
+		if(this.rowRange.inc != 1) {
+			if(!this.rowRange.validateInc()) {
+				if(err) errMsg += ", ";
+				errMsg += "row increment"
+				err = true;
+			}
+		}
+		if(this.rowRange.signSwapped) this.rowRange.swapSign();
+		
+		if(err) return errMsg + ").";
+		else return undefined;
+	};
 }

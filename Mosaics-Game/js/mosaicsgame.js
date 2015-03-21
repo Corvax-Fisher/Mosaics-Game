@@ -7,15 +7,9 @@ var cellsize = 40;
 var bounds = [ 8, 8 ];
 
 var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
-               "maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal",
-               "yellow" ];
+					"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal", "yellow" ];
 
-var availableCmds = ["circle","circles",
-                     "line","lines",
-                     "rectangle",
-                     "square","squares",
-                     "triangle","triangles",
-                     "clearcell", "clearcells"];
+var availableCmds = ["circle", "line", "rectangle", "square", "triangle", "clearcell"];
 
 var colorToRGB = {	"aqua" 		: "rgb(0, 255, 255)", 
 					"black" 	: "rgb(0, 0, 0)", 
@@ -57,9 +51,18 @@ $(function() {
 	
 	$colorList = $(".coldd");
 	$.each(validColors, function(i,color) {
-		$colorList.append("<li><a>" + color + "</a></li>");
+		$colorList.append(	"<li>" +
+								"<a>"+
+									"<span style=color:" + 
+										validColors[i] + ">"
+										+ validColors[i] +
+									"</span>"+
+								"</a>"+
+							"</li>");
 	});
 	
+	$("#undoBtn").attr("disabled", true);
+	$("#redoBtn").attr("disabled", true);
 	$(".mosaicsElement").attr("disabled", true);
 
 	if (filename == "index.html" || filename == "") {
@@ -183,74 +186,81 @@ function executeCommand(cmdLine) {
 		cmdParams.push($("#color_dropdown").val());
 	
 	switch (cmdName) {
-	case "clearcell":
-		deleteElement( new position(cmdParams[0] +"," + cmdParams[1]) );
-		break;
-	case "square":
-		square(cmdParams[0], cmdParams[1], cmdParams[2]);
-		break;
-	case "circle":
-		circle(Number(cmdParams[0]), Number(cmdParams[1]), cmdParams[2]);
-		break;
+	// case "clearcell":
+		// deleteElement( new position(cmdParams[0] +"," + cmdParams[1]) );
+		// break;
+	// case "square":
+		// square(cmdParams[0], cmdParams[1], cmdParams[2]);
+		// break;
+	// case "circle":
+		// circle(Number(cmdParams[0]), Number(cmdParams[1]), cmdParams[2]);
+		// break;
 	case "rectangle":
 		rectangle(Number(cmdParams[0]), Number(cmdParams[1]),
 				Number(cmdParams[2]), Number(cmdParams[3]), cmdParams[4]);
 		break;
+	// case "line":
+		// line(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
+				// cmdParams[3].toLowerCase(), cmdParams[4]);
+		// break;
+	// case "triangle":
+		// triangle(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
+				// cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(),
+				// cmdParams[5]);
+		// break;
+	case "clearcell":
+		deleteElements( new positionRanges(cmdParams[0],cmdParams[1]) );
+		break;
+	case "square":
+		squares(new positionRanges(cmdParams[0],cmdParams[1]), cmdParams[2]);
+		break;
+	case "circle":
+		circles(new positionRanges(cmdParams[0],cmdParams[1]), cmdParams[2]);
+		break;
 	case "line":
-		line(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
-				cmdParams[3].toLowerCase(), cmdParams[4]);
+		lines(new positionRanges(cmdParams[0],cmdParams[1]), cmdParams[2].toLowerCase(),
+			cmdParams[3].toLowerCase(), cmdParams[4]);
 		break;
 	case "triangle":
-		triangle(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
-				cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(),
-				cmdParams[5]);
-		break;
-	case "clearcells":
-		deleteElements( new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]) );
-		break;
-	case "squares":
-		squares(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]), cmdParams[3]);
-		break;
-	case "circles":
-		circles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]), cmdParams[3]);
-		break;
-	case "lines":
-		lines(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]), cmdParams[3].toLowerCase(), cmdParams[4]
-		.toLowerCase(), cmdParams[5]);
-		break;
-	case "triangles":
-		triangles(new positionBounds(cmdParams[0] + "," + cmdParams[1] + ","
-				+ cmdParams[2]), cmdParams[3].toLowerCase(), cmdParams[4]
-		.toLowerCase(), cmdParams[5].toLowerCase(), cmdParams[6]);
+		triangles(new positionRanges(cmdParams[0],cmdParams[1]), cmdParams[2].toLowerCase(),
+			cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(), cmdParams[5]);
 		break;
 	}
 }
 
 function parseCommand(cmdLine) {
 	var cmdAndParams = cmdLine.split("(");
-	if (cmdAndParams.length == 2) {
-		var cmd= cmdAndParams[0], params = cmdAndParams[1];
-		
-		if(cmd.charAt(cmd.length-1) == "s" && params.indexOf("...") == -1) {
-			$("#err").html("Range operator (...) is missing.");
-			return 0;
-		}
-		
-		if (params.indexOf(")") == -1) {
-			$("#err").html("Closing bracket is missing.");
-			return 0;
-		}
+	var cmd = cmdAndParams[0], params;
 
-	} else {
-		$("#err").html("Opening bracket is missing.");
-		return 0;
+	if(cmdAndParams.length == 2) {
+		params = cmdAndParams[1];	
+		params = params.replace(")","");
+		params = params.split(",");
 	}
 	
-	return 1;
+	if(!validateCmdName(cmd)) {
+		$("#err").html("Unknown command.");
+	} else if (cmdLine.indexOf("(") == -1) {
+		$("#err").html("Opening bracket is missing.");
+	} else if (params == undefined) {
+		$("#err").html("Too much opening brackets.");
+	} else if (cmdLine.indexOf(")") == -1) {
+		$("#err").html("Closing bracket is missing.");
+	} else if(!validateNumberOfParams(cmd, params)) {
+		var numParams = params.length;
+		if(cmdAndParams[1].trim() == ")") numParams = 0;
+		$("#err").html("Invalid number of parameters (required " + 
+				requiredParamCountForCmd(cmdAndParams[0]) + 
+				", got "+ numParams + ").");
+	} 
+	// else if(	cmd.charAt(cmd.length-1) == "s" && 
+				// params[0].indexOf(":") == -1 &&
+				// params[1].indexOf(":") == -1) {
+		// $("#err").html('Range operator ":" is missing.');
+	// }
+	
+	if ($("#err").html().length == 0) return true;
+	else return false;
 }
 
 function showWinMessage() {
@@ -277,16 +287,17 @@ function draw(cmdLine) {
 	if(parseCommand(cmdLine) && validateParameters(cmdLine)) {
 		executeCommand(cmdLine);
 		manageHistory(cmdLine);
+		$("#cmdCount").text(undoHistory.length);
 		if(compareSVGs()) showWinMessage();
 	}
 
 	if ($("#err").html().length > 0) {
-		$("#messages").css("display", "block");
+		$("#messages").show();
 	} else {
-		$("#messages").css("display", "none");
+		$("#messages").hide();
 	}
 
-	$('#history').scrollTop($('#history')[0].scrollHeight);
+	$('#history').scrollTop($('#history').prop("scrollHeight"));
 
 	return false;
 }
@@ -298,24 +309,19 @@ function split(val) {
 
 //SAVE
 function save() {
-	var err = false;
 
 	if (undoHistory.length == 0) {
 		$("#save_err").html("Please draw something first");
-		err = true;
 	} else if ($("#inputFileNameToSaveAs").val() == "") {
 		$("#save_err").html("Please choose name");
-		err = true;
 	} else if ($("#category_dropdown").val() == "") {
 		$("#save_err").html("Please choose category");
-		err = true;
 	} else if ($("#dif_dropdown").val() == "") {
 		$("#save_err").html("Please choose difficulty");
-		err = true;
 	}
 
-	if (err == true) {
-		$("#save_messages").css("display", "block");
+	if ($("#save_err").html().length > 0) {
+		$("#save_messages").show();
 		window.scrollTo(0, document.body.scrollHeight);
 		return false;
 	}
@@ -330,7 +336,7 @@ function save() {
 	$.ajax({
 
 		type : 'POST',
-		url : 'php/EDIT_SVG_index.php',
+		url : 'php/Edit_SVG_index.php',
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
 			'category' : $("#category_dropdown").val(),
