@@ -307,9 +307,21 @@ function split(val) {
 	return val.split(/,\s*/);
 }
 
+//Check for regexp
+function regexp(){
+	var str = document.getElementById("inputFileNameToSaveAs").value;
+	
+	var patt = new RegExp("^[a-zA-Z1-9_\-]+$");
+	var res = patt.test(str);
+	return res;
+	
+}
+
 //SAVE
 function save() {
-
+	
+	$("#save_err").html("");
+	
 	if (undoHistory.length == 0) {
 		$("#save_err").html("Please draw something first");
 	} else if ($("#inputFileNameToSaveAs").val() == "") {
@@ -318,8 +330,10 @@ function save() {
 		$("#save_err").html("Please choose category");
 	} else if ($("#dif_dropdown").val() == "") {
 		$("#save_err").html("Please choose difficulty");
+	} else if (!regexp()){
+		$("#save_err").html("Please do not use whitespaces!");
 	}
-
+		
 	if ($("#save_err").html().length > 0) {
 		$("#save_messages").show();
 		window.scrollTo(0, document.body.scrollHeight);

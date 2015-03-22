@@ -33,6 +33,7 @@ if ($count > 0) {
 	$newChild->addChild ( "Width", $width );
 	$newChild->addChild ( "Length", $length );
 	$newChild->addChild ( "Dif", $dif );
+	$newChild->addChild ( "Permitted", "false" );
 	
 	// Format XML and save
 	$dom = new DOMDocument ( '1.0' );
