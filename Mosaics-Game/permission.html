@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Permission Check</title>
+
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
+	<script type="text/JavaScript" src="js/jquery.colorbox-min.js"></script>
+
+<script type="text/javascript">
+
+//PASSWORTSCHUTZ EVTL
+/* Check = prompt("Geben Sie Ihr Passwort fuer diese Seite ein","");
+ if(Check != "test") history.back();
+  else alert("Sie haben Zutritt"); */
+
+
+
+var svg;
+var anz;
+		
+function load(){
+	anz = 0;
+	$("#ausgabe").empty();
+	$("#header select").empty();
+	$("#svgfile").empty();
+	$.get("xml/SVG_index.xml",{},function(xml){
+
+		  $('SVG',xml).each(function(i) {
+			  var permitted = $(this).find("Permitted").text();
+			  var name =  $(this).find("Name").text();
+			  
+			  if (permitted=="false"){
+				  	anz++;
+					  $("#header select").append('<option>' + name + '</option>');}
+			  
+			  });
+		  
+			$("#ausgabe").text(anz + " unpermitted");
+		  });
+	 
+}
+
+function del(){
+	var name = svg;
+	if (name != null){
+	$.ajax({
+
+		type : 'POST',
+		url : 'php/Delete.php',
+		data : {
+			'name' : name,
+		},
+
+		success : function(response) {
+			$("#ausgabe").text(response);
+			setTimeout(function(){
+				load();
+				}, 5000);				
+		}
+	});
+	}else{
+		$("#ausgabe").text("Choose SVG before delete!");
+	}
+}
+
+function change(){
+	
+	svg = event.target.value;
+	$("#svgfile").load('SVGs/'+ svg + '.svg');
+}
+
+function permit(){
+	
+	var name = svg;
+	if (name != null){
+	$.ajax({
+
+		type : 'POST',
+		url : 'php/Change_Permission.php',
+		data : {
+			'name' : name,
+		},
+
+		success : function(response) {
+			$("#ausgabe").text(response);
+			setTimeout(function(){
+				load();
+				}, 5000);
+				
+		}
+	});
+	} else{
+		$("#ausgabe").text("Choose SVG before permit!");
+	}
+	
+}
+
+
+
+</script>
+
+
+</head>
+<body>
+<button type="button" onclick="load()">Load unpermitted</button>
+<div id="header">
+	<p>
+    <select id=liste" name="unpermitted svgs" size="8" onchange="change()">
+     
+  
+    </select>
+  </p>
+</div>
+<label id="ausgabe" style="color: red; font-size: 14pt"></label>
+<div>
+<button type="button" onclick="permit()">permit</button>
+<button type="button" onclick="del()">delete</button>
+</div>
+<div id="svgfile" style="width:400px; height: 400px;">
+</body>
+</html>
