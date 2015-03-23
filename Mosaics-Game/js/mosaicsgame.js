@@ -77,7 +77,7 @@ $(function() {
 
 	} else if (filename == "index.html"|| filename == "") {
 		
-		$.post("xml/SVG_index.xml", function(data) {
+		$.post("xml/svg_index.xml", function(data) {
 			$svg = $(data).find("SVG");
 			showPatternCatalogue("All categories","All levels");
 		});
@@ -369,7 +369,7 @@ function save() {
 	$.ajax({
 
 		type : 'POST',
-		url : 'php/Edit_SVG_index.php',
+		url : 'php/edit_svg_index.php',
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
 			'category' : $("#category_dropdown").val(),
@@ -528,7 +528,7 @@ function bindDropdownClickFunction() {
 		$("#category_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#category_dropdown").val($(this).text());
 		
-		if (filename = "game.html"){
+		if (filename = "index.html"){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
@@ -537,7 +537,7 @@ function bindDropdownClickFunction() {
 		$("#dif_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#dif_dropdown").val($(this).text());
 		
-		if (filename = "game.html"){
+		if (filename = "index.html"){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
