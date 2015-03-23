@@ -65,7 +65,7 @@ $(function() {
 	$("#redoBtn").attr("disabled", true);
 	$(".mosaicsElement").attr("disabled", true);
 
-	if (filename == "index.html" || filename == "") {
+	if (filename == "editor.html") {
 		
 		$("input[type='radio']").attr("disabled", false);
 		$("input[type='radio']").prop("checked", false);
@@ -75,7 +75,7 @@ $(function() {
 			if(this.checked) setGridSize(this.value);
 		});
 
-	} else if (filename == "game.html") {
+	} else if (filename == "index.html"|| filename == "") {
 		
 		$.post("xml/SVG_index.xml", function(data) {
 			$svg = $(data).find("SVG");
@@ -277,9 +277,28 @@ function showWinMessage() {
 	} );
 	
 	$("#colorbox").keydown(function(event){
-		if(event.key == "Enter") $.colorbox.close();
+		if(event.keyCode == 13) $.colorbox.close();
 	});
 }
+
+function showSavedMessage() {
+	$("#saved-message")
+		.find("p")
+		.empty()
+		.append("Saved, thank you!");
+	
+	$.colorbox( { 	inline: true, 
+		href: "#saved-message",
+		width: "400px", 
+		overlayClose: false,
+		close:'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>', 
+		onClosed:function(){location.reload(true);}});
+	
+	$("#colorbox").keydown(function(event){
+		if(event.keyCode == 13) $.colorbox.close();
+	});
+}
+
 
 function draw(cmdLine) {
 	$("#err").html("");
@@ -309,9 +328,9 @@ function split(val) {
 
 //Check for regexp
 function regexp(){
-	var str = document.getElementById("inputFileNameToSaveAs").value;
-	
-	var patt = new RegExp("^[a-zA-Z1-9_\-]+$");
+	//var str = document.getElementById("inputFileNameToSaveAs").value;
+	var str = $('#inputFileNameToSaveAs').val();
+	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
 	var res = patt.test(str);
 	return res;
 	
@@ -361,13 +380,13 @@ function save() {
 		},
 
 		success : function(response) {
-			$("#save_messages").css("display", "block");
-			$("#save_err").text(response);
+			//$("#save_messages").css("display", "block");
+			//$("#save_err").text(response);
 			if (response == "saved"){
-				setTimeout(function(){
-					   window.location.reload(1);
-					}, 5000);
-			} 
+				showSavedMessage();
+			} else {
+				$("#save_err").text(response);
+			}
 		}
 
 	});

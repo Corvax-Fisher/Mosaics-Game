@@ -6,15 +6,9 @@
 <title>Permission Check</title>
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
-	<script type="text/JavaScript" src="js/jquery.colorbox-min.js"></script>
+	
 
 <script type="text/javascript">
-
-//PASSWORTSCHUTZ EVTL
-/* Check = prompt("Geben Sie Ihr Passwort fuer diese Seite ein","");
- if(Check != "test") history.back();
-  else alert("Sie haben Zutritt"); */
 
 
 
@@ -23,6 +17,10 @@ var anz;
 		
 function load(){
 	anz = 0;
+	$('#permitBtn').attr("disabled", false);
+	$('#dif').empty();
+	$('#category').empty();
+	$('#size').empty();
 	$("#ausgabe").empty();
 	$("#header select").empty();
 	$("#svgfile").empty();
@@ -43,6 +41,29 @@ function load(){
 	 
 }
 
+function loadAll(){
+	anz = 0;
+	$('#permitBtn').attr("disabled", true);
+	$('#dif').empty();
+	$('#category').empty();
+	$('#size').empty();
+	$("#ausgabe").empty();
+	$("#header select").empty();
+	$("#svgfile").empty();
+	$.get("xml/SVG_index.xml",{},function(xml){
+
+		  $('SVG',xml).each(function(i) {
+			  anz++;
+			  var name =  $(this).find("Name").text();
+			  $("#header select").append('<option>' + name + '</option>');
+			  
+			  });
+		  
+			$("#ausgabe").text(anz + " SVGs");
+		  });
+	 
+}
+
 function del(){
 	var name = svg;
 	if (name != null){
@@ -58,7 +79,7 @@ function del(){
 			$("#ausgabe").text(response);
 			setTimeout(function(){
 				load();
-				}, 5000);				
+				}, 3000);				
 		}
 	});
 	}else{
@@ -66,11 +87,27 @@ function del(){
 	}
 }
 
-function change(){
-	
-	svg = event.target.value;
-	$("#svgfile").load('SVGs/'+ svg + '.svg');
-}
+ function change(){
+
+	 svg = $('#liste :selected').val();
+	 $("#svgfile").load('SVGs/'+ svg + '.svg');
+	 
+	 $.get("xml/SVG_index.xml",{},function(xml){
+		 $('SVG',xml).each(function(i) {
+			  var name =  $(this).find("Name").text();
+			  if (name == svg) {
+				  $('#dif').text("Difficulty: " + $(this).find("Dif").text());
+				  $('#category').text("Category: " + $(this).find("Category").text());
+				  $('#size').text("Size: " + $(this).find("Width").text() + " x " + $(this).find("Length").text());
+			  }
+		 });
+		 
+	 });
+} 
+
+
+
+
 
 function permit(){
 	
@@ -88,7 +125,7 @@ function permit(){
 			$("#ausgabe").text(response);
 			setTimeout(function(){
 				load();
-				}, 5000);
+				}, 3000);
 				
 		}
 	});
@@ -106,9 +143,10 @@ function permit(){
 </head>
 <body>
 <button type="button" onclick="load()">Load unpermitted</button>
+<button type="button" onclick="loadAll()">Load All</button>
 <div id="header">
 	<p>
-    <select id=liste" name="unpermitted svgs" size="8" onchange="change()">
+    <select id="liste" name="unpermitted svgs" size="8" onchange="change()">
      
   
     </select>
@@ -116,9 +154,16 @@ function permit(){
 </div>
 <label id="ausgabe" style="color: red; font-size: 14pt"></label>
 <div>
-<button type="button" onclick="permit()">permit</button>
+<button id="permitBtn" type="button" onclick="permit()" disabled >permit</button>
 <button type="button" onclick="del()">delete</button>
 </div>
+<br>
+<label id="category" style="color: black; font-size: 12pt"></label>
+<br>
+<label id="dif" style="color: black; font-size: 12pt"></label>
+<br>
+<label id="size" style="color: black; font-size: 12pt"></label>
+<br>
 <div id="svgfile" style="width:400px; height: 400px;">
 </body>
 </html>
