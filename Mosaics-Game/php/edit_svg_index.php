@@ -7,8 +7,7 @@ $category = $_POST['category'];
 $dif = $_POST['dif'];
 $svg = $_POST ['svg_xml'];
 
-$count = 0;
-
+$name = mb_strtolower($name);
 
 // SIMPLEXML
 
@@ -16,16 +15,19 @@ $xml = simplexml_load_file ( "../xml/SVG_index.xml" );
 
 // Check if Name already taken
 foreach ( $xml->SVG as $child ) {
-	if (( string ) $child->Name == $name) {
-		$count ++;
+	$str = mb_strtolower(( string ) $child->Name);
+	
+	if ($str == $name) {
+		echo ("Name already taken!");
+		return;
 	}
 }
 
 
 // Name Already taken else create Child Node
-if ($count > 0) {
-	echo ("Name already taken!");
-} else {
+// if ($count > 0) {
+// 	echo ("Name already taken!");
+// } else {
 	$newChild = $xml->addChild ( "SVG" );
 	$newChild->addAttribute ( "Filename", "$name.svg" );
 	$newChild->addChild ( "Name", $name );
@@ -46,6 +48,6 @@ if ($count > 0) {
 		echo "error saving $name";
 	else echo "saved";
 	
-}
+// }
 
 ?>

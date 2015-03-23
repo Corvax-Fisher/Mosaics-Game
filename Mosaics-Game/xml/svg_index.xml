@@ -19,8 +19,8 @@
   <SVG Filename="mittel.svg">
     <Name>mittel</Name>
     <Category>Things</Category>
-    <Width>12</Width>
-    <Length>18</Length>
+    <Width>8</Width>
+    <Length>8</Length>
     <Dif>Hard</Dif>
     <Permitted>false</Permitted>
   </SVG>
@@ -30,14 +30,6 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Normal</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="ok.svg">
-    <Name>ok</Name>
-    <Category>Symmetrical Patterns</Category>
-    <Width>12</Width>
-    <Length>12</Length>
-    <Dif>Hard</Dif>
     <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="America.svg">
