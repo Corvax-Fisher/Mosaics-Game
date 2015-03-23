@@ -135,21 +135,24 @@
 			</div>
 
 			<div class="row">
-				<div align="center" class="col-md-6">
-					<svg id="mosaics">
+				<div class="col-md-6">
+					<div id="mcontainer">
+						<div id="helplines"></div>
+						<svg id="mosaics">
 						<defs>
-							<pattern 	id="mosaics-grid-pattern" x="0" y="0" width="40" height="40"
-										patternUnits="userSpaceOnUse">
-								<line	id="hline" x1="1" y1="1" x2="40" y2="1"
-										style="stroke:#c1cdc1; stroke-width:2;" />
-					   			<line 	id="vline" x1="1" y1="0" x2="1" y2="40"
-										style="stroke:#c1cdc1; stroke-width:2;" />
+							<pattern id="mosaics-grid-pattern" x="0" y="0" width="40"
+								height="40" patternUnits="userSpaceOnUse">
+								<line id="hline" x1="1" y1="1" x2="40" y2="1"
+								style="stroke:#c1cdc1; stroke-width:2;" />
+					   			<line id="vline" x1="1" y1="0" x2="1" y2="40"
+								style="stroke:#c1cdc1; stroke-width:2;" />
 					      	</pattern>
 					   	</defs>
 					        
 					    <rect x="0" y="0" width=0 height=0
-							style="stroke: black; fill: url(#mosaics-grid-pattern);" />
+								style="stroke: black; fill: url(#mosaics-grid-pattern);" />
 					</svg>
+					</div>
 				</div>
 
 				<div class="col-md-3">

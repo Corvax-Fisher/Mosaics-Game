@@ -91,4 +91,53 @@
     <Length>24</Length>
     <Dif>Normal</Dif>
   </SVG>
+  <SVG Filename="Doggy.svg">
+    <Name>Doggy</Name>
+    <Category>Individual Patterns</Category>
+    <Width>12</Width>
+    <Length>12</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="Otaku.svg">
+    <Name>Otaku</Name>
+    <Category>Individual Patterns</Category>
+    <Width>18</Width>
+    <Length>12</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="Schwarze_Rauten.svg">
+    <Name>Schwarze_Rauten</Name>
+    <Category>Symmetrical Patterns</Category>
+    <Width>24</Width>
+    <Length>24</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="Green_Mini_Pencils.svg">
+    <Name>Green_Mini_Pencils</Name>
+    <Category>Things</Category>
+    <Width>8</Width>
+    <Length>8</Length>
+    <Dif>Easy</Dif>
+  </SVG>
+  <SVG Filename="Krueppel_Hand.svg">
+    <Name>Krueppel_Hand</Name>
+    <Category>Humans and Animals</Category>
+    <Width>12</Width>
+    <Length>18</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="Rote_Ampel.svg">
+    <Name>Rote_Ampel</Name>
+    <Category>Things</Category>
+    <Width>24</Width>
+    <Length>24</Length>
+    <Dif>Normal</Dif>
+  </SVG>
+  <SVG Filename="Smiley_Ampel.svg">
+    <Name>Smiley_Ampel</Name>
+    <Category>Things</Category>
+    <Width>12</Width>
+    <Length>18</Length>
+    <Dif>Normal</Dif>
+  </SVG>
 </SVGFiles>

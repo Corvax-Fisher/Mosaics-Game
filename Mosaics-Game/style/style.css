@@ -26,6 +26,13 @@ h3 {
 	background-color: white;
 }
 
+#helplines {
+	border-bottom: 2px dotted black;
+	border-right: 2px dotted black;
+	position: absolute;
+	display:none;
+}
+
 #err, .glyphicon-exclamation-sign, .whitespace {
 	float: left;
 }
