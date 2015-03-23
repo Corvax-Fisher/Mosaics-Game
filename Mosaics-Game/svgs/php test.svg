@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="362" height="362" viewbox="0 0 362 362">
+						<defs>
+							<pattern patternUnits="userSpaceOnUse" height="40" width="40" y="0" x="0" id="mosaics-grid-pattern">
+								<line style="stroke: black; stroke-width: 2;" y2="1" x2="40" y1="1" x1="1" id="hline"/>
+					   			<line style="stroke: black; stroke-width: 2;" y2="40" x2="1" y1="0" x1="1" id="vline"/>
+					      	</pattern>
+					   	</defs>
+					        
+					    <rect style="stroke: black; fill: url(#mosaics-grid-pattern);" height="322" width="322" y="40" x="40"/>
+					<text id="n10" x="60" y="28" text-anchor="middle">1</text><text id="n20" x="100" y="28" text-anchor="middle">2</text><text id="n30" x="140" y="28" text-anchor="middle">3</text><text id="n40" x="180" y="28" text-anchor="middle">4</text><text id="n50" x="220" y="28" text-anchor="middle">5</text><text id="n60" x="260" y="28" text-anchor="middle">6</text><text id="n70" x="300" y="28" text-anchor="middle">7</text><text id="n80" x="340" y="28" text-anchor="middle">8</text><text id="n01" x="20" y="68" text-anchor="middle">1</text><text id="n02" x="20" y="108" text-anchor="middle">2</text><text id="n03" x="20" y="148" text-anchor="middle">3</text><text id="n04" x="20" y="188" text-anchor="middle">4</text><text id="n05" x="20" y="228" text-anchor="middle">5</text><text id="n06" x="20" y="268" text-anchor="middle">6</text><text id="n07" x="20" y="308" text-anchor="middle">7</text><text id="n08" x="20" y="348" text-anchor="middle">8</text><rect id="e1_1" x="42" y="42" width="38" height="38" style="fill: rgb(255, 165, 0);"/></svg>
