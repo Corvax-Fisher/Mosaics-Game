@@ -11,7 +11,7 @@ $name = mb_strtolower($name);
 
 // SIMPLEXML
 
-$xml = simplexml_load_file ( "../xml/SVG_index.xml" );
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
 
 // Check if Name already taken
 foreach ( $xml->SVG as $child ) {
@@ -42,7 +42,7 @@ foreach ( $xml->SVG as $child ) {
 	$dom->preserveWhiteSpace = false;
 	$dom->formatOutput = true;
 	$dom->loadXML ( $xml->asXML () );
-	$dom->save ( '../xml/SVG_index.xml' );
+	$dom->save ( '../xml/svg_index.xml' );
 	
 	if(!file_put_contents('../svgs/' . $name . '.svg', $svg))
 		echo "error saving $name";

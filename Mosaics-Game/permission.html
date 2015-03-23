@@ -12,19 +12,24 @@
 
 
 
-var svg;
+var svg=null;
 var anz;
-		
-function load(){
-	anz = 0;
-	$('#permitBtn').attr("disabled", false);
+
+function clear(){
+	svg=null;
+	$('#permit').empty();
 	$('#dif').empty();
 	$('#category').empty();
 	$('#size').empty();
 	$("#ausgabe").empty();
 	$("#header select").empty();
-	$("#svgfile").empty();
-	$.get("xml/SVG_index.xml",{},function(xml){
+	$("#svgfile").empty();	
+}
+		
+function load(){
+	anz = 0;
+	clear();
+	$.get("xml/svg_index.xml",{},function(xml){
 
 		  $('SVG',xml).each(function(i) {
 			  var permitted = $(this).find("Permitted").text();
@@ -37,20 +42,22 @@ function load(){
 			  });
 		  
 			$("#ausgabe").text(anz + " unpermitted");
-		  });
+			
+			if (anz >= 1) {
+				
+				$('#permitBtn').attr("disabled", false);
+				}	  
+	
+	});
+	
 	 
 }
 
 function loadAll(){
 	anz = 0;
 	$('#permitBtn').attr("disabled", true);
-	$('#dif').empty();
-	$('#category').empty();
-	$('#size').empty();
-	$("#ausgabe").empty();
-	$("#header select").empty();
-	$("#svgfile").empty();
-	$.get("xml/SVG_index.xml",{},function(xml){
+	clear();
+	$.get("xml/svg_index.xml",{},function(xml){
 
 		  $('SVG',xml).each(function(i) {
 			  anz++;
@@ -70,7 +77,7 @@ function del(){
 	$.ajax({
 
 		type : 'POST',
-		url : 'php/Delete.php',
+		url : 'php/delete.php',
 		data : {
 			'name' : name,
 		},
@@ -90,15 +97,17 @@ function del(){
  function change(){
 
 	 svg = $('#liste :selected').val();
-	 $("#svgfile").load('SVGs/'+ svg + '.svg');
+	 $("#svgfile").load('svgs/'+ svg + '.svg');
 	 
-	 $.get("xml/SVG_index.xml",{},function(xml){
+	 $.get("xml/svg_index.xml",{},function(xml){
 		 $('SVG',xml).each(function(i) {
 			  var name =  $(this).find("Name").text();
 			  if (name == svg) {
-				  $('#dif').text("Difficulty: " + $(this).find("Dif").text());
-				  $('#category').text("Category: " + $(this).find("Category").text());
-				  $('#size').text("Size: " + $(this).find("Width").text() + " x " + $(this).find("Length").text());
+				$('#dif').text("Difficulty: " + $(this).find("Dif").text());
+				$('#category').text("Category: " + $(this).find("Category").text());
+				$('#size').text("Size: " + $(this).find("Width").text() + " x " + $(this).find("Length").text());
+				$('#permit').text("Permitted: " + $(this).find("Permitted").text());
+				return;			  
 			  }
 		 });
 		 
@@ -116,7 +125,7 @@ function permit(){
 	$.ajax({
 
 		type : 'POST',
-		url : 'php/Change_Permission.php',
+		url : 'php/change_permission.php',
 		data : {
 			'name' : name,
 		},
@@ -163,6 +172,8 @@ function permit(){
 <label id="dif" style="color: black; font-size: 12pt"></label>
 <br>
 <label id="size" style="color: black; font-size: 12pt"></label>
+<br>
+<label id="permit" style="color: black; font-size: 12pt"></label>
 <br>
 <div id="svgfile" style="width:400px; height: 400px;">
 </body>

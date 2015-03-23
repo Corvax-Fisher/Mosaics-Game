@@ -1,42 +1,10 @@
 <?xml version="1.0"?>
 <SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml/SVG_index.xsd">
-  <SVG Filename="zacki.svg">
-    <Name>zacki</Name>
-    <Category>Things</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
   <SVG Filename="mouth.svg">
     <Name>mouth</Name>
     <Category>Individual Patterns</Category>
     <Width>8</Width>
     <Length>8</Length>
-    <Dif>Normal</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="mittel.svg">
-    <Name>mittel</Name>
-    <Category>Things</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Hard</Dif>
-    <Permitted>false</Permitted>
-  </SVG>
-  <SVG Filename="mittelere.svg">
-    <Name>mittelere</Name>
-    <Category>Symmetrical Patterns</Category>
-    <Width>12</Width>
-    <Length>12</Length>
-    <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="whaaaat.svg">
-    <Name>whaaaat</Name>
-    <Category>Things</Category>
-    <Width>18</Width>
-    <Length>12</Length>
     <Dif>Normal</Dif>
     <Permitted>true</Permitted>
   </SVG>
@@ -48,8 +16,8 @@
     <Dif>Normal</Dif>
     <Permitted>true</Permitted>
   </SVG>
-  <SVG Filename="Americas.svg">
-    <Name>Americas</Name>
+  <SVG Filename="Bahrain.svg">
+    <Name>Bahrain</Name>
     <Category>Countries and Flags</Category>
     <Width>18</Width>
     <Length>12</Length>
@@ -70,14 +38,6 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="Bahrain.svg">
-    <Name>Bahrain</Name>
-    <Category>Countries and Flags</Category>
-    <Width>18</Width>
-    <Length>12</Length>
-    <Dif>Hard</Dif>
     <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Smiley1.svg">
@@ -144,44 +104,12 @@
     <Dif>Normal</Dif>
     <Permitted>true</Permitted>
   </SVG>
-  <SVG Filename="black test.svg">
-    <Name>black test</Name>
+  <SVG Filename="permitmich.svg">
+    <Name>permitmich</Name>
     <Category>Symmetrical Patterns</Category>
     <Width>8</Width>
     <Length>8</Length>
-    <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="Groesste.svg">
-    <Name>Groesste</Name>
-    <Category>Things</Category>
-    <Width>24</Width>
-    <Length>24</Length>
-    <Dif>Normal</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="jdjdj.svg">
-    <Name>jdjdj</Name>
-    <Category>Things</Category>
-    <Width>12</Width>
-    <Length>12</Length>
-    <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="php test.svg">
-    <Name>php test</Name>
-    <Category>Individual Patterns</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
-  </SVG>
-  <SVG Filename="stzu.svg">
-    <Name>stzu</Name>
-    <Category>Things</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Easy</Dif>
-    <Permitted>true</Permitted>
+    <Dif>Hard</Dif>
+    <Permitted>false</Permitted>
   </SVG>
 </SVGFiles>
