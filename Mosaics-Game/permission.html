@@ -43,10 +43,11 @@ function load(){
 		  
 			$("#ausgabe").text(anz + " unpermitted");
 			
-			if (anz >= 1) {
-				
+			if (anz >= 1) {	
 				$('#permitBtn').attr("disabled", false);
-				}	  
+			} else {
+				$('#permitBtn').attr("disabled", true);
+			}
 	
 	});
 	
@@ -86,7 +87,7 @@ function del(){
 			$("#ausgabe").text(response);
 			setTimeout(function(){
 				load();
-				}, 3000);				
+				}, 1000);				
 		}
 	});
 	}else{
@@ -134,7 +135,7 @@ function permit(){
 			$("#ausgabe").text(response);
 			setTimeout(function(){
 				load();
-				}, 3000);
+				}, 1000);
 				
 		}
 	});

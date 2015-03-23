@@ -104,12 +104,4 @@
     <Dif>Normal</Dif>
     <Permitted>true</Permitted>
   </SVG>
-  <SVG Filename="permitmich.svg">
-    <Name>permitmich</Name>
-    <Category>Symmetrical Patterns</Category>
-    <Width>8</Width>
-    <Length>8</Length>
-    <Dif>Hard</Dif>
-    <Permitted>false</Permitted>
-  </SVG>
 </SVGFiles>
