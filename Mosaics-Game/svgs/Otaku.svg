@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="382" height="262" viewbox="0 0 382 262">
+  <defs>
+    <pattern patternUnits="userSpaceOnUse" height="20" width="20" y="0" x="0" id="mosaics-grid-pattern">
+      <line style="stroke: black; stroke-width: 2;" y2="1" x2="20" y1="1" x1="1" id="hline"/>
+      <line style="stroke: black; stroke-width: 2;" y2="20" x2="1" y1="0" x1="1" id="vline"/>
+    </pattern>
+  </defs>
+  <rect style="stroke: black; fill: url(#mosaics-grid-pattern);" height="242" width="362" y="20" x="20"/>
+  <text id="n10" x="30" y="14" text-anchor="middle">1</text>
+  <text id="n20" x="50" y="14" text-anchor="middle">2</text>
+  <text id="n30" x="70" y="14" text-anchor="middle">3</text>
+  <text id="n40" x="90" y="14" text-anchor="middle">4</text>
+  <text id="n50" x="110" y="14" text-anchor="middle">5</text>
+  <text id="n60" x="130" y="14" text-anchor="middle">6</text>
+  <text id="n70" x="150" y="14" text-anchor="middle">7</text>
+  <text id="n80" x="170" y="14" text-anchor="middle">8</text>
+  <text id="n90" x="190" y="14" text-anchor="middle">9</text>
+  <text id="n100" x="210" y="14" text-anchor="middle">10</text>
+  <text id="n110" x="230" y="14" text-anchor="middle">11</text>
+  <text id="n120" x="250" y="14" text-anchor="middle">12</text>
+  <text id="n130" x="270" y="14" text-anchor="middle">13</text>
+  <text id="n140" x="290" y="14" text-anchor="middle">14</text>
+  <text id="n150" x="310" y="14" text-anchor="middle">15</text>
+  <text id="n160" x="330" y="14" text-anchor="middle">16</text>
+  <text id="n170" x="350" y="14" text-anchor="middle">17</text>
+  <text id="n180" x="370" y="14" text-anchor="middle">18</text>
+  <text id="n01" x="10" y="34" text-anchor="middle">1</text>
+  <text id="n02" x="10" y="54" text-anchor="middle">2</text>
+  <text id="n03" x="10" y="74" text-anchor="middle">3</text>
+  <text id="n04" x="10" y="94" text-anchor="middle">4</text>
+  <text id="n05" x="10" y="114" text-anchor="middle">5</text>
+  <text id="n06" x="10" y="134" text-anchor="middle">6</text>
+  <text id="n07" x="10" y="154" text-anchor="middle">7</text>
+  <text id="n08" x="10" y="174" text-anchor="middle">8</text>
+  <text id="n09" x="10" y="194" text-anchor="middle">9</text>
+  <text id="n010" x="10" y="214" text-anchor="middle">10</text>
+  <text id="n011" x="10" y="234" text-anchor="middle">11</text>
+  <text id="n012" x="10" y="254" text-anchor="middle">12</text>
+  <rect id="e15_1" x="302" y="22" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_1" x="322" y="22" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_1" x="362" y="22" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_2" x="302" y="42" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_2" x="322" y="42" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_2" x="362" y="42" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_3" x="302" y="62" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_3" x="322" y="62" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_3" x="362" y="62" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_4" x="302" y="82" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_4" x="322" y="82" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_4" x="362" y="82" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_5" x="302" y="102" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_5" x="322" y="102" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_5" x="362" y="102" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_6" x="302" y="122" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_6" x="322" y="122" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_6" x="362" y="122" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_7" x="302" y="142" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_7" x="322" y="142" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_7" x="362" y="142" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_8" x="302" y="162" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_8" x="322" y="162" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_8" x="362" y="162" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_9" x="302" y="182" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_9" x="322" y="182" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_9" x="362" y="182" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_10" x="302" y="202" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_10" x="322" y="202" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_10" x="362" y="202" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_11" x="302" y="222" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_11" x="322" y="222" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_11" x="362" y="222" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e15_12" x="302" y="242" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e16_12" x="322" y="242" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e18_12" x="362" y="242" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_1" x="22" y="22" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_1" x="62" y="22" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_1" x="82" y="22" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_2" x="22" y="42" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_2" x="62" y="42" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_2" x="82" y="42" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_3" x="22" y="62" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_3" x="62" y="62" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_3" x="82" y="62" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_4" x="22" y="82" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_4" x="62" y="82" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_4" x="82" y="82" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_5" x="22" y="102" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_5" x="62" y="102" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_5" x="82" y="102" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_6" x="22" y="122" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_6" x="62" y="122" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_6" x="82" y="122" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_7" x="22" y="142" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_7" x="62" y="142" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_7" x="82" y="142" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_8" x="22" y="162" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_8" x="62" y="162" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_8" x="82" y="162" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_9" x="22" y="182" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_9" x="62" y="182" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_9" x="82" y="182" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_10" x="22" y="202" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_10" x="62" y="202" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_10" x="82" y="202" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_11" x="22" y="222" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_11" x="62" y="222" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_11" x="82" y="222" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e1_12" x="22" y="242" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e3_12" x="62" y="242" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e4_12" x="82" y="242" width="18" height="18" style="fill: rgb(128, 0, 0);"/>
+  <rect id="e2_1" x="42" y="22" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_2" x="42" y="42" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_3" x="42" y="62" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_4" x="42" y="82" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_5" x="42" y="102" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_6" x="42" y="122" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_7" x="42" y="142" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_8" x="42" y="162" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_9" x="42" y="182" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_10" x="42" y="202" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_11" x="42" y="222" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e2_12" x="42" y="242" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_1" x="342" y="22" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_2" x="342" y="42" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_3" x="342" y="62" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_4" x="342" y="82" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_5" x="342" y="102" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_6" x="342" y="122" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_7" x="342" y="142" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_8" x="342" y="162" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_9" x="342" y="182" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_10" x="342" y="202" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_11" x="342" y="222" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e17_12" x="342" y="242" width="18" height="18" style="fill: rgb(255, 255, 0);"/>
+  <rect id="e5_1" x="102" y="22" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_1" x="142" y="22" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_1" x="162" y="22" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_2" x="102" y="42" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_2" x="142" y="42" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_2" x="162" y="42" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_3" x="102" y="62" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_3" x="142" y="62" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_3" x="162" y="62" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_4" x="102" y="82" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_4" x="142" y="82" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_4" x="162" y="82" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_5" x="102" y="102" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_5" x="142" y="102" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_5" x="162" y="102" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_6" x="102" y="122" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_6" x="142" y="122" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_6" x="162" y="122" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_7" x="102" y="142" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_7" x="142" y="142" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_7" x="162" y="142" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_8" x="102" y="162" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_8" x="142" y="162" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_8" x="162" y="162" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_9" x="102" y="182" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_9" x="142" y="182" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_9" x="162" y="182" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_10" x="102" y="202" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_10" x="142" y="202" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_10" x="162" y="202" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_11" x="102" y="222" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_11" x="142" y="222" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_11" x="162" y="222" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e5_12" x="102" y="242" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e7_12" x="142" y="242" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e8_12" x="162" y="242" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_1" x="222" y="22" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_1" x="242" y="22" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_1" x="282" y="22" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_2" x="222" y="42" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_2" x="242" y="42" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_2" x="282" y="42" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_3" x="222" y="62" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_3" x="242" y="62" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_3" x="282" y="62" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_4" x="222" y="82" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_4" x="242" y="82" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_4" x="282" y="82" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_5" x="222" y="102" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_5" x="242" y="102" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_5" x="282" y="102" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_6" x="222" y="122" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_6" x="242" y="122" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_6" x="282" y="122" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_7" x="222" y="142" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_7" x="242" y="142" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_7" x="282" y="142" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_8" x="222" y="162" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_8" x="242" y="162" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_8" x="282" y="162" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_9" x="222" y="182" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_9" x="242" y="182" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_9" x="282" y="182" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_10" x="222" y="202" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_10" x="242" y="202" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_10" x="282" y="202" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_11" x="222" y="222" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_11" x="242" y="222" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_11" x="282" y="222" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e11_12" x="222" y="242" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e12_12" x="242" y="242" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e14_12" x="282" y="242" width="18" height="18" style="fill: rgb(0, 128, 128);"/>
+  <rect id="e6_1" x="122" y="22" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_2" x="122" y="42" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_3" x="122" y="62" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_4" x="122" y="82" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_5" x="122" y="102" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_6" x="122" y="122" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_7" x="122" y="142" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_8" x="122" y="162" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_9" x="122" y="182" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_10" x="122" y="202" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_11" x="122" y="222" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e6_12" x="122" y="242" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_1" x="262" y="22" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_2" x="262" y="42" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_3" x="262" y="62" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_4" x="262" y="82" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_5" x="262" y="102" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_6" x="262" y="122" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_7" x="262" y="142" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_8" x="262" y="162" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_9" x="262" y="182" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_10" x="262" y="202" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_11" x="262" y="222" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+  <rect id="e13_12" x="262" y="242" width="18" height="18" style="fill: rgb(255, 0, 0);"/>
+</svg>

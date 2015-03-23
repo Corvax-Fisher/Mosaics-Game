@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="mosaics" width="262" height="382" viewbox="0 0 262 382">
+  <defs>
+    <pattern patternUnits="userSpaceOnUse" height="20" width="20" y="0" x="0" id="mosaics-grid-pattern">
+      <line style="stroke: black; stroke-width: 2;" y2="1" x2="20" y1="1" x1="1" id="hline"/>
+      <line style="stroke: black; stroke-width: 2;" y2="20" x2="1" y1="0" x1="1" id="vline"/>
+    </pattern>
+  </defs>
+  <rect style="stroke: black; fill: url(#mosaics-grid-pattern);" height="362" width="242" y="20" x="20"/>
+  <text id="n10" x="30" y="14" text-anchor="middle">1</text>
+  <text id="n20" x="50" y="14" text-anchor="middle">2</text>
+  <text id="n30" x="70" y="14" text-anchor="middle">3</text>
+  <text id="n40" x="90" y="14" text-anchor="middle">4</text>
+  <text id="n50" x="110" y="14" text-anchor="middle">5</text>
+  <text id="n60" x="130" y="14" text-anchor="middle">6</text>
+  <text id="n70" x="150" y="14" text-anchor="middle">7</text>
+  <text id="n80" x="170" y="14" text-anchor="middle">8</text>
+  <text id="n90" x="190" y="14" text-anchor="middle">9</text>
+  <text id="n100" x="210" y="14" text-anchor="middle">10</text>
+  <text id="n110" x="230" y="14" text-anchor="middle">11</text>
+  <text id="n120" x="250" y="14" text-anchor="middle">12</text>
+  <text id="n01" x="10" y="34" text-anchor="middle">1</text>
+  <text id="n02" x="10" y="54" text-anchor="middle">2</text>
+  <text id="n03" x="10" y="74" text-anchor="middle">3</text>
+  <text id="n04" x="10" y="94" text-anchor="middle">4</text>
+  <text id="n05" x="10" y="114" text-anchor="middle">5</text>
+  <text id="n06" x="10" y="134" text-anchor="middle">6</text>
+  <text id="n07" x="10" y="154" text-anchor="middle">7</text>
+  <text id="n08" x="10" y="174" text-anchor="middle">8</text>
+  <text id="n09" x="10" y="194" text-anchor="middle">9</text>
+  <text id="n010" x="10" y="214" text-anchor="middle">10</text>
+  <text id="n011" x="10" y="234" text-anchor="middle">11</text>
+  <text id="n012" x="10" y="254" text-anchor="middle">12</text>
+  <text id="n013" x="10" y="274" text-anchor="middle">13</text>
+  <text id="n014" x="10" y="294" text-anchor="middle">14</text>
+  <text id="n015" x="10" y="314" text-anchor="middle">15</text>
+  <text id="n016" x="10" y="334" text-anchor="middle">16</text>
+  <text id="n017" x="10" y="354" text-anchor="middle">17</text>
+  <text id="n018" x="10" y="374" text-anchor="middle">18</text>
+  <rect id="e5_10" x="102" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_11" x="102" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_12" x="102" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_13" x="102" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_14" x="102" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e6_10" x="122" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e6_11" x="122" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e6_12" x="122" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e6_13" x="122" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e6_14" x="122" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_10" x="142" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_11" x="142" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_12" x="142" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_13" x="142" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_14" x="142" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_10" x="162" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_11" x="162" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_12" x="162" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_13" x="162" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_14" x="162" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_10" x="182" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_11" x="182" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_12" x="182" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_13" x="182" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_14" x="182" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e10_10" x="202" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e10_11" x="202" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e10_12" x="202" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e10_13" x="202" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e10_14" x="202" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_10" x="222" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_11" x="222" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_12" x="222" y="242" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_13" x="222" y="262" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_14" x="222" y="282" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_6" x="222" y="122" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_7" x="222" y="142" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_8" x="222" y="162" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e11_9" x="222" y="182" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_5" x="182" y="102" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_6" x="182" y="122" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_7" x="182" y="142" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_8" x="182" y="162" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_9" x="182" y="182" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_5" x="102" y="102" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_6" x="102" y="122" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_7" x="102" y="142" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_8" x="102" y="162" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e5_9" x="102" y="182" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_4" x="142" y="82" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_5" x="142" y="102" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_6" x="142" y="122" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_7" x="142" y="142" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_8" x="142" y="162" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_9" x="142" y="182" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e4_11" x="82" y="222" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e3_10" x="62" y="202" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e2_9" x="42" y="182" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <polygon id="e2_10" points="42,202 60,202 60,220" style="fill: rgb(0, 0, 0);"/>
+  <polygon id="e3_11" points="62,222 80,222 80,240" style="fill: rgb(0, 0, 0);"/>
+  <polygon id="e4_12" points="82,242 100,242 100,260" style="fill: rgb(0, 0, 0);"/>
+  <polygon id="e4_10" points="82,202 82,220 100,220" style="fill: rgb(0, 0, 0);"/>
+  <polygon id="e3_9" points="62,182 62,200 80,200" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_15" x="142" y="302" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_15" x="162" y="302" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_15" x="182" y="302" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_16" x="142" y="322" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_16" x="162" y="322" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_16" x="182" y="322" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_17" x="142" y="342" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_17" x="162" y="342" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_17" x="182" y="342" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e7_18" x="142" y="362" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e8_18" x="162" y="362" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+  <rect id="e9_18" x="182" y="362" width="18" height="18" style="fill: rgb(0, 0, 0);"/>
+</svg>

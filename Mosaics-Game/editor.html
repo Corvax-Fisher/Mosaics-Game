@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<title>Mosaics-Game</title>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Kurzbeschreibung" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-cmds.js"></script>
+	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
+	<script type="text/JavaScript" src="js/jquery.colorbox-min.js"></script>
+	
+	<link href="style/jquery-ui.css" rel="stylesheet">
+	<link href="style/bootstrap.min.css" rel="stylesheet">
+	<link href="style/style.css" rel="stylesheet">	
+	<link href="style/colorbox.css" rel="stylesheet">		
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Mosaics-Game</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="editor.html">Editor<span class="sr-only">(current)</span></a></li>
+					<li><a href="index.html">Game</a></li>
+					<li><a href="docu.html">Documentation</a></li>
+					<li><a href="about.html">Imprint</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div class="container">
+		<div class="page-header">
+			<h1>
+				Editor<br><small>Create your own mosaic</small>
+			</h1>
+		</div>
+		<div class="selectionArea jumbotron row">
+			<div class="col-md-4">
+				<div>Select a size for your mosaic and start:</div>
+			</div>
+			<div class="col-md-6">
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="8x8"> 8x8
+					</label> 
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="12x12"> 12x12
+					</label>
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="12x18"> 12x18
+					</label>
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="18x12"> 18x12
+					</label>
+				</div>
+				<div class="radio">
+					<label> 
+						<input type="radio" name="GridSize" value="24x24"> 24x24
+					</label>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<form>
+					<button id="okBtn" type="button" value="auswählen"
+						class="btn btn-success mosaicsElement" onClick="gridSizeOk()" disabled="disabled">
+						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+						okay!
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<div id="editorCmd" class="jumbotron row">
+			<form align="center" name="cmdForm" action="" onsubmit="return draw(cmdLine.value)"
+				class="form-inline col-md-12">
+				<div class="form-group">
+					<input id="cmdLine" placeholder="type a command"
+						autofocus="autofocus" type="text" name="cmd"
+						class="form-control cmd mosaicsElement" />
+				</div>
+				<div class="form-group">
+					<input id="cmdBtn" name="OK" value="OK" type="submit"
+						class="btn btn-default mosaicsElement" />
+				</div>
+				<span style="margin-left:20px;">
+					Default color:
+				</span>
+				<div class="form-group">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
+							id="color_dropdown" data-toggle="dropdown"
+							aria-expanded="true" value="black">
+							black <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu coldd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a>(None)</a></li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div id="editor" class="jumbotron">
+			<div id="messages" class="row alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign"
+					aria-hidden="true"></span>
+				<div class="whitespace">&nbsp;</div>
+				<div id="err"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<div id="mcontainer">
+						<div id="helplines"></div>
+						<svg id="mosaics">
+						<defs>
+							<pattern id="mosaics-grid-pattern" x="0" y="0" width="40"
+								height="40" patternUnits="userSpaceOnUse">
+								<line id="hline" x1="1" y1="1" x2="40" y2="1"
+								style="stroke:#c1cdc1; stroke-width:2;" />
+					   			<line id="vline" x1="1" y1="0" x2="1" y2="40"
+								style="stroke:#c1cdc1; stroke-width:2;" />
+					      	</pattern>
+					   	</defs>
+					        
+					    <rect x="0" y="0" width=0 height=0
+								style="stroke: black; fill: url(#mosaics-grid-pattern);" />
+					</svg>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="boxes">
+						<h3>What can I do?</h3>
+						<div class="panel-group scrollable" id="accordion" role="tablist"
+							aria-multiselectable="true">	
+						</div>
+					</div>
+					<div class="boxes">
+						<h3 class="headingColors">Position and color</h3>
+						<div class="panel-group scrollable" id="accordion" role="tablist" aria-multiselectable="true">
+						  <div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingOne">
+						      <h4 class="panel-title">
+						        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          Position parameters
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+						      <div class="panel-body">
+								Position parameters 'x' and 'y' can optionally be specified by ranges in order to draw several same elements
+								by using only one command. Parameters 'x' and 'y' are each defined like this syntax shows: startpoint, increment, endpoint. The parameter increment defines
+								how many cells should be overrunned. Parameter endpoint defines for the range where to end. Increment and endpoint are optional. All values can only be integer values.
+						      </div>
+						    </div>
+						  </div>
+						  <div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingTwo">
+						      <h4 class="panel-title">
+						        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+						          Default color
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+						      <div class="panel-body">
+								If no color is specified in the command, the given default color will be used. The default color at the beginning is black. Default color can be chosen from 18 available HTML colors in the dropdown menu.					      </div>
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-3">
+					<div class="boxes">
+						<h3>History:</h3>
+						<ul id="history" class="scrollable">
+						</ul>
+						<form>
+							<button id="undoBtn" type="button" value="undo"
+									class="btn btn-default" onClick="undoCommand()">
+								<span class="glyphicon glyphicon-chevron-left" 
+									aria-hidden=true>
+								</span>
+								undo
+							</button>
+							<button id="redoBtn" type="button" value="redo"
+									class="btn btn-default" onClick="redoCommand()">
+								<span class="glyphicon glyphicon-chevron-right"
+									aria-hidden="true">
+								</span>
+								redo
+							</button>
+						</form>
+					</div>
+					<div class="boxes" id="extraDefinitions">
+						<h3>Extra definitions</h3>
+						<p>Describe the positions in one cell. Abbrevations: [C]enter, [T]op, [B]ottom, [L]eft, [R]ight:</p>
+						<img src="images/extradefinitions.png">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="jumbotron row">
+			<form class="form-inline col-md-6">
+				<button id="resetBtn" type="button" value="reset"
+					class="btn btn-danger mosaicsElement" onClick="window.location.reload()">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					delete pattern
+				</button>
+				<div id="save_messages" class="row alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign"
+						aria-hidden="true"></span>
+					<div class="whitespace">&nbsp;</div>
+					<div id="save_err"></div>
+				</div>
+			</form>
+			<form class="form-inline col-md-6" onsubmit="return save()">
+				<div class="form-group">
+					<label for="inputFileNameToSaveAs">Save pattern:</label> 
+					<input
+						placeholder="type a name" id="inputFileNameToSaveAs"
+						class="form-control mosaicsElement"/>
+				</div>
+				<div class="form-group">
+					<div class="dropup">
+						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
+							id="category_dropdown" data-toggle="dropdown"
+							aria-expanded="true">
+							Category <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu catdd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a>Flowers and Nature</a></li>
+							<li><a>Countries and Flags</a></li>
+							<li><a>Humans and Animals</a></li>
+							<li><a>Things</a></li>
+							<li><a>Symmetrical Patterns</a></li>
+							<li><a>Individual Patterns</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="dropup">
+						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
+							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true">
+							Difficulty <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu difdd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a>Easy</a></li>
+							<li><a>Normal</a></li>
+							<li><a>Hard</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<input id="saveBtn" value="save" type="submit"
+						class="btn btn-primary mosaicsElement" />
+				</div>
+			</form>
+		</div>
+		<div class="jumbotron">
+			
+		</div>
+	</div>
+	<!-- This contains the hidden content for inline calls -->
+	<div style='display:none'>
+		<div id='saved-message' style='padding:10px; background:#fff;'>
+			<div class='alert alert-success' role='alert'><p></p></div>
+		</div>
+	</div>
+</body>
+</html>

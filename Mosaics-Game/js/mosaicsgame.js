@@ -65,7 +65,7 @@ $(function() {
 	$("#redoBtn").attr("disabled", true);
 	$(".mosaicsElement").attr("disabled", true);
 
-	if (filename == "index.html" || filename == "") {
+	if (filename == "editor.html") {
 		
 		$("input[type='radio']").attr("disabled", false);
 		$("input[type='radio']").prop("checked", false);
@@ -75,7 +75,7 @@ $(function() {
 			if(this.checked) setGridSize(this.value);
 		});
 
-	} else if (filename == "game.html") {
+	} else if (filename == "index.html"|| filename == "") {
 		
 		$.post("xml/SVG_index.xml", function(data) {
 			$svg = $(data).find("SVG");
