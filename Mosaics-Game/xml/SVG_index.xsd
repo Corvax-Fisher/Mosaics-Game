@@ -15,6 +15,7 @@
 			<xsd:element name="Width" type="xsd:positiveInteger"/>
 			<xsd:element name="Length" type="xsd:positiveInteger"/>
 			<xsd:element name="Dif" type="xsd:string"/>
+			<xsd:element name="Permitted" type="xsd:string"/>
 		</xsd:sequence>	
 			<xsd:attribute name="Filename" type="xsd:string" use="required" />
 	</xsd:complexType>

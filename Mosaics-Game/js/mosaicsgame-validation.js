@@ -34,9 +34,9 @@ function validateLine(p1,p2) {
 	if(validatePoint(p1) && validatePoint(p2)) {
 		var p1o = pointOffset(p1), p2o = pointOffset(p2);
 		if (p1o[0] != p2o[0] || p1o[1] != p2o[1])
-			return 0;
-		else return -2;
-	} else return -1;
+			return undefined;
+		else return "Invalid line (points are equal).";
+	} else return "Invalid points.";
 }
 
 function vector(point) {
@@ -48,135 +48,102 @@ function vector(point) {
 		this.y = 0;
 	}
 	
-	this.normalizedDistanceTo = function(v){
-		var ret = this.sub(v);
-		ret.abs();
-		ret.normalize();
-		return ret;
-	};
-	
 	this.sub = function(v) {
 		var ret = new vector();
 		ret.x = this.x - v.x;
 		ret.y = this.y - v.y;
 		return ret;
 	};
-	
-	this.abs = function() {
-		this.x = Math.abs(this.x);
-		this.y = Math.abs(this.y);
-	};
-	
-	this.normalize = function() {
-		var length = Math.sqrt(this.x*this.x+this.y*this.y);
-		if(length == 0) {
-			this.x = 0;
-			this.y = 0;
-		} else {
-			this.x = this.x / length;
-			this.y = this.y / length;			
-		}
-	};
-	
-	this.equals = function(v) {
-		return this.x == v.x && this.y == v.y;
-	};
 }
 
 function validateTriangle(p1,p2,p3) {
 	var p1o = pointOffset(p1), p2o = pointOffset(p2), p3o = pointOffset(p3);
 	var p1v = new vector(p1o), p2v = new vector(p2o), p3v = new vector(p3o);
-	return !p1v.normalizedDistanceTo(p2v).equals( p1v.normalizedDistanceTo(p3v) );
+	var a = p1v.sub(p2v), b = p1v.sub(p3v);
+
+	return (a.x*b.y-a.y*b.x != 0);
 }
 
 function requiredParamCountForCmd(cmd) {
 	switch(cmd) {
-		case "clearcell":	return 2;
+		case "clearcell":return 2;
+		// case "clearcells":	
 		
 		case "square":
-		case "circle":		return 3;
+		// case "squares":
+		case "circle":return 3;
+		// case "circles":		
 		
-		case "clearcells":	return 4;
-		
-		case "squares":
-		case "circles":
 		case "rectangle":
-		case "line":		return 5;
+		case "line":return 5;
+		// case "lines":		
 		
-		case "triangle":	return 6;
+		case "triangle":return 6;
+		// case "triangles":	
 		
-		case "lines":		return 7;
-		
-		case "triangles":	return 8;
 		default:			return -1;
 	}
+}
+
+function validateCmdName(cmd) {
+	return (requiredParamCountForCmd(cmd) != -1);
 }
 
 function validateNumberOfParams(cmd, params) {
 	var paramCount = requiredParamCountForCmd(cmd);
 	
-	if(paramCount == -1) {
-		$("#err").html("Unknown command.");
-		return false;		
-	}
-	
 	if($("#color_dropdown").val() != "(None)" &&
 			params.length == paramCount-1)
 		return true;
-	
-	if(params.length != paramCount) {
-		$("#err").html("Invalid number of parameters (required " + 
-				paramCount + ", got "+ params.length + ").");
+
+	if(params.length != paramCount)
 		return false;
-	}
-	
+
 	return true;
 }
 
 function validatePositionParams(cmd, params) {
-	if(cmd.charAt(cmd.length-1) == "s" || cmd == "rectangle") {
+	// if(cmd.charAt(cmd.length-1) == "s" || cmd == "rectangle") {
 		//validate position bounds
-		var posBounds;
-		if(cmd == "rectangle") 
-			posBounds = rectangleBounds(params);
-		else posBounds = new positionBounds(
-				params[0] + "," + params[1] + "..." +
-				params[2] + "," + params[3]);
 		
-		if(!validateCellPositionBounds(posBounds) ) {
-			$("#err").html("Invalid position bounds.");
+		var posRanges;
+		if(cmd == "rectangle") posRanges = rectangleRanges(params);
+		else posRanges = new positionRanges(params[0],params[1]);
+		
+		var errMsg = posRanges.validate();
+		
+		if(errMsg) {
+			$("#err").html(errMsg);
 			return false;
 		}
-	} else {
-		//validate position
-		if(!validateCellPosition(params[0], params[1]) ) {
-			$("#err").html("Invalid position.");
-			return false;
-		}		
-	}
+	// } else {
+		// //validate position
+		// if(!validateCellPosition(params[0], params[1]) ) {
+			// $("#err").html("Invalid position.");
+			// return false;
+		// }		
+	// }
 	return true;
 }
 
 function validateLineParams(cmd, params) {
 	if(cmd.indexOf("line") != -1) {
-		var errCode;
-		if(cmd == "line") errCode = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
-		else errCode = validateLine(params[4].toLowerCase(), params[5].toLowerCase());
+		var errMsg = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
 		
-		if(errCode == -1) $("#err").html("Invalid points.");
-		else if(errCode == -2) $("#err").html("Invalid line (points are equal).");
-		
-		if(errCode < 0 ) return false;
+		if(errMsg) {
+			$("#err").html(errMsg);
+			return false;
+		}
 	}
 	return true;
 }
 
 function validateTriangleParams(cmd, params) {
 	if(cmd.indexOf("triangle") != -1) {
-		var i;
+		var i = 2;
 		
-		if(cmd == "triangle") i = 2;
-		else i = 4;
+		// if(cmd == "triangle") i = 2;
+		// else i = 4;
 		
 		if(	!validatePoint(params[i].toLowerCase() ) || 
 			!validatePoint(params[i+1].toLowerCase() ) || 
@@ -205,10 +172,7 @@ function validateParameters(cmdLine) {
 	var cmdAndParams = cmdLine.split("(");
 	var cmd = cmdAndParams[0], params = cmdAndParams[1];
 	
-	params = params.replace(")","");
-	params = params.split(/,|\.\.\./);
-	
-	if(!validateNumberOfParams(cmd, params)) return 0;
+	params = params.replace(")","").split(",");
 	
 	if(!validatePositionParams(cmd, params)) return 0;
 	

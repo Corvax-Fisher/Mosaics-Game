@@ -110,12 +110,15 @@
 					<input id="cmdBtn" name="OK" value="OK" type="submit"
 						class="btn btn-default mosaicsElement" />
 				</div>
+				<span style="margin-left:20px;">
+					Default color:
+				</span>
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle mosaicsElement" type="button"
 							id="color_dropdown" data-toggle="dropdown"
-							aria-expanded="true" value="(None)">
-							Default color <span class="caret"></span>
+							aria-expanded="true" value="black">
+							black <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu coldd" role="menu"
 							aria-labelledby="dropdownMenu1">
@@ -175,14 +178,14 @@
 						</ul>
 						<form>
 							<button id="undoBtn" type="button" value="undo"
-									class="btn btn-default mosaicsElement" onClick="undoCommand()">
+									class="btn btn-default" onClick="undoCommand()">
 								<span class="glyphicon glyphicon-chevron-left" 
 									aria-hidden=true>
 								</span>
 								undo
 							</button>
 							<button id="redoBtn" type="button" value="redo"
-									class="btn btn-default mosaicsElement" onClick="redoCommand()">
+									class="btn btn-default" onClick="redoCommand()">
 								<span class="glyphicon glyphicon-chevron-right"
 									aria-hidden="true">
 								</span>

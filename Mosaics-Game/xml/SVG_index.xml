@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3schools.com ../xml/SVG_index.xsd">
+<SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml/SVG_index.xsd">
   <SVG Filename="zacki.svg">
     <Name>zacki</Name>
     <Category>Things</Category>
     <Width>8</Width>
     <Length>8</Length>
     <Dif>Easy</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="mouth.svg">
     <Name>mouth</Name>
@@ -13,13 +14,7 @@
     <Width>8</Width>
     <Length>8</Length>
     <Dif>Normal</Dif>
-  </SVG>
-  <SVG Filename="Groesste.svg">
-    <Name>Groesste</Name>
-    <Category>Things</Category>
-    <Width>24</Width>
-    <Length>24</Length>
-    <Dif>Normal</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="mittel.svg">
     <Name>mittel</Name>
@@ -27,13 +22,7 @@
     <Width>12</Width>
     <Length>18</Length>
     <Dif>Hard</Dif>
-  </SVG>
-  <SVG Filename="mittelere.svg">
-    <Name>mittelere</Name>
-    <Category>Symmetrical Patterns</Category>
-    <Width>12</Width>
-    <Length>12</Length>
-    <Dif>Easy</Dif>
+    <Permitted>false</Permitted>
   </SVG>
   <SVG Filename="whaaaat.svg">
     <Name>whaaaat</Name>
@@ -41,6 +30,7 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Normal</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="ok.svg">
     <Name>ok</Name>
@@ -48,6 +38,7 @@
     <Width>12</Width>
     <Length>12</Length>
     <Dif>Hard</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="America.svg">
     <Name>America</Name>
@@ -55,6 +46,7 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Normal</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Americas.svg">
     <Name>Americas</Name>
@@ -62,6 +54,7 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Normal</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Germany.svg">
     <Name>Germany</Name>
@@ -69,6 +62,7 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Easy</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Daenemark.svg">
     <Name>Daenemark</Name>
@@ -76,6 +70,7 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Easy</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Bahrain.svg">
     <Name>Bahrain</Name>
@@ -83,6 +78,7 @@
     <Width>18</Width>
     <Length>12</Length>
     <Dif>Hard</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Smiley1.svg">
     <Name>Smiley1</Name>
@@ -90,6 +86,7 @@
     <Width>24</Width>
     <Length>24</Length>
     <Dif>Normal</Dif>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="Doggy.svg">
     <Name>Doggy</Name>

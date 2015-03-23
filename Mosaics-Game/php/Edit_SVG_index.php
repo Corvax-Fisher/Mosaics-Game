@@ -33,6 +33,7 @@ if ($count > 0) {
 	$newChild->addChild ( "Width", $width );
 	$newChild->addChild ( "Length", $length );
 	$newChild->addChild ( "Dif", $dif );
+	$newChild->addChild ( "Permitted", "false" );
 	
 	// Format XML and save
 	$dom = new DOMDocument ( '1.0' );
@@ -41,21 +42,9 @@ if ($count > 0) {
 	$dom->loadXML ( $xml->asXML () );
 	$dom->save ( '../xml/SVG_index.xml' );
 	
-	
-	// SAVE SVG FILE
-	$svg_sxe = simplexml_load_string ( $svg );
-	
-	// Format SVG and save
-	$svgdom = new DOMDocument ( '1.0' );
-	$svgdom->preserveWhiteSpace = false;
-	$svgdom->formatOutput = true;
-	$svgdom->loadXML ( $svg_sxe->asXML () );
-	$svgdom->save ( '../SVGs/' . $name . '.svg' );
-	
-	
-	
-	
-	echo ("saved");
+	if(!file_put_contents('../svgs/' . $name . '.svg', $svg))
+		echo "error saving $name";
+	else echo "saved";
 	
 }
 
