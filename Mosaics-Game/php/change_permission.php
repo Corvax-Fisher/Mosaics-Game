@@ -7,7 +7,13 @@ $xml = simplexml_load_file ( "../xml/svg_index.xml" );
 
 $svg = $xml->xpath('/SVGFiles/SVG[Name="'.$name .'"]');
 
-$svg[0]->Permitted ="true";
+if ($svg[0]->Permitted =="false"){
+	$svg[0]->Permitted ="true";
+	$permStr = "permitted! please wait...";
+} else {
+	$svg[0]->Permitted ="false";
+	$permStr = "unpermitted! please wait...";
+}
 
 // Format XML and save
 $dom = new DOMDocument ( '1.0' );
@@ -16,6 +22,6 @@ $dom->formatOutput = true;
 $dom->loadXML ( $xml->asXML () );
 $dom->save ( '../xml/svg_index.xml' );
 
-echo "permitted! please wait..."
+echo $permStr;
 
 ?>

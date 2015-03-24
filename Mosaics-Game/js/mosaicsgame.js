@@ -528,7 +528,7 @@ function bindDropdownClickFunction() {
 		$("#category_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#category_dropdown").val($(this).text());
 		
-		if (filename = "index.html"){
+		if (filename == "index.html"|| filename == ""){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
@@ -537,7 +537,7 @@ function bindDropdownClickFunction() {
 		$("#dif_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#dif_dropdown").val($(this).text());
 		
-		if (filename = "index.html"){
+		if (filename == "index.html"|| filename == ""){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
