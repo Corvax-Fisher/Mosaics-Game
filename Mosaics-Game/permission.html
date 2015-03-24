@@ -15,6 +15,8 @@
 var svg=null;
 var anz;
 
+
+
 function clear(){
 	svg=null;
 	$('#permit').empty();
@@ -145,6 +147,24 @@ function permit(){
 	
 }
 
+function login(){
+	
+	
+	$.ajax({
+		
+		type : 'POST',
+		url : 'php/login.php',
+		data : {
+			'passwort' :  $("#passwort").val()
+		},
+
+		success : function(response) {
+			$("#test").empty();
+			$("#test").html(response);
+		}
+	});
+			
+}
 
 
 </script>
@@ -152,30 +172,10 @@ function permit(){
 
 </head>
 <body>
-<button type="button" onclick="load()">Load unpermitted</button>
-<button type="button" onclick="loadAll()">Load All</button>
-<div id="header">
-	<p>
-    <select id="liste" name="unpermitted svgs" size="8" onchange="change()">
-     
-  
-    </select>
-  </p>
+<div id="test">
+
+    <input id="passwort" type="password" name="passwort" />
+    <button type="button" onclick="login()">Login</button>
 </div>
-<label id="ausgabe" style="color: red; font-size: 14pt"></label>
-<div>
-<button id="permitBtn" type="button" onclick="permit()" disabled >permit</button>
-<button type="button" onclick="del()">delete</button>
-</div>
-<br>
-<label id="category" style="color: black; font-size: 12pt"></label>
-<br>
-<label id="dif" style="color: black; font-size: 12pt"></label>
-<br>
-<label id="size" style="color: black; font-size: 12pt"></label>
-<br>
-<label id="permit" style="color: black; font-size: 12pt"></label>
-<br>
-<div id="svgfile" style="width:400px; height: 400px;">
 </body>
 </html>
