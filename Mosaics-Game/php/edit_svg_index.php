@@ -7,7 +7,7 @@ $category = $_POST['category'];
 $dif = $_POST['dif'];
 $svg = $_POST ['svg_xml'];
 
-$name = mb_strtolower($name);
+$name_low = mb_strtolower($name);
 
 // SIMPLEXML
 
@@ -17,7 +17,7 @@ $xml = simplexml_load_file ( "../xml/svg_index.xml" );
 foreach ( $xml->SVG as $child ) {
 	$str = mb_strtolower(( string ) $child->Name);
 	
-	if ($str == $name) {
+	if ($str == $name_low) {
 		echo ("Name already taken!");
 		return;
 	}

@@ -104,4 +104,12 @@
     <Dif>Normal</Dif>
     <Permitted>true</Permitted>
   </SVG>
+  <SVG Filename="teee.svg">
+    <Name>teee</Name>
+    <Category>Countries and Flags</Category>
+    <Width>8</Width>
+    <Length>8</Length>
+    <Dif>Normal</Dif>
+    <Permitted>false</Permitted>
+  </SVG>
 </SVGFiles>
