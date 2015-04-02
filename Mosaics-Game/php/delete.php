@@ -1,14 +1,15 @@
 <?php
 $name = $_POST ['name'];
 
-
 $xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+//Find SVG with name
 
 $svg = $xml->xpath('/SVGFiles/SVG[Name="'.$name .'"]');
 
- if (! empty($svg)) {
+
  	unset($svg[0][0]);
-}
+
 
 
 // Format XML and save

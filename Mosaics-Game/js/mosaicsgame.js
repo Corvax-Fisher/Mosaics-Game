@@ -328,15 +328,13 @@ function split(val) {
 
 //Check for regexp
 function regexp(){
-	//var str = document.getElementById("inputFileNameToSaveAs").value;
 	var str = $('#inputFileNameToSaveAs').val();
 	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
 	var res = patt.test(str);
 	return res;
-	
 }
 
-//SAVE
+//Save Button event
 function save() {
 	
 	$("#save_err").html("");
@@ -350,7 +348,7 @@ function save() {
 	} else if ($("#dif_dropdown").val() == "") {
 		$("#save_err").html("Please choose difficulty");
 	} else if (!regexp()){
-		$("#save_err").html("Please do not use whitespaces!");
+		$("#save_err").html("Please do not use white-spaces  or special characters");
 	}
 		
 	if ($("#save_err").html().length > 0) {
@@ -359,13 +357,13 @@ function save() {
 		return false;
 	}
 
+	//get SVG Part of HTML Page
 	var svg = $("#mosaics").get(0);
 
-	// Extract the data as SVG text string
+	// Extract the data as string
 	var svg_xml = new XMLSerializer().serializeToString(svg);
-
 	
-	// Jquery AJAX
+	// Jquery AJAX: start save script on server 
 	$.ajax({
 
 		type : 'POST',
@@ -380,17 +378,13 @@ function save() {
 		},
 
 		success : function(response) {
-			//$("#save_messages").css("display", "block");
-			//$("#save_err").text(response);
 			if (response == "saved"){
 				showSavedMessage();
 			} else {
 				$("#save_err").text(response);
 			}
 		}
-
 	});
-
 	return false;
 }
 

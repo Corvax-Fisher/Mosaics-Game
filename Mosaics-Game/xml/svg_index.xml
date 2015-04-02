@@ -104,9 +104,9 @@
     <Dif>Normal</Dif>
     <Permitted>true</Permitted>
   </SVG>
-  <SVG Filename="teee.svg">
-    <Name>teee</Name>
-    <Category>Countries and Flags</Category>
+  <SVG Filename="TEST.svg">
+    <Name>TEST</Name>
+    <Category>Flowers and Nature</Category>
     <Width>8</Width>
     <Length>8</Length>
     <Dif>Normal</Dif>

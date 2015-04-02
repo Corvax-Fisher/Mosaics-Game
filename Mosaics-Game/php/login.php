@@ -30,38 +30,30 @@ echo'
 		$("#header select").empty();
 		$("#svgfile").empty();
 	}
-
+	
+	//Load unpermitted SVGs
 	function load() {
 		setLoad = "load";
 		anz = 0;
 		clear();
+		
 		$.get("xml/svg_index.xml", {}, function(xml) {
 
-			$("SVG", xml).each(
-					function(i) {
-						var permitted = $(this).find("Permitted").text();
-						var name = $(this).find("Name").text();
+			$("SVG", xml).each(function(i) {
 
-						if (permitted == "false") {
-							anz++;
-							$("#header select").append(
-									"<option>" + name + "</option>");
-						}
+				var permitted = $(this).find("Permitted").text();
+				var name = $(this).find("Name").text();
 
-					});
-
+				if (permitted == "false") {
+					anz++;
+					$("#header select").append("<option>" + name + "</option>");
+					}
+				});
 			$("#ausgabe").text(anz + " unpermitted");
-
-			if (anz >= 1) {
-				$("#permitBtn").attr("disabled", false);
-			} else {
-				$("#permitBtn").attr("disabled", true);
-			}
-
 		});
-
 	}
 
+	//load all SVGs
 	function loadAll() {
 		setLoad = "loadAll";
 		anz = 0;
@@ -74,15 +66,8 @@ echo'
 				$("#header select").append("<option>" + name + "</option>");
 
 			});
-
 			$("#ausgabe").text(anz + " SVGs");
-			if (anz >= 1) {
-				$("#permitBtn").attr("disabled", false);
-			} else {
-				$("#permitBtn").attr("disabled", true);
-			}
 		});
-
 	}
 
 	function del() {
@@ -112,49 +97,30 @@ echo'
 		}
 	}
 
+	//SVG has been clicked
 	function change() {
 
 		svg = $("#liste :selected").val();
 		$("#svgfile").load("svgs/" + svg + ".svg");
 
 		$.get("xml/svg_index.xml", {}, function(xml) {
-			$("SVG", xml)
-					.each(
-							function(i) {
-								var name = $(this).find("Name").text();
-								if (name == svg) {
-									$("#dif").text(
-											"Difficulty: "
-													+ $(this).find("Dif")
-															.text());
-									dif =  $(this).find("Dif")
-									.text();
-									$("#category").text(
-											"Category: "
-													+ $(this).find("Category")
-															.text());
-									category = $(this).find("Category")
-									.text();
-									$("#size").text(
-											"Size: "
-													+ $(this).find("Width")
-															.text()
-													+ " x "
-													+ $(this).find("Length")
-															.text());
-									$("#permit").text(
-											"Permitted: "
-													+ $(this).find("Permitted")
-															.text());
-									return;
-								}
-							});
-
+			$("SVG", xml).each(function(i) {
+				var name = $(this).find("Name").text();
+				if (name == svg) {
+					$("#dif").text("Difficulty: " + $(this).find("Dif").text());
+					dif =  $(this).find("Dif").text();
+					$("#category").text("Category: " + $(this).find("Category").text());
+					category = $(this).find("Category").text();
+					$("#size").text("Size: " + $(this).find("Width").text() + " x "	+ $(this).find("Length").text());
+					$("#permit").text("Permitted: " + $(this).find("Permitted").text());
+					return;
+				}
+			});
 		});
 	}
-
+	
+	//Change the Permission
 	function permit() {
-
 		
 		if (svg != null) {
 			$.ajax({
@@ -178,18 +144,17 @@ echo'
 				}
 			});
 		} else {
-			$("#ausgabe").text("Choose SVG before permit!");
+			$("#ausgabe").text("Choose SVG before change Permission!");
 		}
-
 	}
 
-function rename() {
+	function rename() {
 	
-	if (svg != null) {
-		var newName = prompt("Enter new Name:");
-		if (newName) {
-			if (!regexp(newName)) {
-				$("#ausgabe").text("String not valid");
+		if (svg != null) {
+			var newName = prompt("Enter new Name:");
+			if (newName) {
+				if (!regexp(newName)) {
+					$("#ausgabe").text("String not valid");
 				} else {
 					$.ajax({
 						type : "POST",
@@ -211,28 +176,28 @@ function rename() {
 						}
 					}
 				});
+				}	
+			} else {
+				$("#ausgabe").text("No Name entered!");
 			}
 		} else {
-			$("#ausgabe").text("No Name entered!");
+			$("#ausgabe").text("Choose SVG before rename!");
 		}
-	} else {
-		$("#ausgabe").text("Choose SVG before rename!");
 	}
 
-}
-
-//Check for regexp
-function regexp(str) {
-	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
-	var res = patt.test(str);
-	return res;
-}
+	//Check for regexp
+	function regexp(str) {
+		var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
+		var res = patt.test(str);
+		return res;
+	}
 	
 	
-//Change Category
-function change_category(){
-	var newCategory = $("#new_category").val();
-	if (svg != null && category != newCategory) {
+	//Change Category
+	function change_category(){
+		var newCategory = $("#new_category").val();
+		if (svg != null && category != newCategory) {
+		
 		$.ajax({
 
 			type : "POST",
@@ -255,41 +220,39 @@ function change_category(){
 			}
 		});
 	} else {
-		$("#ausgabe").text("Choose SVG before permit! or same category");
+		$("#ausgabe").text("Choose SVG before change Category or same category");
 	}
 
-}	
+	}	
 
-//Change Difficult
-function change_dif(){
-	var newDif = $("#new_dif").val();
-	if (svg != null && dif != newDif) {
-		$.ajax({
+	//Change Difficult
+	function change_dif(){
+		var newDif = $("#new_dif").val();
+		if (svg != null && dif != newDif) {
+			$.ajax({
 
-			type : "POST",
-			url : "php/change_dif.php",
-			data : {
-				"name" : svg,
-				"newDif" : newDif
-			},
+				type : "POST",
+				url : "php/change_dif.php",
+				data : {
+					"name" : svg,
+					"newDif" : newDif
+				},
 
-			success : function(response) {
-				$("#ausgabe").text(response);
-				setTimeout(function() {
-					if (setLoad == "load") {
-						load();
-					} else {
-						loadAll();
-					}
-				}, 2000);
-
-			}
-		});
-	} else {
-		$("#ausgabe").text("Choose SVG before permit! or same Dif");
-	}
-
-}	
+				success : function(response) {
+					$("#ausgabe").text(response);
+					setTimeout(function() {
+						if (setLoad == "load") {
+							load();
+						} else {
+							loadAll();
+						}
+					}, 2000);
+				}
+			});
+		} else {
+			$("#ausgabe").text("Choose SVG before change Dif or same Dif");
+		}
+	}	
 	
 </script>
 
@@ -309,7 +272,7 @@ function change_dif(){
 	</div>
 	<label id="ausgabe" style="color: red; font-size: 14pt"></label>
 	<div>
-		<button id="permitBtn" type="button" onclick="permit()" disabled>Change
+		<button id="permitBtn" type="button" onclick="permit()" >Change
 			Permission</button>
 		<button type="button" onclick="del()">Delete</button>
 		<button id="rename" type="button" onclick="rename()">Rename</button>

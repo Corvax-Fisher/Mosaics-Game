@@ -828,10 +828,628 @@ function validateColor(color)
 							</div>
 						</div>
 					</div>
+                    <br>
+                  <h3>Speichern und Indexieren der SVG Grafiken</h3>
+				  <p>
+						Um einen Überblick über alle vorhandenen SVGs und deren Metadaten zu bekommen,
+                        wird eine XML Datei benutzt, die alle wichtigen	Informationen der SVGs beinhaltet. 
+						Die Elemente sind so gewählt, dass man für den SVG Katalog im Spiel, 
+                        die SVGs nach den wichtigsten Suchkriterien filtern kann. Das wichtigste Element 
+                        ist dabei der &lt;Name&gt;, der eine SVG eindeutig identifizierbar macht.
+                        Das Attribut "Filename" wird zur besseren Übersicht beim lesen der XML-Datei dem SVG Knoten zugefügt.
+				  </p>
+                  <p>
+                   		Mit den anderen abgespeicherten Elementen &lt;Dif&gt; (Difficulty), &lt;Width&gt; und &lt;Length&gt; 
+                        kombiniert als Größe der SVG), sowie &lt;Category&gt; stehen später 3 verschiedene Suchkriterien 
+                        im SVG Katalog zur Verfügung.
+                  </p>
+                  <p>
+                   		Damit nur sinnvolle und ordentliche SVGs im Spiel erscheinen, werden im Editor erstellte SVGs nicht 
+                        sofort freigegeben. Ein Admin hat über eine extra per Passwort geschützte Webseite die Möglichkeit, 
+                        die im Editor erstellten SVGs zu überprüfen.
+                        Auf dieser Webseite, die später noch näher erläutert wird, können SVG Metadaten geändert oder auch 
+                        ganze SVGs gelöscht werden. Ist eine SVG in Ordnung, wird sie über das XML-Element &lt;Permitted&gt; 
+                        für das Spiel freigegeben. 
+                  </p>
+                  <p>
+                    	Für die XML-Index Datei wurde zuerst eine Baumstruktur angelegt:
+                  </p>
+                  <p>
+                    <img src="images/xml_baumstruktur.png" width="400" height="200" alt=""/>
+                  </p>
+                  <p>
+                 	 Zur Struktur passend wurde der Aufbau der XML erstellt:
+                  </p>
+                  <p>
+                  	&lt;SVG Files&gt;
+                    <br>
+						&emsp;&lt;SVG-File (Filename)&gt;
+                    <br>
+						&emsp;&emsp;&lt;Name&gt;, &lt;Kategorie&gt;, &lt;Width&gt;, &lt;Height&gt;, &lt;Dif&gt;, &lt;Permitted&gt; 
+                    <br>        
+						&emsp;&lt;SVG-File&gt;
+                    <br>    
+					&lt;SVG Files&gt;
+                  </p>
+                  <p>
+                  Dazu wurde ein passendes XML-Schema festgelegt:
+                  </p>
+				  <div class="panel-group scrollable" id="XML-Schema-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#XML-Schema-snippets" 
+							href="#XML-Schema-b" aria-expanded="false" aria-controls="XML-Schema-b">
+							<div class="panel panel-default">
+								<div id="XML-Schema-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										XML-Schema
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="XML-Schema-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="XML-Schema-h">
+							<div class="panel-body">
+								<pre class="code language-xml">&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+
+&lt;xsd:element name="SVGFiles" type="SVGFilesType"/&gt;
+	
+	&lt;xsd:complexType name="SVGFilesType"&gt;
+		&lt;xsd:sequence&gt;
+			&lt;xsd:element name="SVG" type="SVGType" maxOccurs="unbounded" minOccurs="0"/&gt;
+		&lt;/xsd:sequence&gt;	
+	&lt;/xsd:complexType&gt;
+				
+	&lt;xsd:complexType name="SVGType"&gt;
+		&lt;xsd:sequence&gt;
+			&lt;xsd:element name="Name" type="xsd:string"/&gt;
+			&lt;xsd:element name="Category" type="xsd:string"/&gt;
+			&lt;xsd:element name="Width" type="xsd:positiveInteger"/&gt;
+			&lt;xsd:element name="Length" type="xsd:positiveInteger"/&gt;
+			&lt;xsd:element name="Dif" type="xsd:string"/&gt;
+			&lt;xsd:element name="Permissin" type="xsd:string"/&gt;
+		&lt;/xsd:sequence&gt;	
+			&lt;xsd:attribute name="Filename" type="xsd:string"/&gt;
+	&lt;/xsd:complexType&gt;
+				
+		
+&lt;/xsd:schema&gt;</pre>
+							</div>
+						</div>
+					</div>
+					<h4>Abspeicherung von SVG-Dateien und Bearbeitung der XML-Datei:</h4>
+					<p>
+					Die Datei svg_index.xml befindet sich im XML Ordner im Hauptverzeichnis.
+					Als erstes wird diese XML-Datei beim Speichern von SVGs im Editor bearbeitet. 
+					</p>
+					<p>
+					Nachdem ein User ein Muster gezeichnet hat und auf Speichern klickt, werden zuerst Überprüfungen gemacht. 
+					Noch auf User-Seite wird geprüft, ob etwas gezeichnet, ein Name eingetragen 
+					und eine Kategorie sowie ein Schwierigkeitsgrad ausgewählt wurden. 
+					Zudem wird mit regulären Ausdrücken geprüft, ob der eingegebene Name Leer- oder falsche Sonderzeichen enthält.
+					</p>		
+			  	  	<p>
+					Ist alles ordnungsgemäß eingetragen worden, werden per AJAX die Metadaten (Name, Category, Width, Height, Difficulty) 
+                    sowie die SVG als String an das PHP Script "edit_svg_index.php" auf dem Server geschickt.                 
+                  	</p>
+
+					<div class="panel-group scrollable" id="inputCheck-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#inputCheck-snippets" 
+							href="#inputCheck-b" aria-expanded="false" aria-controls="inputCheck-b">
+							<div class="panel panel-default">
+								<div id="inputCheck-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "save"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="inputCheck-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="inputCheck-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">
+//Check for regexp
+function regexp(){
+	var str = $('#inputFileNameToSaveAs').val();
+	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
+	var res = patt.test(str);
+	return res;
+}
+
+//Save Button event
+function save() {
+	
+	$("#save_err").html("");
+	
+	if (undoHistory.length == 0) {
+		$("#save_err").html("Please draw something first");
+	} else if ($("#inputFileNameToSaveAs").val() == "") {
+		$("#save_err").html("Please choose name");
+	} else if ($("#category_dropdown").val() == "") {
+		$("#save_err").html("Please choose category");
+	} else if ($("#dif_dropdown").val() == "") {
+		$("#save_err").html("Please choose difficulty");
+	} else if (!regexp()){
+		$("#save_err").html("Please do not use whitespaces or special characters");
+	}
+		
+	if ($("#save_err").html().length > 0) {
+		$("#save_messages").show();
+		window.scrollTo(0, document.body.scrollHeight);
+		return false;
+	}
+    
+	//get SVG Part of HTML Page
+	var svg = $("#mosaics").get(0);
+
+	// Extract the data as string
+	var svg_xml = new XMLSerializer().serializeToString(svg);
+	
+	// Jquery AJAX: start save script on server 
+	$.ajax({
+
+		type : 'POST',
+		url : 'php/edit_svg_index.php',
+		data : {
+			'name' : $("#inputFileNameToSaveAs").val(),
+			'category' : $("#category_dropdown").val(),
+			'dif' : $("#dif_dropdown").val(),
+			'width' : bounds[0],
+			'length' : bounds[1],
+			'svg_xml' : svg_xml
+		},
+
+		success : function(response) {
+			if (response == "saved"){
+				showSavedMessage();
+			} else {
+				$("#save_err").text(response);
+			}
+		}
+	});
+}							</code></pre>
+							</div>
+						</div>
+					</div>
+                    <p>
+                    Das PHP-Script überprüft jetzt zuerst, ob der beim Speichern eingegebene Name schon in der svg_index.xml vorhanden ist.
+					Ist dies der Fall, wird aus dem edit_svg_index.php Script ausgestiegen und der User auf der Webseite benachrichtigt.
+                    </p>
+                   <p> 
+                    Ist der Name noch nicht vergeben, wird in der svg_index.xml ein neuer Child-Knoten mit den übergebenen Daten sowie dem "Permitted : 					 					false" Element eingefügt, in Form gebracht und abgespeichert.
+                    Danach wird die eigentliche SVG Datei in Form gebracht und im SVGs Ordner abgespeichert.
+                   </p>
+                   <div class="panel-group scrollable" id="phpSave-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpSave-snippets" 
+							href="#phpSave-b" aria-expanded="false" aria-controls="phpSave-b">
+							<div class="panel panel-default">
+								<div id="phpSave-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "edit_svg_index.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpSave-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpSave-h">
+							<div class="panel-body">
+								<pre><code class="highlight">
+&lt;?php
+// received VARIABLES
+$name = $_POST ['name'];
+$width = $_POST ['width'];
+$length = $_POST ['length'];
+$category = $_POST['category'];
+$dif = $_POST['dif'];
+$svg = $_POST ['svg_xml'];
+
+//create SIMPLEXML Object
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+// Check if Name already taken
+$name_low = mb_strtolower($name);
+foreach ( $xml-&gt;SVG as $child ) {
+	$str = mb_strtolower(( string ) $child-&gt;Name);
+	
+	if ($str == $name_low) {
+		echo ("Name already taken!");
+		return;
+	}
+}
+
+// Name not taken. Create Child Node
+$newChild = $xml-&gt;addChild ( "SVG" );
+$newChild-&gt;addAttribute ( "Filename", "$name.svg" );
+$newChild-&gt;addChild ( "Name", $name );
+$newChild-&gt;addChild ( "Category", $category );
+$newChild-&gt;addChild ( "Width", $width );
+$newChild-&gt;addChild ( "Length", $length );
+$newChild-&gt;addChild ( "Dif", $dif );
+$newChild-&gt;addChild ( "Permitted", "false" );
+	
+// Convert to DOM Object for formatting and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+//Save SVG File		
+if(!file_put_contents('../svgs/' . $name . '.svg', $svg))
+	echo "error saving $name";
+else echo "saved";
+
+?&gt;</pre></code>
+							</div>
+						</div>
+					</div>
+                    <h3>Die Admin Webseite:</h3>
+                    <p>
+                    Die Admin-Webseite Permission.html gibt dem Admin oder auch ausgewählten Usern die Möglichkeit,
+                    SVGs freizugeben und MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt. 
+                    Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit der Weiterentwicklung.
+                    </p>
+                    <h4>Passwortschutz für Login:</h4>
+                    <p>
+                    Die Webseite hat zunächst im Body nur ein Eingabefeld und ein Button.
+					Beim klicken auf den Login Button wird das eingebene Passwort an das login.php Script 
+                    auf dem Server geschickt. Das login.php Script überprüft das Passwort und wenn es richtig ist, schickt 
+                    das Script den eigentlichen Body Teil, der alle Elemente enthält, zurück. 
+                    Ist das Passwort falsch schickt das Script den Body Teil mit Eingabefeld und Button zurück. 
+                    Da das PHP Script über den Browser nicht eingesehen werden kann, gibt uns das eine relativ große Sicherheit für den 
+                    Zugriff auf die Admin-Webseite. 
+                    </p>
+                    <div class="panel-group scrollable" id="phpLogin-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpLogin-snippets" 
+							href="#phpLogin-b" aria-expanded="false" aria-controls="phpLogin-b">
+							<div class="panel panel-default">
+								<div id="phpLogin-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "login.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpLogin-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpLogin-h">
+							<div class="panel-body">
+								<pre><code class="highlight">
+&lt;?php
+if($_POST['passwort']=='HIER STEHT DAS PASSWORT') {
+echo'
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+//Hier wäre die anzuzeigende Webseite bei richtiger Passwort-Eingabe.
+
+&lt;/html&gt;
+';
+
+}
+else {
+echo'
+    &lt;input id="passwort" type="password" name="passwort" /&gt;
+    &lt;button type="button" onclick="loging()"&gt;Login&lt;/button&gt;
+';
+}
+?&gt;
+
+</pre></code>
+							</div>
+						</div>
+					</div>
+                    <h4>Anzeige und Bearbeitung von SVGs:</h4>
+                    <p>
+                    Zuerst sollte angezeigt werden, welche neuen SVGs gespeichert wurden und auf eine Freigabe warten.
+                    Mit der JS Funktion load, werden nur die SVGs in die Tabelle geladen deren Element Permitted auf false steht. 
+                    </p>
+                    <p>
+                    Sind nicht-freigegebene SVGs vorhanden kann man mittels klick auf den Namen die JS Funktion
+                    change starten, die die ausgewählte SVG mit Metadaten anzeigen lässt.
+                    </p>
+                    <div class="panel-group scrollable" id="phpLoad_Change-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpLoad_Change-snippets" 
+							href="#phpLoad_Change-b" aria-expanded="false" aria-controls="phpLoad_Change-b">
+							<div class="panel panel-default">
+								<div id="phpLoad_Change-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "load() und change()"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpLoad_Change-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpLoad_Change-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">
+//Load unpermitted SVGs
+function load() {
+    
+	setLoad = "load";
+	anz = 0;
+	clear();
+		
+	$.get("xml/svg_index.xml", {}, function(xml) {
+
+	$("SVG", xml).each(function(i) {
+
+		var permitted = $(this).find("Permitted").text();
+		var name = $(this).find("Name").text();
+
+		if (permitted == "false") {
+			anz++;
+			$("#header select").append("<option>" + name + "</option>");
+			}
+		});
+		$("#ausgabe").text(anz + " unpermitted");
+	});
+}
+	
+	
+//SVG has been clicked
+function change() {
+
+	svg = $("#liste :selected").val();
+    
+	$("#svgfile").load("svgs/" + svg + ".svg");
+
+	$.get("xml/svg_index.xml", {}, function(xml) {
+		$("SVG", xml).each(function(i) {
+        
+			var name = $(this).find("Name").text();
+            
+			if (name == svg) {
+				$("#dif").text("Difficulty: " + $(this).find("Dif").text());
+				dif =  $(this).find("Dif").text();
+				$("#category").text("Category: " + $(this).find("Category").text());
+				category = $(this).find("Category").text();
+				$("#size").text("Size: " + $(this).find("Width").text() + " x "	+ $(this).find("Length").text());
+				$("#permit").text("Permitted: " + $(this).find("Permitted").text());
+				return;
+			}
+		});
+	});
+}
+</pre></code>
+							</div>
+						</div>
+					</div>
+                    <br>
+                    <p>
+                    Man kann sich auch alle SVGs anzeigen lassen, was sinnvoll ist, wenn man sich doch noch Änderung machen möchte.
+                    Folgende Änderungen sind jetzt an den SVGs machbar:
+                    </p>
+                    <ul class="list-group">
+						<li class="list-group-item">1. Die Freigabe ändern</li>
+						<li class="list-group-item">2. Die SVG löschen</li>
+                        <li class="list-group-item">3. Die SVG umbennen</li>
+						<li class="list-group-item">4. Den Schwiergkeitsgrad ändern</li>
+                        <li class="list-group-item">5. Die Kategorie ändern</li>
+                   </ul>
+                  <p> 
+                   In allen 5 Fällen wird per AJAX ein PHP Script auf dem Server angestoßen, der die Änderungen durchführt.
+                   Für die Umbennung einer SVG muss der neu eingetragenen Name wieder auf Leer- und Sonderzeichen geprüft werden, das 
+                   wird noch auf User-Seite geprüft, auf Server-Seite wird wieder geprüft ob der Name schon vergeben ist.
+                   Beim ändern der Kategorie oder des Schwierigkeitsgrads wird auch noch auf User-Seite geprüft, ob man nicht dieselbe gewählt hat. Beim löschen sollte man nicht nur den SVG Child Knoten aus der XML Datei löschen, sonder die Datei auch selbst.
+                   </p> 
+                   <div class="panel-group scrollable" id="jsRename-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#jsRename-b" aria-expanded="false" aria-controls="jsRename-b">
+							<div class="panel panel-default">
+								<div id="jsRename-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "rename()"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="jsRename-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="jsRename-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">
+
+function rename() {
+	
+		if (svg != null) {
+			var newName = prompt("Enter new Name:");
+			if (newName) {
+				if (!regexp(newName)) {
+					$("#ausgabe").text("String not valid");
+				} else {
+					$.ajax({
+						type : "POST",
+						url : "php/change_name.php",
+						data : {
+							"name" : svg,
+							"newName" : newName
+							},
+					success : function(response) {
+						$("#ausgabe").text(response);
+						if (response != "Name already taken!") {
+							setTimeout(function() {
+								if (setLoad == "load") {
+									load();
+								} else {
+									loadAll();
+								}
+							}, 2000);
+						}
+					}
+				});
+				}	
+			} else {
+				$("#ausgabe").text("No Name entered!");
+			}
+		} else {
+			$("#ausgabe").text("Choose SVG before rename!");
+		}
+	}
+</pre></code>
+							</div>
+						</div>
+                        
+						<a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#phpRename-b" aria-expanded="false" aria-controls="phpRename-b">
+							<div class="panel panel-default">
+								<div id="phpRename-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "rename.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpRename-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpRename-h">
+							<div class="panel-body">
+								<pre><code class="highlight">
+								
+&lt;?php
+$name = $_POST ['name'];
+$newName = $_POST ['newName'];
+
+$newName_low = mb_strtolower($newName);
+
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+$att='Filename';
+
+// Check if Name already taken
+foreach ( $xml-&gt;SVG as $child ) {
+	$str = mb_strtolower(( string ) $child-&gt;Name);
+
+	if ($str == $newName_low) {
+		echo ("Name already taken!");
+		return;
+	}
+}
+
+//Change XML
+$svg = $xml-&gt;xpath('/SVGFiles/SVG[Name="'.$name .'"]');
+$svg[0]-&gt;Name = $newName;
+$svg[0]-&gt;attributes()-&gt;$att = "$newName.svg";
+
+//Save XML changes
+// Format XML and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+//Rename File
+rename('../svgs/' . $name . '.svg','../svgs/' . $newName . '.svg');
+echo ($name .' renamed to ' . $newName);
+?&gt;
+
+
+</pre></code>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#phpDelete-b" aria-expanded="false" aria-controls="phpDelete-b">
+							<div class="panel panel-default">
+								<div id="phpDelete-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "delete.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpDelete-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpDelete-h">
+							<div class="panel-body">
+								<pre><code class="highlight">
+								
+&lt;?php
+
+$name = $_POST ['name'];
+
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+$svg = $xml-&gt;xpath('/SVGFiles/SVG[Name="'.$name .'"]');
+
+ if (! empty($svg)) {
+ 	unset($svg[0][0]);
+}
+
+// Format XML and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+// Delete SVG
+unlink('../svgs/' . $name . '.svg');
+
+echo "deleted! please wait....";
+
+?&gt;
+
+
+</pre></code>
+							</div>
+						</div>
+                        <a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#phpChangePermission-b" aria-expanded="false" aria-controls="phpChangePermission-b">
+							<div class="panel panel-default">
+								<div id="phpChangePermission-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "change_permission.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpChangePermission-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpChangePermission-h">
+							<div class="panel-body">
+								<pre><code class="highlight">
+&lt;?php
+$name = $_POST ['name'];
+
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+//Find SVG with name
+$svg = $xml-&gt;xpath('/SVGFiles/SVG[Name="'.$name .'"]');
+
+//Change Permission to opposite
+if ($svg[0]-&gt;Permitted =="false"){
+	$svg[0]-&gt;Permitted ="true";
+	$permStr = "permitted! please wait...";
+} else {
+	$svg[0]-&gt;Permitted ="false";
+	$permStr = "unpermitted! please wait...";
+}
+
+// Format XML and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+echo $permStr;
+
+?&gt;					
+
+
+
+</pre></code>
+							</div>
+						</div>
+					</div>  
 				</div>
 			</div>
 		</div>
-		
 	</div>
 </body>
 </html>

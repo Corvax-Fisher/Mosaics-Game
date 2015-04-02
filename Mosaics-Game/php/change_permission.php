@@ -1,12 +1,12 @@
 <?php
 $name = $_POST ['name'];
 
-
-
 $xml = simplexml_load_file ( "../xml/svg_index.xml" );
 
+//Find SVG with name
 $svg = $xml->xpath('/SVGFiles/SVG[Name="'.$name .'"]');
 
+//Change Permission to opposite
 if ($svg[0]->Permitted =="false"){
 	$svg[0]->Permitted ="true";
 	$permStr = "permitted! please wait...";
