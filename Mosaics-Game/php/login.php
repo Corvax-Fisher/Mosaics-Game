@@ -2,17 +2,6 @@
 <?php
 if($_POST['passwort']=='thm654321') {
 echo'
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Permission Check</title>
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-
 <script type="text/javascript">
 	var svg = null;
 	var anz;
@@ -257,8 +246,7 @@ echo'
 </script>
 
 
-</head>
-<body>
+
 	<button type="button" onclick="load()">Load unpermitted</button>
 	<button type="button" onclick="loadAll()">Load All</button>
 	<div id="header">
@@ -306,15 +294,30 @@ echo'
 	<label id="size" style="color: black; font-size: 12pt"></label>
 	<br>
 	<div id="svgfile" style="width: 400px; height: 400px;">
-</body>
-</html>
+
 ';
 
 }
 else {
 echo'
-    <input id="passwort" type="password" name="passwort" />
-    <button type="button" onclick="loging()">Login</button>
+<script type="text/javascript">	
+$(function() {
+    $("#passwort").keypress(function (e) {
+        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            login();
+            return false;
+        } else {
+            return true;
+        }
+    });
+});
+</script>
+
+
+<input id="passwort" type="password"/>
+<button type="button" onclick="login()">Login</button>
+<br>	
+<label id="dif" style="color: red; font-size: 14pt">falsches Passwort!</label>
 ';
 }
 ?>

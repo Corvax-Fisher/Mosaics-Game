@@ -106,10 +106,18 @@
   </SVG>
   <SVG Filename="TEST.svg">
     <Name>TEST</Name>
-    <Category>Flowers and Nature</Category>
+    <Category>Countries and Flags</Category>
     <Width>8</Width>
     <Length>8</Length>
-    <Dif>Normal</Dif>
+    <Dif>Hard</Dif>
     <Permitted>false</Permitted>
+  </SVG>
+  <SVG Filename="Test2.svg">
+    <Name>Test2</Name>
+    <Category>Countries and Flags</Category>
+    <Width>8</Width>
+    <Length>8</Length>
+    <Dif>Easy</Dif>
+    <Permitted>true</Permitted>
   </SVG>
 </SVGFiles>

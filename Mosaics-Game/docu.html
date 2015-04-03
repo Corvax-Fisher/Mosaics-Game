@@ -890,7 +890,8 @@ function validateColor(color)
 						<div aria-expanded="false" id="XML-Schema-b" class="panel-collapse collapse" 
 							role="tabpanel" aria-labelledby="XML-Schema-h">
 							<div class="panel-body">
-								<pre class="code language-xml">&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+								<pre><code class="language-markup">
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
 
 &lt;xsd:element name="SVGFiles" type="SVGFilesType"/&gt;
 	
@@ -907,13 +908,13 @@ function validateColor(color)
 			&lt;xsd:element name="Width" type="xsd:positiveInteger"/&gt;
 			&lt;xsd:element name="Length" type="xsd:positiveInteger"/&gt;
 			&lt;xsd:element name="Dif" type="xsd:string"/&gt;
-			&lt;xsd:element name="Permissin" type="xsd:string"/&gt;
+			&lt;xsd:element name="Permitted" type="xsd:string"/&gt;
 		&lt;/xsd:sequence&gt;	
-			&lt;xsd:attribute name="Filename" type="xsd:string"/&gt;
+			&lt;xsd:attribute name="Filename" type="xsd:string" use="required" /&gt;
 	&lt;/xsd:complexType&gt;
 				
 		
-&lt;/xsd:schema&gt;</pre>
+&lt;/xsd:schema&gt;</pre></code>
 							</div>
 						</div>
 					</div>
@@ -1013,6 +1014,7 @@ function save() {
 							</div>
 						</div>
 					</div>
+					<br>
                     <p>
                     Das PHP-Script überprüft jetzt zuerst, ob der beim Speichern eingegebene Name schon in der svg_index.xml vorhanden ist.
 					Ist dies der Fall, wird aus dem edit_svg_index.php Script ausgestiegen und der User auf der Webseite benachrichtigt.
@@ -1037,7 +1039,7 @@ function save() {
 						<div aria-expanded="false" id="phpSave-b" class="panel-collapse collapse" 
 							role="tabpanel" aria-labelledby="phpSave-h">
 							<div class="panel-body">
-								<pre><code class="highlight">
+								<pre><code class="language-php">
 &lt;?php
 // received VARIABLES
 $name = $_POST ['name'];
@@ -1086,10 +1088,49 @@ else echo "saved";
 ?&gt;</pre></code>
 							</div>
 						</div>
+						
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpSave-snippets" 
+							href="#indexXml-b" aria-expanded="false" aria-controls="indexXml-b">
+							<div class="panel panel-default">
+								<div id="indexXml-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "svg_index.xml"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="indexXml-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="indexXml-h">
+							<div class="panel-body">
+								<pre><code class="language-markup">
+								
+&lt;?xml version="1.0"?&gt;
+&lt;SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml/SVG_index.xsd"&gt;
+  &lt;SVG Filename="America.svg"&gt;
+    &lt;Name&gt;America&lt;/Name&gt;
+    &lt;Category&gt;Countries and Flags&lt;/Category&gt;
+    &lt;Width&gt;18&lt;/Width&gt;
+    &lt;Length&gt;12&lt;/Length&gt;
+    &lt;Dif&gt;Normal&lt;/Dif&gt;
+    &lt;Permitted&gt;true&lt;/Permitted&gt;
+  &lt;/SVG&gt;
+  &lt;SVG Filename="Germany.svg"&gt;
+    &lt;Name&gt;Germany&lt;/Name&gt;
+    &lt;Category&gt;Countries and Flags&lt;/Category&gt;
+    &lt;Width&gt;18&lt;/Width&gt;
+    &lt;Length&gt;12&lt;/Length&gt;
+    &lt;Dif&gt;Easy&lt;/Dif&gt;
+    &lt;Permitted&gt;true&lt;/Permitted&gt;
+  &lt;/SVG&gt;
+&lt;/SVGFiles&gt;
+								
+</pre></code>
+							</div>
+						</div>
 					</div>
                     <h3>Die Admin Webseite:</h3>
                     <p>
-                    Die Admin-Webseite Permission.html gibt dem Admin oder auch ausgewählten Usern die Möglichkeit,
+                    Die Admin-Webseite control.html gibt dem Admin oder auch ausgewählten Usern die Möglichkeit,
                     SVGs freizugeben und MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt. 
                     Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit der Weiterentwicklung.
                     </p>
@@ -1119,7 +1160,7 @@ else echo "saved";
 						<div aria-expanded="false" id="phpLogin-b" class="panel-collapse collapse" 
 							role="tabpanel" aria-labelledby="phpLogin-h">
 							<div class="panel-body">
-								<pre><code class="highlight">
+								<pre><code class="language-php">
 &lt;?php
 if($_POST['passwort']=='HIER STEHT DAS PASSWORT') {
 echo'
@@ -1311,7 +1352,7 @@ function rename() {
 						<div aria-expanded="false" id="phpRename-b" class="panel-collapse collapse" 
 							role="tabpanel" aria-labelledby="phpRename-h">
 							<div class="panel-body">
-								<pre><code class="highlight">
+								<pre><code class="language-php">
 								
 &lt;?php
 $name = $_POST ['name'];
@@ -1367,7 +1408,7 @@ echo ($name .' renamed to ' . $newName);
 						<div aria-expanded="false" id="phpDelete-b" class="panel-collapse collapse" 
 							role="tabpanel" aria-labelledby="phpDelete-h">
 							<div class="panel-body">
-								<pre><code class="highlight">
+								<pre><code class="language-php">
 								
 &lt;?php
 
@@ -1412,7 +1453,7 @@ echo "deleted! please wait....";
 						<div aria-expanded="false" id="phpChangePermission-b" class="panel-collapse collapse" 
 							role="tabpanel" aria-labelledby="phpChangePermission-h">
 							<div class="panel-body">
-								<pre><code class="highlight">
+								<pre><code class="language-php">
 &lt;?php
 $name = $_POST ['name'];
 

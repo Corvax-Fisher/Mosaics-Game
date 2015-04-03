@@ -381,6 +381,7 @@ function save() {
 			if (response == "saved"){
 				showSavedMessage();
 			} else {
+				$("#save_messages").show();
 				$("#save_err").text(response);
 			}
 		}
