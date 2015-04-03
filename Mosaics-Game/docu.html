@@ -61,19 +61,1437 @@
 			</h1>
 			<div class="jumbotron">
 				<div>
-					<h4>Titel</h4>
-					<p>This game was created by master students of media computer science for their module "Dokumentenstrukturen".
+					<h3>Syntax</h3>
+					<h4>Befehl</h4>
+					<p>Die allgemeine Befehlssyntax ist folgendermaßen aufgebaut:
+						&lt;Befehlsname&gt;(&lt;Parameter1&gt;,...&lt;ParameterN&gt;)<br>
+						Es gibt folgende gültige Befehlsnamen: square, circle, rectangle, line, triangle und clearcell.
 					</p>
-					<pre><code class="language-swift">let fetchRequest = NSFetchRequest(entityName: "Tasks")
-					let sortDescriptor = NSSortDescriptor(key: "desc", ascending: true) 
-					fetchRequest.sortDescriptors = [sortDescriptor]
-					// Prädikat zum filtern erstellen/hinzufügen
-					let predicate1 = NSPredicate(format: "name contains %@", "b")
-					fetchRequest.predicate = predicate1</code></pre>
+					<h4>Parameter</h4>
+					<p>
+						Parametertypen gibt es folgende: &lt;Position&gt;, &lt;Breite/Höhe&gt;, &lt;Punkt&gt; und &lt;Farbe&gt;.<br>
+						Breite/Höhe werden als positive Integer angegeben.<br>
+						Folgende Farbangaben sind erlaubt: aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red, silver, teal und yellow.<br>
+						Die Positions- und Punktsyntax sind etwas komplizierter.
+					</p>
+					<h5>Position</h5>
+					<p>
+						Die Positionssyntax ist folgendermaßen aufgebaut: &lt;Spalte&gt;,&lt;Zeile&gt;<br>
+						Die Syntax von &lt;Spalte&gt; und &lt;Zeile&gt; lautet wiederum: &lt;Startposition&gt;[[:&lt;Schrittweite&gt;]:&lt;Endposition&gt;]]<br>
+						&lt;Schrittweite&gt; sowie &lt;Endposition&gt; sind optionale Angaben (markiert durch die eckigen Klammern).<br>
+						Erlaubt sind also folgende Formen:<br>
+						&lt;Startposition&gt;<br>
+						&lt;Startposition&gt;:&lt;Endposition&gt;<br>
+						&lt;Startposition&gt;:&lt;Schrittweite&gt;:&lt;Endposition&gt;<br>
+						Für die Start- und Endposition und die Schrittweite werden Integer erwartet.
+					</p>
+					<h5>(Anker-)Punkte</h5>
+					<p>
+						Die Punktsyntax hat den folgenden Aufbau: &lt;Horizontalankerpunkt&gt;&lt;Vertikalankerpunkt&gt;<br>
+						Für &lt;Horizontalankerpunkt&gt; gibt es folgende gültige Angaben: “L”,”C” und “R”.<br>
+						“L” steht für “Left”, “C” für “Center” und “R” für “Right”.<br>
+						Für &lt;Vertikalankerpunkt&gt; gibt es folgende gültige Angaben: “T”,”C” und “B”.<br>
+						“T” steht für “Top”, “C” für “Center” und “B” für “Bottom”.<br>
+						Die Angaben sind nicht case-sensitiv und dürfen in ihrer Reihenfolge vertauscht werden.<br>
+						Beispiel: “TL”, “LT”,  “tl” und “lt” beschreiben alle den Ankerpunkt links oben in einer Zelle.<br>
+						Somit kann man neun mögliche Ankerpunkte auf jeweils 4 verschiedene Arten beschreiben (mit Ausnahme des Mittelpunktes (“CC” bzw. “cc”)).
+					</p>
+					<h3>Parsen des Befehls</h3>
+					<p>Bevor ein Befehl ausgeführt wird, wird dieser geparst und anschließend die Parameter validiert.</p>
+					<h4>Vorgehensweise</h4>
+					<p>Beim Parsen wird Folgendes in folgender Reihenfolge geprüft:
+						<ul class="list-group">
+							<li class="list-group-item">1. Der Befehlsname</li>
+							<li class="list-group-item">2. Das Vorhandensein der offenen und geschlossenen Klammer</li>
+							<li class="list-group-item">3. Die Anzahl der angegebenen Parameter</li>
+						</ul>
+						Bei falschen Eingaben wird der Benutzer über die erste Falscheingabe entsprechend informiert.
+					</p>
+					<h4>Umsetzung</h4>
+					<h5>Initialisierung</h5>
+					<p>Die Funktion zum Parsen des Befehls namens “parseCommand” bekommt die eingegebene Zeile des Benutzers als Parameter. Zuerst wird diese Zeile mittels der öffnenden Klammer in mehrere Teile getrennt. Erwartet werden zwei Teile: Der Name des Befehls und die Befehlsparameter.</p>
+					<h5>Befehlsname (siehe Code-Snippet zu "validateCmdName")</h5>
+					<p>Zur Validierung, dass ein gültiger Befehlsname angegeben wurde, wird eine Switch/Case-Struktur verwendet. Ist der Befehlsname gültig, wird die erwartete Anzahl an Parametern für diesen Befehl zurückgegeben, andernfalls wird -1 zurückgegeben. Der Rückgabewert wird demzufolge auf Gleichheit mit -1 überprüft.</p>
+					<h5>Klammern</h5>
+					<p>Zur Validierung des Vorhandenseins der Klammern wird die String-Methode indexOf verwendet. Ist das gesuchte Zeichen nicht im String vorhanden gibt diese Funktion den Wert -1 zurück. Auch hier wird auf diesen Wert geprüft.</p>
+					<h6>Besonderheit</h6>
+					<p>Des Weiteren musste festgestellt werden, dass nur eine öffnende Klammer angegeben wurde, da man anhand dieser die Befehlszeile in zwei Teile auftrennt. Um dies festzustellen, wird die Variable, die den String mit den Befehlsparametern hält nur dann initialisiert, wenn das Array mit den durch die öffnende Klammer aufgeteilten Strings genau 2 Strings enthält. Diese Variable wird dementsprechend auf den Wert undefined geprüft.</p>
+					<h5>Parameteranzahl (siehe Code-Snippet zu "validateNumberOfParams")</h5>
+					<p>Zur Validierung der Parameteranzahl wird die bereits oben erwähnte Switch/Case-Struktur verwendet. Zusätzlich wird noch überprüft, ob eine Standardfarbe ausgewählt wurde. Ist das der Fall, so wird die Anzahl der angegebenen Parameter auf Gleichheit mit der erwarteten Parameteranzahl-1 geprüft. Schlägt der Vergleich fehl, so wird anschließend nochmal mit der erwarteten Parameteranzahl verglichen, um festzustellen, ob trotz Standardfarbe eine Farbe als Parameter angegeben wurde. Auch dies wird als korrekte Eingabe akzeptiert.</p>
+					<div class="panel-group scrollable" id="parseCommand-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#parseCommand-snippets" 
+							href="#parseCommand-b" aria-expanded="false" aria-controls="parseCommand-b">
+							<div class="panel panel-default">
+								<div id="parseCommand-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "parseCommand"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="parseCommand-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="parseCommand-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function parseCommand(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	var cmd = cmdAndParams[0], params;
+
+	if(cmdAndParams.length == 2) {
+		params = cmdAndParams[1];	
+		params = params.replace(")","");
+		params = params.split(",");
+	}
+	
+	if(!validateCmdName(cmd)) {
+		$("#err").html("Unknown command.");
+	} else if (cmdLine.indexOf("(") == -1) {
+		$("#err").html("Opening bracket is missing.");
+	} else if (params == undefined) {
+		$("#err").html("Too much opening brackets.");
+	} else if (cmdLine.indexOf(")") == -1) {
+		$("#err").html("Closing bracket is missing.");
+	} else if(!validateNumberOfParams(cmd, params)) {
+		var numParams = params.length;
+		if(cmdAndParams[1].trim() == ")") numParams = 0;
+		$("#err").html("Invalid number of parameters (required " + 
+				requiredParamCountForCmd(cmdAndParams[0]) + 
+				", got "+ numParams + ").");
+	} 
+	
+	if ($("#err").html().length == 0) return true;
+	else return false;
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#parseCommand-snippets" 
+							href="#validateCmdName-b" aria-expanded="false" aria-controls="validateCmdName-b">
+							<div class="panel panel-default">
+								<div id="validateCmdName-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateCmdName" (inkl. "requiredParamCountForCmd")
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateCmdName-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateCmdName-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateCmdName(cmd) {
+	return (requiredParamCountForCmd(cmd) != -1);
+}
+
+function requiredParamCountForCmd(cmd) {
+	switch(cmd) {
+		case "clearcell":	return 2;
+		
+		case "square":
+		case "circle":		return 3;
+		
+		case "rectangle":
+		case "line":		return 5;
+		
+		case "triangle":	return 6;
+		
+		default:			return -1;
+	}
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#parseCommand-snippets" 
+							href="#validateNumberOfParams-b" aria-expanded="false" aria-controls="validateNumberOfParams-b">
+							<div class="panel panel-default">
+								<div id="validateNumberOfParams-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateNumberOfParams"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateNumberOfParams-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateNumberOfParams-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateNumberOfParams(cmd, params) {
+	var paramCount = requiredParamCountForCmd(cmd);
+	
+	if($("#color_dropdown").val() != "(None)" &&
+			params.length == paramCount-1)
+		return true;
+
+	if(params.length != paramCount)
+		return false;
+
+	return true;
+}</code></pre>
+							</div>
+						</div>
+					</div>
+					<h3>Validierung der Parameter</h3>
+					<p>
+						Die Validierung der Parameter erfolgt in der Reihenfolge in der die sie erwartet werden:
+						<ul class="list-group">
+							<li class="list-group-item">1. Position</li>
+							<li class="list-group-item">2. Linie bzw. Punkte (bei Linienbefehl)</li>
+							<li class="list-group-item">3. Dreieck bzw. Punkte und Fläche (bei Dreiecksbefehl)</li>
+							<li class="list-group-item">4. Farbe</li>
+						</ul>
+						Bei falschen Eingaben wird der Benutzer über die erste Falscheingabe entsprechend informiert.
+					</p>
+					<div class="panel-group scrollable" id="validateParameters-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateParameters-snippets" 
+							href="#validateParameters-b" aria-expanded="false" aria-controls="validateParameters-b">
+							<div class="panel panel-default">
+								<div id="validateParameters-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateParameters"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateParameters-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateParameters-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateParameters(cmdLine) {
+	var cmdAndParams = cmdLine.split("(");
+	var cmd = cmdAndParams[0], params = cmdAndParams[1];
+	
+	params = params.replace(")","").split(",");
+	
+	if(!validatePositionParams(cmd, params)) return 0;
+	
+	if(!validateLineParams(cmd, params)) return 0;
+	
+	if(!validateTriangleParams(cmd, params)) return 0;
+	
+	if(!validateColorParam(cmd, params)) return 0;
+
+	return 1;
+}</code></pre>
+							</div>
+						</div>
+					</div>
+					<h4>Position</h4>
+					<p>
+						Zur Validierung der Positionsangaben für die Spalte und Zeile werden diese in ein Objekt positionRanges umgewandelt und mit einer entsprechenden Methode validiert. Das Objekt teilt die Positionsangaben in Spalte und Zeile auf. Diese wiederum werden mittels des Objekts positionRange in Startposition, Endposition und Schrittweite aufgeteilt. Diese Attribute werden nacheinander in der angegebenen Reihenfolge zuerst für die Spalte und danach für die Zeile überprüft. Der Benutzer wird über alle falschen aus den 6 möglichen Angaben informiert.
+					</p>
+					<h5>Start- und Endposition</h5>
+					<p>
+						Die Start- und Endpositionen werden jeweils 4 Prüfungen unterzogen:<br>
+						Ist die Positionsangabe...
+						<ul class="list-group">
+							<li class="list-group-item">eine Zahl</li>
+							<li class="list-group-item">größer-gleich dem kleinsten erlaubten Wert (hier: 1)</li>
+							<li class="list-group-item">kleiner-gleich dem größten erlaubten Wert (variabel je nach Mosaikgröße)</li>
+							<li class="list-group-item">ein Integer</li>
+						</ul>
+						Bestehen die Positionsangaben die Prüfungen, so sind sie valide. Programmiertechnisch wird auf das Gegenteil geprüft und ein Fehlermeldungstext bei positivem Ergebnis generiert.
+					</p>
+					<h5>Schrittweite</h5>
+					<p>
+						Die Schrittweite darf entweder positiv- oder negativ-gannzahlig sein. Null darf sie nicht sein. Ist die Endposition kleiner als die Startposition, so ist eine negative Schrittweite valide und eine positive Schrittweite invalide. Ist die Startposition kleiner-gleich der Endposition, so gilt der umgekehrte Fall. Damit die Positionsangaben mit ein und derselben For-Schleife verwendet werden können, werden im Falle, dass die Endposition kleiner als die Startposition ist, die Vorzeichen von Start-/Endposition und Schrittweite getauscht, sodass die Schrittweite wieder > 0 sein sollte. Aus diesem Grund muss zur Validierung die Schrittweite lediglich auf > 0 und zusätzlich darauf geprüft werden, ob sie ein Integer ist.
+					</p>
+					<div class="panel-group scrollable" id="validatePositionParams-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#validatePositionParams-snippets" 
+							href="#validatePositionParams-b" aria-expanded="false" aria-controls="validatePositionParams-b">
+							<div class="panel panel-default">
+								<div id="validatePositionParams-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validatePositionParams"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validatePositionParams-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validatePositionParams-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validatePositionParams(cmd, params) {
+	var posRanges;
+
+	if(cmd == "rectangle") posRanges = rectangleRanges(params);
+	else posRanges = new positionRanges(params[0],params[1]);
+	
+	var errMsg = posRanges.validate();
+	
+	if(errMsg) {
+		$("#err").html(errMsg);
+		return false;
+	}
+	
+	return true;
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validatePositionParams-snippets" 
+							href="#rectangleRanges-b" aria-expanded="false" aria-controls="rectangleRanges-b">
+							<div class="panel panel-default">
+								<div id="rectangleRanges-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "rectangleRanges"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="rectangleRanges-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="rectangleRanges-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function rectangleRanges(params) {
+	var colRangeStr = params[0] + ":" + (Number(params[0]) + Number(params[2]) - 1).toString();
+	var rowRangeStr = params[1] + ":" + (Number(params[1]) + Number(params[3]) - 1).toString();
+	return new positionRanges(colRangeStr,rowRangeStr);
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#parseCommand-snippets" 
+							href="#positionRange-b" aria-expanded="false" aria-controls="positionRange-b">
+							<div class="panel panel-default">
+								<div id="positionRange-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zur Klasse "positionRange"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="positionRange-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="positionRange-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function positionRange(rangeStr) {
+	var range = rangeStr.split(":");
+	
+	if (range.length == 3) {
+		this.from = Number(range[0]);
+		this.inc = Number(range[1]);
+		this.to = Number(range[2]);
+	} else if(range.length == 2) {
+		this.from = Number(range[0]);
+		this.to = Number(range[1]);
+		if(this.to >= this.from) this.inc = 1;
+		else this.inc = -1;
+	} else if(range.length == 1) {
+		this.from = this.to = Number(range[0]);
+		this.inc = 1;
+	} else {
+		this.from = this.to = this.inc = Number.NaN;
+	}
+	
+	this.swapSign = function() {
+		this.from *= -1;
+		this.inc *= -1;
+		this.to *= -1;
+		this.signSwapped = true;
+	}
+	
+	if(this.from > this.to && this.from >= 0 && this.to >= 0) this.swapSign();
+	else this.signSwapped = false;
+	
+	this.validateInc = function() {
+		return  (this.to-this.from >= 0 && this.inc > 0 &&
+				this.inc == parseInt(this.inc) )
+	};
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validatePositionParams-snippets" 
+							href="#positionRanges-b" aria-expanded="false" aria-controls="positionRanges-b">
+							<div class="panel panel-default">
+								<div id="positionRanges-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zur Klasse "positionRanges"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="positionRanges-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="positionRanges-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function positionRanges(colStr, rowStr) {
+	this.colRange = new positionRange(colStr);
+	this.rowRange = new positionRange(rowStr);
+	
+	this.validate = function() {
+		var errMsg = "Invalid position Ranges (", err=false;
+		
+		if(this.colRange.signSwapped) this.colRange.swapSign();
+		if(this.rowRange.signSwapped) this.rowRange.swapSign();
+		
+		if(Number.isNaN(this.colRange.from) || 
+			this.colRange.from < 1 ||
+			this.colRange.from > bounds[0] ||
+			this.colRange.from != parseInt(this.colRange.from) ) {
+			errMsg += "colum start position";
+			err = true;
+		}
+		if(Number.isNaN(this.colRange.to) || 
+			this.colRange.to < 1 ||
+			this.colRange.to > bounds[0] ||
+			this.colRange.to != parseInt(this.colRange.to)) {
+			if(err) errMsg += ", ";
+			errMsg += "colum end position";
+			err = true;
+		}
+		
+		if(this.colRange.signSwapped) this.colRange.swapSign();
+		if(this.colRange.inc != 1) {
+			if(!this.colRange.validateInc()) {
+				if(err) errMsg += ", ";
+				errMsg += "colum increment"
+				err = true;
+			}
+		}
+		if(this.colRange.signSwapped) this.colRange.swapSign();
+		
+		if(Number.isNaN(this.rowRange.from) || 
+			this.rowRange.from < 1 ||
+			this.rowRange.from > bounds[1] ||
+			this.rowRange.from != parseInt(this.rowRange.from)) {
+			if(err) errMsg += ", ";
+			errMsg += "row start position"
+			err = true;
+		}
+		if(Number.isNaN(this.rowRange.to) || 
+			this.rowRange.to < 1 ||
+			this.rowRange.to > bounds[1] ||
+			this.rowRange.to != parseInt(this.rowRange.to)) {
+			if(err) errMsg += ", ";
+			errMsg += "row end position"
+			err = true;
+		}
+		
+		if(this.rowRange.signSwapped) this.rowRange.swapSign();
+		if(this.rowRange.inc != 1) {
+			if(!this.rowRange.validateInc()) {
+				if(err) errMsg += ", ";
+				errMsg += "row increment"
+				err = true;
+			}
+		}
+		if(this.rowRange.signSwapped) this.rowRange.swapSign();
+		
+		if(err) return errMsg + ").";
+		else return undefined;
+	};
+}</code></pre>
+							</div>
+						</div>
+
+					</div>
+					<h4>Punkte (Linie und Dreieck)</h4>
+					<p>
+						Zur Validierung eines Punktes wird zuerst geprüft, ob genau zwei Ankerpunkte (also zwei Buchstaben) angegeben wurden. Ist dies der Fall wird anschließend geprüft, ob die erste Angabe ein valider Horizontalankerpunkt und die zweite Angabe ein valider Vertikalankerpunkt ist oder umgekehrt. Ist auch diese Prüfung erfolgreich, handelt es sich um einen validen Punkt. In den anderen Fällen wurde ein invalider Punkt angegeben.
+					</p>
+					<div class="panel-group scrollable" id="validatePoint-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#validatePoint-snippets" 
+							href="#validatePoint-b" aria-expanded="false" aria-controls="validatePoint-b">
+							<div class="panel panel-default">
+								<div id="validatePoint-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validatePoint"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validatePoint-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validatePoint-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validatePoint(p) {
+	var validYParts = 	["t","c","b"];
+	var validXParts = 	["l","c","r"];
+	
+	if(p.length != 2) return false;
+	
+	if(	(validYParts.indexOf(p[0]) != -1 && validXParts.indexOf(p[1]) != -1) ||
+		(validYParts.indexOf(p[1]) != -1 && validXParts.indexOf(p[0]) != -1 ) )
+		return true;
+	else return false;
+}</code></pre>
+							</div>
+						</div>
+					</div>
+					<h4>Linie</h4>
+					<p>
+						Zur Validierung einer Linie wird überprüft, ob die angegebenen Punkte valide und verschieden sind.
+					</p>
+					<div class="panel-group scrollable" id="validateLineParams-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateLineParams-snippets" 
+							href="#validateLineParams-b" aria-expanded="false" aria-controls="validateLineParams-b">
+							<div class="panel panel-default">
+								<div id="validateLineParams-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateLineParams"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateLineParams-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateLineParams-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateLineParams(cmd, params) {
+	if(cmd.indexOf("line") != -1) {
+		var errMsg = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
+		
+		if(errMsg) {
+			$("#err").html(errMsg);
+			return false;
+		}
+	}
+	return true;
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateLineParams-snippets" 
+							href="#validateLine-b" aria-expanded="false" aria-controls="validateLine-b">
+							<div class="panel panel-default">
+								<div id="validateLine-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateLine"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateLine-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateLine-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateLine(p1,p2) {
+	if(validatePoint(p1) && validatePoint(p2)) {
+		var p1o = pointOffset(p1), p2o = pointOffset(p2);
+		if (p1o[0] != p2o[0] || p1o[1] != p2o[1])
+			return undefined;
+		else return "Invalid line (points are equal).";
+	} else return "Invalid points.";
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateLineParams-snippets" 
+							href="#pointOffset-b" aria-expanded="false" aria-controls="pointOffset-b">
+							<div class="panel panel-default">
+								<div id="pointOffset-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "pointOffset"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="pointOffset-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="pointOffset-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function pointOffset(p) {
+	var validYParts = [ "t", "c", "b" ];
+	var validXParts = [ "l", "c", "r" ];
+	var offsets = [ 2, cellsize / 2 + 1, cellsize ];
+	var pOffset = [ 0, 0 ];
+
+	if (p == "cc")
+		pOffset = [ offsets[1], offsets[1] ];
+	else if (validYParts.indexOf(p[0]) != -1 && validXParts.indexOf(p[1]) != -1) {
+		pOffset[0] = offsets[validXParts.indexOf(p[1])];
+		pOffset[1] = offsets[validYParts.indexOf(p[0])];
+	} else if (validYParts.indexOf(p[1]) != -1
+			&& validXParts.indexOf(p[0]) != -1) {
+		pOffset[0] = offsets[validXParts.indexOf(p[0])];
+		pOffset[1] = offsets[validYParts.indexOf(p[1])];
+	}
+	return pOffset;
+}</code></pre>
+							</div>
+						</div>
+					</div>
+					<h4>Dreieck</h4>
+					<p>
+						Zur Validierung eines Dreicks wird zuerst überprüft, ob die angegebenen Punkte valide sind. Ist dies der Fall wird anschließend überprüft, ob die drei angegebenen Punkte eine Fläche “aufspannen”.
+					</p>
+					<h5>Dreiecksfläche</h5>
+					<p>
+						Um festzustellen, ob die angegebenen Punkte für das Dreieck eine Fläche “aufspannen”, wird eine Vektorformel verwendet. Zuerst werden die Verbindungsverktoren vom ersten und zweiten, sowie dem ersten und dritten Vektoren berechnet. Anschließend wird die Determinante der beiden Verbindungsvektoren berechnet. Ist das Ergebnis ungleich Null, wird eine Fläche aufgespannt. Die eigentlich korrekte Dreiecksfläche entspricht der Hälfte der Betragswertes der Determinante, welche jedoch für Validierung nicht benötigt wird.<br>
+						Zur Vereinfachung wurde eine Vektorklasse mit einer Vektorsubtraktionsmethode erstellt, mit der die Verbindungsvektoren berechnet werden.
+					</p>
+					<div class="panel-group scrollable" id="validateTriangleParams-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateTriangleParams-snippets" 
+							href="#validateTriangleParams-b" aria-expanded="false" aria-controls="validateTriangleParams-b">
+							<div class="panel panel-default">
+								<div id="validateTriangleParams-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateTriangleParams"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateTriangleParams-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateTriangleParams-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateTriangleParams(cmd, params) {
+	if(cmd.indexOf("triangle") != -1) {
+		var i = 2;
+		
+		if(	!validatePoint(params[i].toLowerCase() ) || 
+			!validatePoint(params[i+1].toLowerCase() ) || 
+			!validatePoint(params[i+2].toLowerCase() ) ) {
+			$("#err").html("Invalid points.");
+			return false;			
+		} else if( !validateTriangle(params[i].toLowerCase(), params[i+1].toLowerCase(), params[i+2].toLowerCase() ) ) {
+			$("#err").html("Invalid triangle (area equals zero).");
+			return false;
+		}
+	}
+	return true;
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateTriangleParams-snippets" 
+							href="#validateTriangle-b" aria-expanded="false" aria-controls="validateTriangle-b">
+							<div class="panel panel-default">
+								<div id="validateTriangle-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateTriangle"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateTriangle-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateTriangle-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateTriangle(p1,p2,p3) {
+	var p1o = pointOffset(p1), p2o = pointOffset(p2), p3o = pointOffset(p3);
+	var p1v = new vector(p1o), p2v = new vector(p2o), p3v = new vector(p3o);
+	var a = p1v.sub(p2v), b = p1v.sub(p3v);
+
+	return (a.x*b.y-a.y*b.x != 0);
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateTriangleParams-snippets" 
+							href="#vector-b" aria-expanded="false" aria-controls="vector-b">
+							<div class="panel panel-default">
+								<div id="vector-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zur Klasse "vector"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="vector-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="vector-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function vector(point) {
+	if(point != null) {
+		this.x = point[0];
+		this.y = point[1];		
+	} else {
+		this.x = 0;
+		this.y = 0;
+	}
+	
+	this.sub = function(v) {
+		var ret = new vector();
+		ret.x = this.x - v.x;
+		ret.y = this.y - v.y;
+		return ret;
+	};
+}</code></pre>
+							</div>
+						</div>
+					</div>
+					<h4>Farbe (optionaler Parameter)</h4>
+					<p>
+						Da die Menge der validen Farben in einem globalen Array hinterlegt ist, wird der Einfachheit halber geprüft, ob die angegebene Farbe im Array vorhanden ist. Bei Verwendung des clearcell-Befehls oder einer Standardfarbe wird die Validierung der Farbe explizit übersprungen, weil in diesen Fällen keine Farbe angegeben wird.
+					</p>
+					<div class="panel-group scrollable" id="validateColorParam-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateColorParam-snippets" 
+							href="#validateColorParam-b" aria-expanded="false" aria-controls="validateColorParam-b">
+							<div class="panel panel-default">
+								<div id="validateColorParam-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateColorParam"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateColorParam-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateColorParam-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function validateColorParam(cmd, params) {
+	if(cmd.indexOf("clearcell") == -1 && params.length == requiredParamCountForCmd(cmd)) {
+		if(!validateColor(params[params.length-1])) {
+			$("#err").html("Invalid color.");
+			return false;
+		}		
+	}
+	return true;
+}</code></pre>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#validateColorParam-snippets" 
+							href="#validateColor-b" aria-expanded="false" aria-controls="validateColor-b">
+							<div class="panel panel-default">
+								<div id="validateColor-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "validateColor"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="validateColor-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="validateColor-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+					"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal", "yellow" ];
+
+function validateColor(color)
+{
+	return validColors.indexOf(color) != -1;
+}</code></pre>
+							</div>
+						</div>
+					</div>
+					<h4>Vergleich des kreierten Mosaiks mit dem Muster</h4>
+					<p>
+						Um zu ermitteln, ob das durch Befehle erstellte Mosaik mit dem Muster-Mosaik identisch ist und das Spiel damit gewonnen wurde, wird wie folgt vorgegangen:
+						<ul class="list-group">
+							<li class="list-group-item">1. Alle Mosaikelemente des Benutzer-Mosaiks und des Muster-Mosaiks werden ausgewählt</li>
+							<li class="list-group-item">2. Die Anzahl der Mosaikelemente der beiden Mosaiks wird auf Gleichheit geprüft</li>
+							<li class="list-group-item">3. War die Prüfung erfolgreich, wird für jedes Benutzerelement anhand seiner Position das korrespondierende Musterelement gesucht, <br>&nbsp;&nbsp;&nbsp;&nbsp;andernfalls wird die Prüfung mit negativem Ergebnis abgebrochen</li>
+							<li class="list-group-item">4. Wurde das jeweilige Element gefunden, wird die Anzahl der Attribute auf Gleichheit geprüft, <br>&nbsp;&nbsp;&nbsp;&nbsp;andernfalls wird die Prüfung mit negativem Ergebnis abgebrochen</li>
+							<li class="list-group-item">5. War die Prüfung erfolgreich, wird für jedes Attribut, außer dem ID-Attribut, der Name und der Wert auf Gleichheit überprüft, <br>&nbsp;&nbsp;&nbsp;&nbsp;andernfalls wird die Prüfung mit negativem Ergebnis abgebrochen</li>
+							<li class="list-group-item">6. War eine der Attributprüfungen nicht erfolgreich, wird die Prüfung mit negativem Ergebnis abgebrochen</li>
+							<li class="list-group-item">7. Waren alle Prüfungen für alle Elemente erfolgreich, wird ein positives Ergebnis zurückgegeben</li>
+						</ul>
+						War der Vergleich positiv, wird dem Spieler eine Gewinnmeldung inklusive der Anzahl an benötigten Befehlen präsentiert.
+					</p>
+					<div class="panel-group scrollable" id="compareSVGs-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#compareSVGs-snippets" 
+							href="#compareSVGs-b" aria-expanded="false" aria-controls="compareSVGs-b">
+							<div class="panel panel-default">
+								<div id="compareSVGs-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "compareSVGs"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="compareSVGs-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="compareSVGs-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">function compareSVGs() {
+	var user_svg_elements = $("#mosaics > *[id^='e']");
+	var template_svg_elements = $("#mosaics-template > *[id^='te']");
+	var template_child, user_child;
+	
+	// 1st check if counts of svg elements are equal
+	if(template_svg_elements.length == user_svg_elements.length &&
+			template_svg_elements.length != 0) {
+		for(var i = 0; i < user_svg_elements.length; i++) {
+			// get user svg element
+			user_child = user_svg_elements.eq(i);
+			// find corresponding template svg element
+			template_child = $("#t" + user_child.attr("id"));
+			if( template_child.get(0) != undefined ) {
+				// 2nd check if counts of svg attributes are equal
+				if( user_child.get(0).attributes.length ==
+					template_child.get(0).attributes.length) {
+					for(var j = 0; j < user_child.get(0).attributes.length; j++) {
+						if( user_child.get(0).attributes[j].name == "id") continue;
+						// 3rd check if attribute names and values are equal
+						if( user_child.get(0).attributes[j].value !=
+							template_child.attr(user_child.get(0).attributes[j].name) ) 
+						{
+							// attribute values and names are not equal
+							return false;							
+						}
+					}
+				}
+			} else {
+				// template has no element at the corresponding position
+				// ==> number of elements are equal, positions are not equal
+				return false;
+			}
+		}
+		// element counts, id's (and therefore implicitly the positions)
+		// and attribute names and values were equal
+		return true;
+	} else {
+		// element counts were not equal 
+		return false;
+	}
+}</code></pre>
+							</div>
+						</div>
+					</div>
+                    <br>
+                  <h3>Speichern und Indexieren der SVG Grafiken</h3>
+				  <p>
+						Um einen Überblick über alle vorhandenen SVGs und deren Metadaten zu bekommen,
+                        wird eine XML Datei benutzt, die alle wichtigen	Informationen der SVGs beinhaltet. 
+						Die Elemente sind so gewählt, dass man für den SVG Katalog im Spiel, 
+                        die SVGs nach den wichtigsten Suchkriterien filtern kann. Das wichtigste Element 
+                        ist dabei der &lt;Name&gt;, der eine SVG eindeutig identifizierbar macht.
+                        Das Attribut "Filename" wird zur besseren Übersicht beim lesen der XML-Datei dem SVG Knoten zugefügt.
+				  </p>
+                  <p>
+                   		Mit den anderen abgespeicherten Elementen &lt;Dif&gt; (Difficulty), &lt;Width&gt; und &lt;Length&gt; 
+                        kombiniert als Größe der SVG), sowie &lt;Category&gt; stehen später 3 verschiedene Suchkriterien 
+                        im SVG Katalog zur Verfügung.
+                  </p>
+                  <p>
+                   		Damit nur sinnvolle und ordentliche SVGs im Spiel erscheinen, werden im Editor erstellte SVGs nicht 
+                        sofort freigegeben. Ein Admin hat über eine extra per Passwort geschützte Webseite die Möglichkeit, 
+                        die im Editor erstellten SVGs zu überprüfen.
+                        Auf dieser Webseite, die später noch näher erläutert wird, können SVG Metadaten geändert oder auch 
+                        ganze SVGs gelöscht werden. Ist eine SVG in Ordnung, wird sie über das XML-Element &lt;Permitted&gt; 
+                        für das Spiel freigegeben. 
+                  </p>
+                  <p>
+                    	Für die XML-Index Datei wurde zuerst eine Baumstruktur angelegt:
+                  </p>
+                  <p>
+                    <img src="images/xml_baumstruktur.png" width="400" height="200" alt=""/>
+                  </p>
+                  <p>
+                 	 Zur Struktur passend wurde der Aufbau der XML erstellt:
+                  </p>
+                  <p>
+                  	&lt;SVG Files&gt;
+                    <br>
+						&emsp;&lt;SVG-File (Filename)&gt;
+                    <br>
+						&emsp;&emsp;&lt;Name&gt;, &lt;Kategorie&gt;, &lt;Width&gt;, &lt;Height&gt;, &lt;Dif&gt;, &lt;Permitted&gt; 
+                    <br>        
+						&emsp;&lt;SVG-File&gt;
+                    <br>    
+					&lt;SVG Files&gt;
+                  </p>
+                  <p>
+                  Dazu wurde ein passendes XML-Schema festgelegt:
+                  </p>
+				  <div class="panel-group scrollable" id="XML-Schema-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#XML-Schema-snippets" 
+							href="#XML-Schema-b" aria-expanded="false" aria-controls="XML-Schema-b">
+							<div class="panel panel-default">
+								<div id="XML-Schema-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										XML-Schema
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="XML-Schema-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="XML-Schema-h">
+							<div class="panel-body">
+								<pre><code class="language-markup">
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+
+&lt;xsd:element name="SVGFiles" type="SVGFilesType"/&gt;
+	
+	&lt;xsd:complexType name="SVGFilesType"&gt;
+		&lt;xsd:sequence&gt;
+			&lt;xsd:element name="SVG" type="SVGType" maxOccurs="unbounded" minOccurs="0"/&gt;
+		&lt;/xsd:sequence&gt;	
+	&lt;/xsd:complexType&gt;
+				
+	&lt;xsd:complexType name="SVGType"&gt;
+		&lt;xsd:sequence&gt;
+			&lt;xsd:element name="Name" type="xsd:string"/&gt;
+			&lt;xsd:element name="Category" type="xsd:string"/&gt;
+			&lt;xsd:element name="Width" type="xsd:positiveInteger"/&gt;
+			&lt;xsd:element name="Length" type="xsd:positiveInteger"/&gt;
+			&lt;xsd:element name="Dif" type="xsd:string"/&gt;
+			&lt;xsd:element name="Permitted" type="xsd:string"/&gt;
+		&lt;/xsd:sequence&gt;	
+			&lt;xsd:attribute name="Filename" type="xsd:string" use="required" /&gt;
+	&lt;/xsd:complexType&gt;
+				
+		
+&lt;/xsd:schema&gt;</pre></code>
+							</div>
+						</div>
+					</div>
+					<h4>Abspeicherung von SVG-Dateien und Bearbeitung der XML-Datei:</h4>
+					<p>
+					Die Datei svg_index.xml befindet sich im XML Ordner im Hauptverzeichnis.
+					Als erstes wird diese XML-Datei beim Speichern von SVGs im Editor bearbeitet. 
+					</p>
+					<p>
+					Nachdem ein User ein Muster gezeichnet hat und auf Speichern klickt, werden zuerst Überprüfungen gemacht. 
+					Noch auf User-Seite wird geprüft, ob etwas gezeichnet, ein Name eingetragen 
+					und eine Kategorie sowie ein Schwierigkeitsgrad ausgewählt wurden. 
+					Zudem wird mit regulären Ausdrücken geprüft, ob der eingegebene Name Leer- oder falsche Sonderzeichen enthält.
+					</p>		
+			  	  	<p>
+					Ist alles ordnungsgemäß eingetragen worden, werden per AJAX die Metadaten (Name, Category, Width, Height, Difficulty) 
+                    sowie die SVG als String an das PHP Script "edit_svg_index.php" auf dem Server geschickt.                 
+                  	</p>
+
+					<div class="panel-group scrollable" id="inputCheck-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#inputCheck-snippets" 
+							href="#inputCheck-b" aria-expanded="false" aria-controls="inputCheck-b">
+							<div class="panel panel-default">
+								<div id="inputCheck-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "save"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="inputCheck-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="inputCheck-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">
+//Check for regexp
+function regexp(){
+	var str = $('#inputFileNameToSaveAs').val();
+	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
+	var res = patt.test(str);
+	return res;
+}
+
+//Save Button event
+function save() {
+	
+	$("#save_err").html("");
+	
+	if (undoHistory.length == 0) {
+		$("#save_err").html("Please draw something first");
+	} else if ($("#inputFileNameToSaveAs").val() == "") {
+		$("#save_err").html("Please choose name");
+	} else if ($("#category_dropdown").val() == "") {
+		$("#save_err").html("Please choose category");
+	} else if ($("#dif_dropdown").val() == "") {
+		$("#save_err").html("Please choose difficulty");
+	} else if (!regexp()){
+		$("#save_err").html("Please do not use whitespaces or special characters");
+	}
+		
+	if ($("#save_err").html().length > 0) {
+		$("#save_messages").show();
+		window.scrollTo(0, document.body.scrollHeight);
+		return false;
+	}
+    
+	//get SVG Part of HTML Page
+	var svg = $("#mosaics").get(0);
+
+	// Extract the data as string
+	var svg_xml = new XMLSerializer().serializeToString(svg);
+	
+	// Jquery AJAX: start save script on server 
+	$.ajax({
+
+		type : 'POST',
+		url : 'php/edit_svg_index.php',
+		data : {
+			'name' : $("#inputFileNameToSaveAs").val(),
+			'category' : $("#category_dropdown").val(),
+			'dif' : $("#dif_dropdown").val(),
+			'width' : bounds[0],
+			'length' : bounds[1],
+			'svg_xml' : svg_xml
+		},
+
+		success : function(response) {
+			if (response == "saved"){
+				showSavedMessage();
+			} else {
+				$("#save_err").text(response);
+			}
+		}
+	});
+}							</code></pre>
+							</div>
+						</div>
+					</div>
+					<br>
+                    <p>
+                    Das PHP-Script überprüft jetzt zuerst, ob der beim Speichern eingegebene Name schon in der svg_index.xml vorhanden ist.
+					Ist dies der Fall, wird aus dem edit_svg_index.php Script ausgestiegen und der User auf der Webseite benachrichtigt.
+                    </p>
+                   <p> 
+                    Ist der Name noch nicht vergeben, wird in der svg_index.xml ein neuer Child-Knoten mit den übergebenen Daten sowie dem "Permitted : 					 					false" Element eingefügt, in Form gebracht und abgespeichert.
+                    Danach wird die eigentliche SVG Datei in Form gebracht und im SVGs Ordner abgespeichert.
+                   </p>
+                   <div class="panel-group scrollable" id="phpSave-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpSave-snippets" 
+							href="#phpSave-b" aria-expanded="false" aria-controls="phpSave-b">
+							<div class="panel panel-default">
+								<div id="phpSave-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "edit_svg_index.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpSave-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpSave-h">
+							<div class="panel-body">
+								<pre><code class="language-php">
+&lt;?php
+// received VARIABLES
+$name = $_POST ['name'];
+$width = $_POST ['width'];
+$length = $_POST ['length'];
+$category = $_POST['category'];
+$dif = $_POST['dif'];
+$svg = $_POST ['svg_xml'];
+
+//create SIMPLEXML Object
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+// Check if Name already taken
+$name_low = mb_strtolower($name);
+foreach ( $xml-&gt;SVG as $child ) {
+	$str = mb_strtolower(( string ) $child-&gt;Name);
+	
+	if ($str == $name_low) {
+		echo ("Name already taken!");
+		return;
+	}
+}
+
+// Name not taken. Create Child Node
+$newChild = $xml-&gt;addChild ( "SVG" );
+$newChild-&gt;addAttribute ( "Filename", "$name.svg" );
+$newChild-&gt;addChild ( "Name", $name );
+$newChild-&gt;addChild ( "Category", $category );
+$newChild-&gt;addChild ( "Width", $width );
+$newChild-&gt;addChild ( "Length", $length );
+$newChild-&gt;addChild ( "Dif", $dif );
+$newChild-&gt;addChild ( "Permitted", "false" );
+	
+// Convert to DOM Object for formatting and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+//Save SVG File		
+if(!file_put_contents('../svgs/' . $name . '.svg', $svg))
+	echo "error saving $name";
+else echo "saved";
+
+?&gt;</pre></code>
+							</div>
+						</div>
+						
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpSave-snippets" 
+							href="#indexXml-b" aria-expanded="false" aria-controls="indexXml-b">
+							<div class="panel panel-default">
+								<div id="indexXml-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "svg_index.xml"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="indexXml-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="indexXml-h">
+							<div class="panel-body">
+								<pre><code class="language-markup">
+								
+&lt;?xml version="1.0"?&gt;
+&lt;SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml/SVG_index.xsd"&gt;
+  &lt;SVG Filename="America.svg"&gt;
+    &lt;Name&gt;America&lt;/Name&gt;
+    &lt;Category&gt;Countries and Flags&lt;/Category&gt;
+    &lt;Width&gt;18&lt;/Width&gt;
+    &lt;Length&gt;12&lt;/Length&gt;
+    &lt;Dif&gt;Normal&lt;/Dif&gt;
+    &lt;Permitted&gt;true&lt;/Permitted&gt;
+  &lt;/SVG&gt;
+  &lt;SVG Filename="Germany.svg"&gt;
+    &lt;Name&gt;Germany&lt;/Name&gt;
+    &lt;Category&gt;Countries and Flags&lt;/Category&gt;
+    &lt;Width&gt;18&lt;/Width&gt;
+    &lt;Length&gt;12&lt;/Length&gt;
+    &lt;Dif&gt;Easy&lt;/Dif&gt;
+    &lt;Permitted&gt;true&lt;/Permitted&gt;
+  &lt;/SVG&gt;
+&lt;/SVGFiles&gt;
+								
+</pre></code>
+							</div>
+						</div>
+					</div>
+                    <h3>Die Admin Webseite:</h3>
+                    <p>
+                    Die Admin-Webseite control.html gibt dem Admin oder auch ausgewählten Usern die Möglichkeit,
+                    SVGs freizugeben und MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt. 
+                    Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit der Weiterentwicklung.
+                    </p>
+                    <h4>Passwortschutz für Login:</h4>
+                    <p>
+                    Die Webseite hat zunächst im Body nur ein Eingabefeld und ein Button.
+					Beim klicken auf den Login Button wird das eingebene Passwort an das login.php Script 
+                    auf dem Server geschickt. Das login.php Script überprüft das Passwort und wenn es richtig ist, schickt 
+                    das Script den eigentlichen Body Teil, der alle Elemente enthält, zurück. 
+                    Ist das Passwort falsch schickt das Script den Body Teil mit Eingabefeld und Button zurück. 
+                    Da das PHP Script über den Browser nicht eingesehen werden kann, gibt uns das eine relativ große Sicherheit für den 
+                    Zugriff auf die Admin-Webseite. 
+                    </p>
+                    <div class="panel-group scrollable" id="phpLogin-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpLogin-snippets" 
+							href="#phpLogin-b" aria-expanded="false" aria-controls="phpLogin-b">
+							<div class="panel panel-default">
+								<div id="phpLogin-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "login.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpLogin-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpLogin-h">
+							<div class="panel-body">
+								<pre><code class="language-php">
+&lt;?php
+if($_POST['passwort']=='HIER STEHT DAS PASSWORT') {
+echo'
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+//Hier wäre die anzuzeigende Webseite bei richtiger Passwort-Eingabe.
+
+&lt;/html&gt;
+';
+
+}
+else {
+echo'
+    &lt;input id="passwort" type="password" name="passwort" /&gt;
+    &lt;button type="button" onclick="loging()"&gt;Login&lt;/button&gt;
+';
+}
+?&gt;
+
+</pre></code>
+							</div>
+						</div>
+					</div>
+                    <h4>Anzeige und Bearbeitung von SVGs:</h4>
+                    <p>
+                    Zuerst sollte angezeigt werden, welche neuen SVGs gespeichert wurden und auf eine Freigabe warten.
+                    Mit der JS Funktion load, werden nur die SVGs in die Tabelle geladen deren Element Permitted auf false steht. 
+                    </p>
+                    <p>
+                    Sind nicht-freigegebene SVGs vorhanden kann man mittels klick auf den Namen die JS Funktion
+                    change starten, die die ausgewählte SVG mit Metadaten anzeigen lässt.
+                    </p>
+                    <div class="panel-group scrollable" id="phpLoad_Change-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#phpLoad_Change-snippets" 
+							href="#phpLoad_Change-b" aria-expanded="false" aria-controls="phpLoad_Change-b">
+							<div class="panel panel-default">
+								<div id="phpLoad_Change-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "load() und change()"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpLoad_Change-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpLoad_Change-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">
+//Load unpermitted SVGs
+function load() {
+    
+	setLoad = "load";
+	anz = 0;
+	clear();
+		
+	$.get("xml/svg_index.xml", {}, function(xml) {
+
+	$("SVG", xml).each(function(i) {
+
+		var permitted = $(this).find("Permitted").text();
+		var name = $(this).find("Name").text();
+
+		if (permitted == "false") {
+			anz++;
+			$("#header select").append("<option>" + name + "</option>");
+			}
+		});
+		$("#ausgabe").text(anz + " unpermitted");
+	});
+}
+	
+	
+//SVG has been clicked
+function change() {
+
+	svg = $("#liste :selected").val();
+    
+	$("#svgfile").load("svgs/" + svg + ".svg");
+
+	$.get("xml/svg_index.xml", {}, function(xml) {
+		$("SVG", xml).each(function(i) {
+        
+			var name = $(this).find("Name").text();
+            
+			if (name == svg) {
+				$("#dif").text("Difficulty: " + $(this).find("Dif").text());
+				dif =  $(this).find("Dif").text();
+				$("#category").text("Category: " + $(this).find("Category").text());
+				category = $(this).find("Category").text();
+				$("#size").text("Size: " + $(this).find("Width").text() + " x "	+ $(this).find("Length").text());
+				$("#permit").text("Permitted: " + $(this).find("Permitted").text());
+				return;
+			}
+		});
+	});
+}
+</pre></code>
+							</div>
+						</div>
+					</div>
+                    <br>
+                    <p>
+                    Man kann sich auch alle SVGs anzeigen lassen, was sinnvoll ist, wenn man sich doch noch Änderung machen möchte.
+                    Folgende Änderungen sind jetzt an den SVGs machbar:
+                    </p>
+                    <ul class="list-group">
+						<li class="list-group-item">1. Die Freigabe ändern</li>
+						<li class="list-group-item">2. Die SVG löschen</li>
+                        <li class="list-group-item">3. Die SVG umbennen</li>
+						<li class="list-group-item">4. Den Schwiergkeitsgrad ändern</li>
+                        <li class="list-group-item">5. Die Kategorie ändern</li>
+                   </ul>
+                  <p> 
+                   In allen 5 Fällen wird per AJAX ein PHP Script auf dem Server angestoßen, der die Änderungen durchführt.
+                   Für die Umbennung einer SVG muss der neu eingetragenen Name wieder auf Leer- und Sonderzeichen geprüft werden, das 
+                   wird noch auf User-Seite geprüft, auf Server-Seite wird wieder geprüft ob der Name schon vergeben ist.
+                   Beim ändern der Kategorie oder des Schwierigkeitsgrads wird auch noch auf User-Seite geprüft, ob man nicht dieselbe gewählt hat. Beim löschen sollte man nicht nur den SVG Child Knoten aus der XML Datei löschen, sonder die Datei auch selbst.
+                   </p> 
+                   <div class="panel-group scrollable" id="jsRename-snippets" role="tablist"
+						aria-multiselectable="true" 
+						style="height:100%;">
+						<a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#jsRename-b" aria-expanded="false" aria-controls="jsRename-b">
+							<div class="panel panel-default">
+								<div id="jsRename-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "rename()"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="jsRename-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="jsRename-h">
+							<div class="panel-body">
+								<pre><code class="language-javascript">
+
+function rename() {
+	
+		if (svg != null) {
+			var newName = prompt("Enter new Name:");
+			if (newName) {
+				if (!regexp(newName)) {
+					$("#ausgabe").text("String not valid");
+				} else {
+					$.ajax({
+						type : "POST",
+						url : "php/change_name.php",
+						data : {
+							"name" : svg,
+							"newName" : newName
+							},
+					success : function(response) {
+						$("#ausgabe").text(response);
+						if (response != "Name already taken!") {
+							setTimeout(function() {
+								if (setLoad == "load") {
+									load();
+								} else {
+									loadAll();
+								}
+							}, 2000);
+						}
+					}
+				});
+				}	
+			} else {
+				$("#ausgabe").text("No Name entered!");
+			}
+		} else {
+			$("#ausgabe").text("Choose SVG before rename!");
+		}
+	}
+</pre></code>
+							</div>
+						</div>
+                        
+						<a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#phpRename-b" aria-expanded="false" aria-controls="phpRename-b">
+							<div class="panel panel-default">
+								<div id="phpRename-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "rename.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpRename-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpRename-h">
+							<div class="panel-body">
+								<pre><code class="language-php">
+								
+&lt;?php
+$name = $_POST ['name'];
+$newName = $_POST ['newName'];
+
+$newName_low = mb_strtolower($newName);
+
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+$att='Filename';
+
+// Check if Name already taken
+foreach ( $xml-&gt;SVG as $child ) {
+	$str = mb_strtolower(( string ) $child-&gt;Name);
+
+	if ($str == $newName_low) {
+		echo ("Name already taken!");
+		return;
+	}
+}
+
+//Change XML
+$svg = $xml-&gt;xpath('/SVGFiles/SVG[Name="'.$name .'"]');
+$svg[0]-&gt;Name = $newName;
+$svg[0]-&gt;attributes()-&gt;$att = "$newName.svg";
+
+//Save XML changes
+// Format XML and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+//Rename File
+rename('../svgs/' . $name . '.svg','../svgs/' . $newName . '.svg');
+echo ($name .' renamed to ' . $newName);
+?&gt;
+
+
+</pre></code>
+							</div>
+						</div>
+						<a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#phpDelete-b" aria-expanded="false" aria-controls="phpDelete-b">
+							<div class="panel panel-default">
+								<div id="phpDelete-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "delete.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpDelete-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpDelete-h">
+							<div class="panel-body">
+								<pre><code class="language-php">
+								
+&lt;?php
+
+$name = $_POST ['name'];
+
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+$svg = $xml-&gt;xpath('/SVGFiles/SVG[Name="'.$name .'"]');
+
+ if (! empty($svg)) {
+ 	unset($svg[0][0]);
+}
+
+// Format XML and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+// Delete SVG
+unlink('../svgs/' . $name . '.svg');
+
+echo "deleted! please wait....";
+
+?&gt;
+
+
+</pre></code>
+							</div>
+						</div>
+                        <a class="collapsed" data-toggle="collapse" data-parent="#jsRename-snippets" 
+							href="#phpChangePermission-b" aria-expanded="false" aria-controls="phpChangePermission-b">
+							<div class="panel panel-default">
+								<div id="phpChangePermission-h" class="panel-heading" role="tab" >
+									<h4 class="panel-title" style="text-align: center;">
+										Code-Snippet zu "change_permission.php"
+									</h4>
+								</div>
+							</div>
+						</a>						
+						<div aria-expanded="false" id="phpChangePermission-b" class="panel-collapse collapse" 
+							role="tabpanel" aria-labelledby="phpChangePermission-h">
+							<div class="panel-body">
+								<pre><code class="language-php">
+&lt;?php
+$name = $_POST ['name'];
+
+$xml = simplexml_load_file ( "../xml/svg_index.xml" );
+
+//Find SVG with name
+$svg = $xml-&gt;xpath('/SVGFiles/SVG[Name="'.$name .'"]');
+
+//Change Permission to opposite
+if ($svg[0]-&gt;Permitted =="false"){
+	$svg[0]-&gt;Permitted ="true";
+	$permStr = "permitted! please wait...";
+} else {
+	$svg[0]-&gt;Permitted ="false";
+	$permStr = "unpermitted! please wait...";
+}
+
+// Format XML and save
+$dom = new DOMDocument ( '1.0' );
+$dom-&gt;preserveWhiteSpace = false;
+$dom-&gt;formatOutput = true;
+$dom-&gt;loadXML ( $xml-&gt;asXML () );
+$dom-&gt;save ( '../xml/svg_index.xml' );
+
+echo $permStr;
+
+?&gt;					
+
+
+
+</pre></code>
+							</div>
+						</div>
+					</div>  
 				</div>
 			</div>
 		</div>
-		
 	</div>
 </body>
 </html>

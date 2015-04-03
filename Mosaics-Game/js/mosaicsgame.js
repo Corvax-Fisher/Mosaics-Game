@@ -77,7 +77,7 @@ $(function() {
 
 	} else if (filename == "index.html"|| filename == "" || filename == "scores.html") {
 		
-		$.post("xml/SVG_index.xml", function(data) {
+		$.post("xml/svg_index.xml", function(data) {
 			$svg = $(data).find("SVG");
 			showPatternCatalogue("All categories","All levels");
 		});
@@ -287,7 +287,7 @@ function showWinMessage() {
 	} );
 	
 	$("#colorbox").keydown(function(event){
-		if(event.key == "Enter") $.colorbox.close();
+		if(event.keyCode == 13) $.colorbox.close();
 	});
 	
 }
@@ -299,7 +299,23 @@ function showScoreList() {
 $('#win-message .btn-success').click(function() {
     location.reload();
 });
-
+function showSavedMessage() {
+	$("#saved-message")
+		.find("p")
+		.empty()
+		.append("Saved, thank you!");
+	
+	$.colorbox( { 	inline: true, 
+		href: "#saved-message",
+		width: "400px", 
+		overlayClose: false,
+		close:'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>', 
+		onClosed:function(){location.reload(true);}});
+	
+	$("#colorbox").keydown(function(event){
+		if(event.keyCode == 13) $.colorbox.close();
+	});
+}
 function draw(cmdLine) {
 	$("#err").html("");
 
@@ -328,15 +344,13 @@ function split(val) {
 
 //Check for regexp
 function regexp(){
-	var str = document.getElementById("inputFileNameToSaveAs").value;
-	
-	var patt = new RegExp("^[a-zA-Z1-9_\-]+$");
+	var str = $('#inputFileNameToSaveAs').val();
+	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
 	var res = patt.test(str);
 	return res;
-	
 }
 
-//SAVE
+//Save Button event
 function save() {
 	
 	$("#save_err").html("");
@@ -350,7 +364,7 @@ function save() {
 	} else if ($("#dif_dropdown").val() == "") {
 		$("#save_err").html("Please choose difficulty");
 	} else if (!regexp()){
-		$("#save_err").html("Please do not use whitespaces!");
+		$("#save_err").html("Please do not use white-spaces  or special characters");
 	}
 		
 	if ($("#save_err").html().length > 0) {
@@ -359,17 +373,17 @@ function save() {
 		return false;
 	}
 
+	//get SVG Part of HTML Page
 	var svg = $("#mosaics").get(0);
 
-	// Extract the data as SVG text string
+	// Extract the data as string
 	var svg_xml = new XMLSerializer().serializeToString(svg);
-
 	
-	// Jquery AJAX
+	// Jquery AJAX: start save script on server 
 	$.ajax({
 
 		type : 'POST',
-		url : 'php/Edit_SVG_index.php',
+		url : 'php/edit_svg_index.php',
 		data : {
 			'name' : $("#inputFileNameToSaveAs").val(),
 			'category' : $("#category_dropdown").val(),
@@ -380,17 +394,14 @@ function save() {
 		},
 
 		success : function(response) {
-			$("#save_messages").css("display", "block");
-			$("#save_err").text(response);
 			if (response == "saved"){
-				setTimeout(function(){
-					   window.location.reload(1);
-					}, 5000);
-			} 
+				showSavedMessage();
+			} else {
+				$("#save_messages").show();
+				$("#save_err").text(response);
+			}
 		}
-
 	});
-
 	return false;
 }
 
@@ -531,7 +542,7 @@ function bindDropdownClickFunction() {
 		$("#category_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#category_dropdown").val($(this).text());
 		
-		if (filename = "game.html"){
+		if (filename == "index.html"|| filename == ""){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
@@ -540,7 +551,7 @@ function bindDropdownClickFunction() {
 		$("#dif_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#dif_dropdown").val($(this).text());
 		
-		if (filename = "game.html"){
+		if (filename == "index.html"|| filename == ""){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
