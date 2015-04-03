@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<title>Mosaics-Game</title>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Kurzbeschreibung" />
+	
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!-- <script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script> -->
+	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
+	<script type="text/JavaScript" src="js/mosaicsgame-cmds.js"></script>
+	<script type="text/JavaScript" src="js/jquery-ui.js"></script>
+	<script type="text/JavaScript" src="js/jquery.colorbox-min.js"></script>
+	
+	<link href="style/bootstrap.min.css" rel="stylesheet">
+	<link href="style/jquery-ui.css" rel="stylesheet">
+	<link href="style/colorbox.css" rel="stylesheet">
+	<link href="style/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Mosaics-Game</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="editor.html">Editor</a></li>
+					<li><a href="index.html">Game<span></span></a></li>
+					<li class="active"><a href="scores.html">Scores<span
+							class="sr-only">(current)</span></a></li>
+					<li><a href="docu.html">Documentation</a></li>
+					<li><a href="about.html">Imprint</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div class="container">
+		<div class="page-header">
+			<h1>
+				Scores<br>
+				<small>
+					See, whether you did it to the top!
+				</small>
+			</h1>
+		</div>
+		<div class="jumbotron row">
+			<div class="col-md-2">
+				<div class="form-group">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button"
+							id="category_dropdown" data-toggle="dropdown"
+							aria-expanded="true" value="All categories">
+							Category <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu catdd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a>All categories</a></li>
+							<li><a>Flowers and Nature</a></li>
+							<li><a>Countries and Flags</a></li>
+							<li><a>Humans and Animals</a></li>
+							<li><a>Things</a></li>
+							<li><a>Symmetrical Patterns</a></li>
+							<li><a>Individual Patterns</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button"
+							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true"
+							value="All levels">
+							Level <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu difdd" role="menu"
+							aria-labelledby="dropdownMenu1">
+							<li><a>All levels</a></li>
+							<li><a>Easy</a></li>
+							<li><a>Normal</a></li>
+							<li><a>Hard</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-8">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+					<!-- Indicators -->
+					<ol class="carousel-indicators"></ol>
+
+					<div class="carousel-inner" role="listbox"></div>
+
+					<a class="left carousel-control" href="#myCarousel" role="button"
+						data-slide="prev"> 
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a> 
+					<a class="right carousel-control" href="#myCarousel" role="button"
+						data-slide="next"> 
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="editor" class="jumbotron row">
+
+			<div class="row">
+				<div id="toplist" align="center" class="col-md-6">
+					<h3>Top 10</h3>
+					<table class="table">
+						<ul class="list-group">
+						  <li class="list-group-item">
+						    <span class="badge">14</span>
+						    Cras justo odio
+						  </li>
+						</ul>
+					</table>
+				</div>
+				<div id="template-mosaics" align="center" class="col-md-6">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

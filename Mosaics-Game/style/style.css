@@ -187,6 +187,18 @@ li {
 	width: 110px;
 }
 
+.btn-primary {
+	margin-right: 5px;
+}
+
+.username {
+	margin-bottom: 10px;
+}
+
+.xmldata{
+	display:none;
+}
+
 .dropdown-menu li:hover {
     cursor: pointer;
 }

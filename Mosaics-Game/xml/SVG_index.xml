@@ -22,7 +22,7 @@
     <Width>12</Width>
     <Length>18</Length>
     <Dif>Hard</Dif>
-    <Permitted>false</Permitted>
+    <Permitted>true</Permitted>
   </SVG>
   <SVG Filename="mittelere.svg">
     <Name>mittelere</Name>

@@ -75,18 +75,27 @@ $(function() {
 			if(this.checked) setGridSize(this.value);
 		});
 
-	} else if (filename == "index.html"|| filename == "") {
+	} else if (filename == "index.html"|| filename == "" || filename == "scores.html") {
 		
 		$.post("xml/SVG_index.xml", function(data) {
 			$svg = $(data).find("SVG");
 			showPatternCatalogue("All categories","All levels");
 		});
 		
-		$("#okBtn").click(function() {
-			$("#mosaics-user").attr("id","mosaics");
-			gridSizeOk();
-			$(".jumbotron.row:first").fadeOut();
-		});
+		if (filename == "index.html"|| filename == "") {
+			$("#okBtn").click(function() {
+				if ($("#username").val().length < 4){
+					$(".username-err").text("Your username is too short. It should be more than 4 letters.");
+				}
+				else {
+					$(".username-err").text("");
+					$(".mosaics-user").attr("id","mosaics");
+					gridSizeOk();
+					$(".jumbotron.row:first").fadeOut();
+				}
+				
+			});
+		}
 
 	}
 });
@@ -264,6 +273,8 @@ function parseCommand(cmdLine) {
 }
 
 function showWinMessage() {
+	showScoreList();
+	
 	$("#win-message")
 		.find("p")
 		.empty()
@@ -272,14 +283,22 @@ function showWinMessage() {
 	
 	$.colorbox( { 	inline: true, 
 		href: "#win-message",
-		width: "400px", 
-		close:'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>' 
+		width: "400px"
 	} );
 	
 	$("#colorbox").keydown(function(event){
 		if(event.key == "Enter") $.colorbox.close();
 	});
+	
 }
+
+function showScoreList() {
+	$("#scoreList").append('<p>Score of '+svgpath+'</p>');
+}
+
+$('#win-message .btn-success').click(function() {
+    location.reload();
+});
 
 function draw(cmdLine) {
 	$("#err").html("");
@@ -408,26 +427,29 @@ function showPatternCatalogue(cvalue,lvalue) {
 	var z = 0, ccvalue, llvalue;
 	
 	for (var i = 0; i < $svg.length; i++) {
-		ccvalue = $svg.find('Category').eq(i).text() == cvalue;
-		llvalue = $svg.find('Dif').eq(i).text() == lvalue;
-		
-		if (	(ccvalue && llvalue) || 
-				(ccvalue && lvalue == "All levels") || 
-				(llvalue && cvalue == "All categories") || 
-				(cvalue == "All categories" && lvalue == "All levels")) {
-			if (z%4 == 0) {
-				$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+(z+1)+"'></li>");
-				$(".carousel-inner").append("<div class='item'>"+
-												"<div class='container'>"+
-													"<div class='carousel-caption'>"+
-														"<div class='row'></div>"+
+		if ($svg.find('Permitted').eq(i).text() == 'true'){
+			
+			ccvalue = $svg.find('Category').eq(i).text() == cvalue;
+			llvalue = $svg.find('Dif').eq(i).text() == lvalue;
+			
+			if (	(ccvalue && llvalue) || 
+					(ccvalue && lvalue == "All levels") || 
+					(llvalue && cvalue == "All categories") || 
+					(cvalue == "All categories" && lvalue == "All levels")) {
+				if (z%4 == 0) {
+					$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+(z+1)+"'></li>");
+					$(".carousel-inner").append("<div class='item'>"+
+													"<div class='container'>"+
+														"<div class='carousel-caption'>"+
+															"<div class='row'></div>"+
+														"</div>"+
 													"</div>"+
-												"</div>"+
-											"</div>");
+												"</div>");
+				}
+				appendPattern($svg.eq(i));
+				z++;		
 			}
-			appendPattern($svg.eq(i));
-			z++;		
-		} 
+		}
 	}
 	
 	if($(".carousel-inner").children().length == 0)
