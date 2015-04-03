@@ -1,0 +1,24 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="SVGFiles" type="SVGFilesType"/>
+	
+	<xsd:complexType name="SVGFilesType">
+		<xsd:sequence>
+			<xsd:element name="SVG" type="SVGType" maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:sequence>	
+	</xsd:complexType>
+				
+	<xsd:complexType name="SVGType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string"/>
+			<xsd:element name="Category" type="xsd:string"/>
+			<xsd:element name="Width" type="xsd:positiveInteger"/>
+			<xsd:element name="Length" type="xsd:positiveInteger"/>
+			<xsd:element name="Dif" type="xsd:string"/>
+			<xsd:element name="Permitted" type="xsd:string"/>
+		</xsd:sequence>	
+			<xsd:attribute name="Filename" type="xsd:string" use="required" />
+	</xsd:complexType>
+				
+		
+</xsd:schema>
