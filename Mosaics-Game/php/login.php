@@ -8,6 +8,7 @@ echo'
 	var setLoad;
 	var category;
 	var dif;
+	var lastSelected;
 
 	function clear() {
 		svg = null;
@@ -15,8 +16,8 @@ echo'
 		$("#dif").empty();
 		$("#category").empty();
 		$("#size").empty();
-		$("#ausgabe").empty();
-		$("#header select").empty();
+		$("#prompt").empty();
+		$("#liste").empty();
 		$("#svgfile").empty();
 	}
 	
@@ -35,10 +36,13 @@ echo'
 
 				if (permitted == "false") {
 					anz++;
-					$("#header select").append("<option>" + name + "</option>");
+					$("#liste").append("<option>" + name + "</option>");
+						if (name == lastSelected){
+						$("#liste option:contains("+lastSelected+")").attr("selected", "selected");
+						}
 					}
 				});
-			$("#ausgabe").text(anz + " unpermitted");
+			$("#prompt").text(anz + " unpermitted SVGs");
 		});
 	}
 
@@ -52,10 +56,12 @@ echo'
 			$("SVG", xml).each(function(i) {
 				anz++;
 				var name = $(this).find("Name").text();
-				$("#header select").append("<option>" + name + "</option>");
-
+				$("#liste").append("<option>" + name + "</option>");
+				if (name == lastSelected){
+				$("#liste option:contains("+lastSelected+")").attr("selected", "selected");
+				}
 			});
-			$("#ausgabe").text(anz + " SVGs");
+			$("#prompt").text(anz + " SVGs");
 		});
 	}
 
@@ -71,7 +77,7 @@ echo'
 				},
 
 				success : function(response) {
-					$("#ausgabe").text(response);
+					$("#prompt").text(response);
 					setTimeout(function() {
 						if (setLoad == "load") {
 							load();
@@ -82,7 +88,7 @@ echo'
 				}
 			});
 		} else {
-			$("#ausgabe").text("Choose SVG before delete!");
+			$("#prompt").text("Choose SVG before deleting!");
 		}
 	}
 
@@ -90,6 +96,7 @@ echo'
 	function change() {
 
 		svg = $("#liste :selected").val();
+		lastSelected=svg;
 		$("#svgfile").load("svgs/" + svg + ".svg");
 
 		$.get("xml/svg_index.xml", {}, function(xml) {
@@ -121,7 +128,7 @@ echo'
 				},
 
 				success : function(response) {
-					$("#ausgabe").text(response);
+					$("#prompt").text(response);
 					setTimeout(function() {
 						if (setLoad == "load") {
 							load();
@@ -133,7 +140,7 @@ echo'
 				}
 			});
 		} else {
-			$("#ausgabe").text("Choose SVG before change Permission!");
+			$("#prompt").text("Choose SVG before changing permission!");
 		}
 	}
 
@@ -143,7 +150,7 @@ echo'
 			var newName = prompt("Enter new Name:");
 			if (newName) {
 				if (!regexp(newName)) {
-					$("#ausgabe").text("String not valid");
+					$("#prompt").text("String not valid");
 				} else {
 					$.ajax({
 						type : "POST",
@@ -153,8 +160,8 @@ echo'
 							"newName" : newName
 							},
 					success : function(response) {
-						$("#ausgabe").text(response);
-						if (response != "Name already taken!") {
+						$("#prompt").text(response);
+						if (response != "Name is already taken!") {
 							setTimeout(function() {
 								if (setLoad == "load") {
 									load();
@@ -167,10 +174,10 @@ echo'
 				});
 				}	
 			} else {
-				$("#ausgabe").text("No Name entered!");
+				$("#prompt").text("No name entered!");
 			}
 		} else {
-			$("#ausgabe").text("Choose SVG before rename!");
+			$("#prompt").text("Choose SVG before renaming!");
 		}
 	}
 
@@ -197,7 +204,7 @@ echo'
 			},
 
 			success : function(response) {
-				$("#ausgabe").text(response);
+				$("#prompt").text(response);
 				setTimeout(function() {
 					if (setLoad == "load") {
 						load();
@@ -209,7 +216,7 @@ echo'
 			}
 		});
 	} else {
-		$("#ausgabe").text("Choose SVG before change Category or same category");
+		$("#prompt").text("Choose SVG before changing Category or same Category");
 	}
 
 	}	
@@ -228,7 +235,7 @@ echo'
 				},
 
 				success : function(response) {
-					$("#ausgabe").text(response);
+					$("#prompt").text(response);
 					setTimeout(function() {
 						if (setLoad == "load") {
 							load();
@@ -239,7 +246,7 @@ echo'
 				}
 			});
 		} else {
-			$("#ausgabe").text("Choose SVG before change Dif or same Dif");
+			$("#prompt").text("Choose SVG before changing Dif or same Dif");
 		}
 	}	
 	
@@ -249,26 +256,20 @@ echo'
 
 	<button type="button" onclick="load()">Load unpermitted</button>
 	<button type="button" onclick="loadAll()">Load All</button>
-	<div id="header">
-		<p>
-			<select id="liste" name="unpermitted svgs" size="8"
-				onchange="change()">
-
-
+	<p>
+		<select id="liste" name="unpermitted svgs" size="8"
+			onclick="change()">
 			</select>
-		</p>
-	</div>
-	<label id="ausgabe" style="color: red; font-size: 14pt"></label>
+	</p>
+	<label id="prompt" style="color: red; font-size: 14pt"></label>
 	<div>
-		<button id="permitBtn" type="button" onclick="permit()" >Change
-			Permission</button>
 		<button type="button" onclick="del()">Delete</button>
 		<button id="rename" type="button" onclick="rename()">Rename</button>
 	</div>
 	<br>
-	<label id="category" style="color: red; font-size: 14pt"></label>
-	
-	<button id="change_category" type="button" onclick="change_category()">change Category</button>	
+	<label id="category" style="color: blue; font-size: 14pt"></label>
+	<br>
+	<button id="change_category" type="button" onclick="change_category()">Change Category</button>	
 		<select id="new_category" name="category" size="1">
 			<option>Flowers and Nature</option>
 			<option>Countries and Flags</option>
@@ -280,8 +281,9 @@ echo'
 	
 	<br>
 	
-	<label id="dif" style="color: red; font-size: 14pt"></label>
-	<button id="change_dif" type="button" onclick="change_dif()">change Dif</button>	
+	<label id="dif" style="color: blue; font-size: 14pt"></label>
+	<br>
+	<button id="change_dif" type="button" onclick="change_dif()">Change Dif</button>	
 		<select id="new_dif" name="category" size="1">
 			<option>Hard</option>
 			<option>Normal</option>
@@ -289,9 +291,14 @@ echo'
 		</select>
 	
 	<br>
-	<label id="permit" style="color: red; font-size: 14pt"></label>
+	<label id="permit" style="color: blue; font-size: 14pt"></label>
 	<br>
-	<label id="size" style="color: black; font-size: 12pt"></label>
+	<button id="permitBtn" type="button" onclick="permit()" >Change
+			Permission</button>
+	<br>
+	<br>
+	<label id="size" style="color: blue; font-size: 12pt"></label>
+	<br>
 	<br>
 	<div id="svgfile" style="width: 400px; height: 400px;">
 
@@ -317,7 +324,7 @@ $(function() {
 <input id="passwort" type="password"/>
 <button type="button" onclick="login()">Login</button>
 <br>	
-<label id="dif" style="color: red; font-size: 14pt">falsches Passwort!</label>
+<label id="dif" style="color: red; font-size: 14pt">Wrong Password!</label>
 ';
 }
 ?>
