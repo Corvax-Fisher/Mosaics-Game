@@ -46,6 +46,7 @@
 					<li><a href="editor.html">Editor</a></li>
 					<li class="active"><a href="index.html">Game<span
 							class="sr-only">(current)</span></a></li>
+					<li><a href="scores.html">Scores</a></li>
 					<li><a href="docu.html">Documentation</a></li>
 					<li><a href="about.html">Imprint</a></li>
 				</ul>
@@ -165,11 +166,14 @@
 
 			<div class="col-md-2">
 				<form>
+					<input id="username" placeholder="type your name"
+					 type="text" name="user" class="form-control username" />
 					<button id="okBtn" type="button" value="auswählen"
 						class="btn btn-success mosaicsElement" disabled="disabled">
-						<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 						start playing!
 					</button>
+					<span class="username-err"></span>
 				</form>
 			</div>
 		</div>
@@ -313,6 +317,15 @@
 	<div style='display:none'>
 		<div id='win-message' style='padding:10px; background:#fff;'>
 			<div class='alert alert-success' role='alert'><p></p></div>
+			<div id="scoreList"></div>
+			<a class="btn btn-primary" href="scores.html" role="button">
+				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+				To the scores
+			</a>
+			<a class="btn btn-success" href="index.html" role="button">
+				<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+				New game
+			</a>
 		</div>
 	</div>
 </body>
