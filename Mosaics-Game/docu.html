@@ -829,7 +829,7 @@ function validateColor(color)
 						</div>
 					</div>
                     <br>
-                  <h3>Speichern und Indexieren der SVG Grafiken</h3>
+                  <h3>Speichern und Katalogisieren  der SVG Grafiken</h3>
 				  <p>
 						Um einen Überblick über alle vorhandenen SVGs und deren Metadaten zu bekommen,
                         wird eine XML Datei benutzt, die alle wichtigen	Informationen der SVGs beinhaltet. 
@@ -1164,12 +1164,9 @@ else echo "saved";
 &lt;?php
 if($_POST['passwort']=='HIER STEHT DAS PASSWORT') {
 echo'
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
 
-//Hier wäre die anzuzeigende Webseite bei richtiger Passwort-Eingabe.
+	//Hier wäre die anzuzeigende Webseite bei richtiger Passwort-Eingabe.
 
-&lt;/html&gt;
 ';
 
 }
@@ -1177,6 +1174,8 @@ else {
 echo'
     &lt;input id="passwort" type="password" name="passwort" /&gt;
     &lt;button type="button" onclick="loging()"&gt;Login&lt;/button&gt;
+	&lt;br&gt;	
+	&lt;label id="dif" style="color: red; font-size: 14pt"&gt;falsches Passwort!&lt;/label&gt;
 ';
 }
 ?&gt;
