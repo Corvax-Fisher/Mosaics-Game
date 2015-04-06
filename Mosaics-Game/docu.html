@@ -840,7 +840,7 @@ function validateColor(color)
                         Das Attribut "Filename" wird zur besseren Übersicht beim lesen der XML-Datei dem SVG Knoten zugefügt.
 				  </p>
                   <p>
-                   		Mit den anderen abgespeicherten Elementen &lt;Dif&gt; (Difficulty), &lt;Width&gt; und &lt;Length&gt; 
+                   		Mit den anderen abgespeicherten Elementen &lt;Dif&gt; (Difficulty), &lt;Width&gt; und &lt;Length&gt;( 
                         kombiniert als Größe der SVG), sowie &lt;Category&gt; stehen später 3 verschiedene Suchkriterien 
                         im SVG Katalog zur Verfügung.
                   </p>
@@ -873,7 +873,7 @@ function validateColor(color)
 					&lt;SVG Files&gt;
                   </p>
                   <p>
-                  Dazu wurde ein passendes XML-Schema festgelegt:
+                  Dann wurde ein XML-Schema festgelegt:
                   </p>
 				  <div class="panel-group scrollable" id="XML-Schema-snippets" role="tablist"
 						aria-multiselectable="true" 
@@ -922,7 +922,7 @@ function validateColor(color)
 					<h4>Abspeicherung von SVG-Dateien und Bearbeitung der XML-Datei:</h4>
 					<p>
 					Die Datei svg_index.xml befindet sich im XML Ordner im Hauptverzeichnis.
-					Als erstes wird diese XML-Datei beim Speichern von SVGs im Editor bearbeitet. 
+					Diese XML-Datei wird beim Speichern von SVGs im Editor bearbeitet und für den Katalog im Spiel ausgelesen.
 					</p>
 					<p>
 					Nachdem ein User ein Muster gezeichnet hat und auf Speichern klickt, werden zuerst Überprüfungen gemacht. 
@@ -932,7 +932,7 @@ function validateColor(color)
 					</p>		
 			  	  	<p>
 					Ist alles ordnungsgemäß eingetragen worden, werden per AJAX die Metadaten (Name, Category, Width, Height, Difficulty) 
-                    sowie die SVG als String an das PHP Script "edit_svg_index.php" auf dem Server geschickt.                 
+                    sowie die SVG als String an das PHP-Script "edit_svg_index.php" auf dem Server geschickt.                 
                   	</p>
 
 					<div class="panel-group scrollable" id="inputCheck-snippets" role="tablist"
@@ -1129,11 +1129,11 @@ else echo "saved";
 							</div>
 						</div>
 					</div>
-                    <h3>Die Admin Webseite:</h3>
+                    <h3>Die Admin Webseite</h3>
                     <p>
                     Die Admin-Webseite control.html gibt dem Admin oder auch ausgewählten Usern die Möglichkeit,
-                    SVGs freizugeben und MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt. 
-                    Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit der Weiterentwicklung.
+                    SVGs freizugeben und Metadaten zu ändern, daher ist die Webseite mit  einer Passwortabfrage geschützt. 
+                    Die grafische Berarbeitung von vorhandenen SVGs wäre hier eine Möglichkeit der Weiterentwicklung.
                     </p>
                     <h4>Passwortschutz für Login:</h4>
                     <p>
@@ -1187,7 +1187,7 @@ echo'
 					</div>
                     <h4>Anzeige und Bearbeitung von SVGs:</h4>
                     <p>
-                    Zuerst sollte angezeigt werden, welche neuen SVGs gespeichert wurden und auf eine Freigabe warten.
+                    Zuerst sollte angezeigt werden, welche neuen SVGs vom Editor aus gespeichert wurden und auf eine Freigabe warten.
                     Mit der JS Funktion load, werden nur die SVGs in die Tabelle geladen deren Element Permitted auf false steht. 
                     </p>
                     <p>
@@ -1265,8 +1265,8 @@ function change() {
 					</div>
                     <br>
                     <p>
-                    Man kann sich auch alle SVGs anzeigen lassen, was sinnvoll ist, wenn man sich doch noch Änderung machen möchte.
-                    Folgende Änderungen sind jetzt an den SVGs machbar:
+                    Man kann sich auch alle SVGs anzeigen lassen, wenn man noch an Ihnen Änderung machen möchte.
+                    Folgende Änderungen sind zu Zeit an den SVGs machbar:
                     </p>
                     <ul class="list-group">
 						<li class="list-group-item">1. Die Freigabe ändern</li>
@@ -1279,7 +1279,7 @@ function change() {
                    In allen 5 Fällen wird per AJAX ein PHP Script auf dem Server angestoßen, der die Änderungen durchführt.
                    Für die Umbennung einer SVG muss der neu eingetragenen Name wieder auf Leer- und Sonderzeichen geprüft werden, das 
                    wird noch auf User-Seite geprüft, auf Server-Seite wird wieder geprüft ob der Name schon vergeben ist.
-                   Beim ändern der Kategorie oder des Schwierigkeitsgrads wird auch noch auf User-Seite geprüft, ob man nicht dieselbe gewählt hat. Beim löschen sollte man nicht nur den SVG Child Knoten aus der XML Datei löschen, sonder die Datei auch selbst.
+                   Beim ändern der Kategorie oder des Schwierigkeitsgrads wird auch noch auf User-Seite geprüft, ob man nicht dieselbe gewählt hat. Beim löschen wird nicht nur der SVG Child Knoten aus der XML Datei gelöscht, sondern auch die SVG Datei selbst.
                    </p> 
                    <div class="panel-group scrollable" id="jsRename-snippets" role="tablist"
 						aria-multiselectable="true" 
