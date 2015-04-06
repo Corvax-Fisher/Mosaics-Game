@@ -32,5 +32,5 @@ $dom->save ( '../xml/svg_index.xml' );
 
 //Rename File
 rename('../svgs/' . $name . '.svg','../svgs/' . $newName . '.svg');
-echo ($name .' renamed to ' . $newName);
+echo ($name .' renamed to ' . $newName . '! please wait...');
 ?>

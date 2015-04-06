@@ -23,7 +23,7 @@ $dom->save ( '../xml/svg_index.xml' );
 unlink('../svgs/' . $name . '.svg');
 
 
-echo "deleted! please wait....";
+echo "deleting! please wait....";
 
 
 ?>

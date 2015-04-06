@@ -17,6 +17,6 @@ $dom->formatOutput = true;
 $dom->loadXML ( $xml->asXML () );
 $dom->save ( '../xml/svg_index.xml' );
 
-echo "changed Category";
+echo "changing Category! please wait...";
 
 ?>
