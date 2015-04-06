@@ -163,6 +163,7 @@ echo'
 						$("#prompt").text(response);
 						if (response != "Name is already taken!") {
 							setTimeout(function() {
+								lastSelected=newName;
 								if (setLoad == "load") {
 									load();
 								} else {

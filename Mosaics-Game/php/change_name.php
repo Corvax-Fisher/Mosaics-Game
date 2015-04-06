@@ -12,7 +12,7 @@ foreach ( $xml->SVG as $child ) {
 	$str = mb_strtolower(( string ) $child->Name);
 
 	if ($str == $newName_low) {
-		echo ("Name already taken!");
+		echo ("Name is already taken!");
 		return;
 	}
 }
