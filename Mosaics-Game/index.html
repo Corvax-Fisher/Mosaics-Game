@@ -11,7 +11,6 @@
 	<meta name="description" content="Kurzbeschreibung" />
 	
 	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<!-- <script type="text/JavaScript" src="http://d3js.org/d3.v2.js"></script> -->
 	<script type="text/JavaScript" src="js/bootstrap.min.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame.js"></script>
 	<script type="text/JavaScript" src="js/mosaicsgame-validation.js"></script>
@@ -83,22 +82,13 @@
 					<div class="panel-body">
 						<ul class="list-group">
 							<li class="list-group-item">
-								1. Choose a mosaic by clicking on it
+								1. Choose a mosaic, type your name, and click 'start playing!'
 							</li>
 							<li class="list-group-item">
-								2. Click 'start playing'
+								2. Read the 'What can I do?' section bottom left on this page
 							</li>
 							<li class="list-group-item">
-								3. Read the 'What can I do?' section bottom left on this page
-							</li>
-							<li class="list-group-item">
-								4. Complete the mosaic by using the available commands
-							</li>
-							<li class="list-group-item">
-								5. Win the game and delight in it :)
-							</li>
-							<li class="list-group-item">
-								6. Repeat these steps and maybe skip step 3
+								3. Complete the mosaic you have chosen by using the available commands.
 							</li>
 						</ul>
 					</div>
@@ -106,45 +96,53 @@
 			</div>
 		</div>
 		<div class="jumbotron row">
-			<div class="col-md-2">
+			<div class="col-md-3" align="center">
 				<div class="form-group">
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button"
-							id="category_dropdown" data-toggle="dropdown"
-							aria-expanded="true" value="All categories">
-							Category <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu catdd" role="menu"
-							aria-labelledby="dropdownMenu1">
-							<li><a>All categories</a></li>
-							<li><a>Flowers and Nature</a></li>
-							<li><a>Countries and Flags</a></li>
-							<li><a>Humans and Animals</a></li>
-							<li><a>Things</a></li>
-							<li><a>Symmetrical Patterns</a></li>
-							<li><a>Individual Patterns</a></li>
-						</ul>
+					<div>
+						<div class="dropdown">
+							<button class="btn btn-default dropdown-toggle" type="button"
+								id="category_dropdown" data-toggle="dropdown"
+								aria-expanded="true" value="All categories">
+								Category <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu catdd" role="menu"
+								aria-labelledby="dropdownMenu1">
+								<li><a>All categories</a></li>
+								<li><a>Flowers and Nature</a></li>
+								<li><a>Countries and Flags</a></li>
+								<li><a>Humans and Animals</a></li>
+								<li><a>Things</a></li>
+								<li><a>Symmetrical Patterns</a></li>
+								<li><a>Individual Patterns</a></li>
+							</ul>
+						</div>
+						<div class="dropdown">
+							<button class="btn btn-default dropdown-toggle" type="button"
+								id="dif_dropdown" data-toggle="dropdown" aria-expanded="true"
+								value="All levels">
+								Level <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu difdd" role="menu"
+								aria-labelledby="dropdownMenu1">
+								<li><a>All levels</a></li>
+								<li><a>Easy</a></li>
+								<li><a>Normal</a></li>
+								<li><a>Hard</a></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button"
-							id="dif_dropdown" data-toggle="dropdown" aria-expanded="true"
-							value="All levels">
-							Level <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu difdd" role="menu"
-							aria-labelledby="dropdownMenu1">
-							<li><a>All levels</a></li>
-							<li><a>Easy</a></li>
-							<li><a>Normal</a></li>
-							<li><a>Hard</a></li>
-						</ul>
-					</div>
+					<input id="username" placeholder="type your name"
+					 type="text" name="user" class="form-control username"/>
+					<button id="okBtn" type="button" value="auswählen"
+						class="btn btn-success mosaicsElement" disabled="disabled">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						start playing!
+					</button>
+					<span class="username-err"></span>
 				</div>
 			</div>
 
-			<div class="col-md-8">
+			<div class="col-md-9">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel">
 					<!-- Indicators -->
 					<ol class="carousel-indicators"></ol>
@@ -162,19 +160,6 @@
 						<span class="sr-only">Next</span>
 					</a>
 				</div>
-			</div>
-
-			<div class="col-md-2">
-				<form>
-					<input id="username" placeholder="type your name"
-					 type="text" name="user" class="form-control username" />
-					<button id="okBtn" type="button" value="auswählen"
-						class="btn btn-success mosaicsElement" disabled="disabled">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-						start playing!
-					</button>
-					<span class="username-err"></span>
-				</form>
 			</div>
 		</div>
 
@@ -316,8 +301,16 @@
 	<!-- This contains the hidden content for inline calls -->
 	<div style='display:none'>
 		<div id='win-message' style='padding:10px; background:#fff;'>
-			<div class='alert alert-success' role='alert'><p></p></div>
-			<div id="scoreList"></div>
+			<div id="topList" class='alert alert-success' role='alert'>
+				<p></p>
+				<div id="scoreListH" align="center"></div>
+				<table id="scoreList"  class="table">
+					<ul class="list-group">
+					  
+					</ul>
+				</table>
+			</div>
+			
 			<a class="btn btn-primary" href="scores.html" role="button">
 				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 				To the scores

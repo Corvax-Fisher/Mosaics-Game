@@ -82,6 +82,11 @@ $(function() {
 			showPatternCatalogue("All categories","All levels");
 		});
 		
+		$.post("xml/scores.xml", function(data) {
+			$scores = $(data).find("score");
+			
+		});
+		
 		if (filename == "index.html"|| filename == "") {
 			$("#okBtn").click(function() {
 				if ($("#username").val().length < 4){
@@ -89,7 +94,7 @@ $(function() {
 				}
 				else {
 					$(".username-err").text("");
-					$(".mosaics-user").attr("id","mosaics");
+					$("#mosaics-user").attr("id","mosaics");
 					gridSizeOk();
 					$(".jumbotron.row:first").fadeOut();
 				}
@@ -272,8 +277,11 @@ function parseCommand(cmdLine) {
 	else return false;
 }
 
-function showWinMessage() {
-	showScoreList();
+function showWinMessage(SVGfilename) {	
+	$.post("xml/scores.xml", function(data) {
+		$scoresrf = $(data).find("score");
+		showScoreList($scoresrf,SVGfilename);
+	});	
 	
 	$("#win-message")
 		.find("p")
@@ -292,13 +300,10 @@ function showWinMessage() {
 	
 }
 
-function showScoreList() {
-	$("#scoreList").append('<p>Score of '+svgpath+'</p>');
-}
-
 $('#win-message .btn-success').click(function() {
     location.reload();
 });
+
 function showSavedMessage() {
 	$("#saved-message")
 		.find("p")
@@ -307,15 +312,13 @@ function showSavedMessage() {
 	
 	$.colorbox( { 	inline: true, 
 		href: "#saved-message",
-		width: "400px", 
-		overlayClose: false,
-		close:'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>', 
-		onClosed:function(){location.reload(true);}});
+		width: "400px"});
 	
 	$("#colorbox").keydown(function(event){
 		if(event.keyCode == 13) $.colorbox.close();
 	});
 }
+
 function draw(cmdLine) {
 	$("#err").html("");
 
@@ -323,7 +326,7 @@ function draw(cmdLine) {
 		executeCommand(cmdLine);
 		manageHistory(cmdLine);
 		$("#cmdCount").text(undoHistory.length);
-		if(compareSVGs()) showWinMessage();
+		if(compareSVGs()) saveUserData();
 	}
 
 	if ($("#err").html().length > 0) {
@@ -480,6 +483,16 @@ function showPatternCatalogue(cvalue,lvalue) {
 	$( ".carousel-caption .row .col-md-3" ).click(function() {
 		var svgpath = $(this).find("img").attr("src");
 		loadSVGs(svgpath);
+		
+		if (filename == "scores.html"){
+					
+			$.post("xml/scores.xml", function(data) {
+				$scoresrf = $(data).find("score");
+				var SVGfilename = svgpath.substring(5);
+				showScoreList($scoresrf,SVGfilename);
+			});
+		}
+		
 	});
 
 }
@@ -495,6 +508,92 @@ function appendPattern($svg_indexElement) {
 						"</p>" +
 					"</div>" +
 			"</div>");
+}
+
+function showScoreList($scoresrf,SVGfilename) {
+	$("#scoreListH").empty();
+	$("#scoreListH").append('<h3>TOP 10 of '+SVGfilename+'</h3>');
+	var arrCommands = [];
+	
+	for(var i = 0; i<$scoresrf.length; i++){
+		if ($scoresrf.find('filename').eq(i).text() == SVGfilename){
+			arrCommands.push($scoresrf.find('commands').eq(i).text());
+		}
+	}
+	
+	arrCommands.sort(function(a, b){return a-b});
+	var arrElements = [];
+	$('#toplist ul.list-group').empty();
+	
+	for(var i = 0; i<arrCommands.length; i++){
+		for(var j = 0; j<$scoresrf.length; j++){
+			if (($scoresrf.find('filename').eq(j).text() == SVGfilename) && 
+				($scoresrf.find('commands').eq(j).text() == arrCommands[i]) && 
+				(arrElements.indexOf(j) == -1 )){
+				appendScoreList($scoresrf.eq(j));
+				arrElements.push(j);
+			}
+		}
+	
+	}
+}
+
+function appendScoreList($element){
+	$('#toplist ul.list-group').append("<li class='list-group-item'>"+
+    "<span class='badge'>"+$element.find('commands').text()+"</span><span> "
+    + $element.find('username').text() +
+  " </span></li>");
+}
+
+function saveUserData() {
+	var username = $('#username').val();
+	var commands = undoHistory.length;
+	var pathToFile = $("#mosaics-template").attr('class');
+	var SVGfilename = pathToFile.substring(5);
+	var toplistCount = 0;
+	var arrCommands = [];
+	
+	for(var i = 0; i<$scores.length; i++){
+		if ($scores.find('filename').eq(i).text() == SVGfilename){
+			toplistCount++;
+			arrCommands.push($scores.find('commands').eq(i).text());
+		}
+	}
+	
+	if(toplistCount < 10) {
+		
+		// Jquery AJAX: start save script on server 
+		$.ajax({
+
+			type : 'POST',
+			url : 'php/edit_scores.php',
+			data : {
+				'filename' : SVGfilename,
+				'commands' : commands,
+				'username' : username
+			},
+
+			success : function(response) {
+				if (response == "saved"){
+					showWinMessage(SVGfilename);
+				}
+			}
+		});
+		return false;
+	} else {
+		arrCommands.sort(function(a, b){return a-b});
+		
+		if(arrCommands[arrCommands.length-1] >= commands) {
+			for(var i = 0; i<$scores.length; i++){
+				if ($scores.find('commands').eq(i).text() == arrCommands[arrCommands.length-1]){
+					$scores.setAttribute('commands',commands);
+					$scores.setAttribute('username',username);
+				}
+				break;
+			}
+		}
+		showWinMessage(SVGfilename);
+	}
 }
 
 function showExtraColors() {
@@ -542,7 +641,7 @@ function bindDropdownClickFunction() {
 		$("#category_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#category_dropdown").val($(this).text());
 		
-		if (filename == "index.html"|| filename == ""){
+		if (filename == "index.html"|| filename == "" || filename == "scores.html"){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
@@ -551,7 +650,7 @@ function bindDropdownClickFunction() {
 		$("#dif_dropdown").html($(this).text() + ' <span class="caret"></span>');
 		$("#dif_dropdown").val($(this).text());
 		
-		if (filename == "index.html"|| filename == ""){
+		if (filename == "index.html"|| filename == "" || filename == "scores.html"){
 			showPatternCatalogue($("#category_dropdown").val(),$("#dif_dropdown").val());
 		}
 	});
@@ -573,12 +672,14 @@ function loadSVGs(svgPath) {
 			mosaicsTemplateElements.eq(i).attr("id", "t" + mosaicsTemplateElements.eq(i).attr("id"));
 		}
 		
+		
 		$("#mosaics-user").attr("id", "mosaics");
 		var colCount, rowCount;
 		colCount = (Number($templateRect.attr("width"))-2)/$templateRect.attr("x");
 		rowCount = (Number($templateRect.attr("height"))-2)/$templateRect.attr("y");
 		setGridSize(colCount + "x" + rowCount);
 		$("#mosaics").attr("id", "mosaics-user");
+		$("#mosaics-template").attr("class", svgPath);
 	});
 	
 }
