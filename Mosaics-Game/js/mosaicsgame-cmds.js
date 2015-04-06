@@ -35,13 +35,13 @@ function circle(col, row, clr) {
 	$("#mosaics").append(e);
 }
 
-function rectangle(col, row, width, height, clr) {
-	for (var i = 0; i < height; i++) {
-		for (var j = 0; j < width; j++) {
-			square(col + j, row + i, clr);
-		}
-	}
-}
+// function rectangle(col, row, width, height, clr) {
+	// for (var i = 0; i < height; i++) {
+		// for (var j = 0; j < width; j++) {
+			// square(col + j, row + i, clr);
+		// }
+	// }
+// }
 
 function line(col, row, p1, p2, clr) {
 	var e = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -167,8 +167,16 @@ function rectangleBounds(params) {
 }
 
 function rectangleRanges(params) {
-	var colRangeStr = params[0] + ":" + (Number(params[0]) + Number(params[2]) - 1).toString();
-	var rowRangeStr = params[1] + ":" + (Number(params[1]) + Number(params[3]) - 1).toString();
+	var inc = [];
+	var colRangeStr = params[0];
+	var rowRangeStr = params[1];
+	
+	inc[0] = (Number(params[2]) > 0) ? 1 : -1;
+	inc[1] = (Number(params[3]) > 0) ? 1 : -1;
+	if(Number(params[2]) == 0) colRangeStr += ":0";
+	if(Number(params[3]) == 0) rowRangeStr += ":0";
+	colRangeStr += ":" + (Number(params[0]) + Number(params[2]) - inc[0]).toString();
+	rowRangeStr += ":" + (Number(params[1]) + Number(params[3]) - inc[1]).toString();
 	return new positionRanges(colRangeStr,rowRangeStr);
 }
 
