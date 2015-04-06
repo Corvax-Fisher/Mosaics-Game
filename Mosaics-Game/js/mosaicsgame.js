@@ -291,8 +291,9 @@ function showWinMessage(SVGfilename) {
 	
 	$.colorbox( { 	inline: true, 
 		href: "#win-message",
-		width: "400px"
-	} );
+		width: "400px",
+		height: "300px",
+		onClosed:function(){location.reload(true);}});
 	
 	$("#colorbox").keydown(function(event){
 		if(event.keyCode == 13) $.colorbox.close();
@@ -312,7 +313,8 @@ function showSavedMessage() {
 	
 	$.colorbox( { 	inline: true, 
 		href: "#saved-message",
-		width: "400px"});
+		width: "400px",
+		onClosed:function(){location.reload(true);}});
 	
 	$("#colorbox").keydown(function(event){
 		if(event.keyCode == 13) $.colorbox.close();
