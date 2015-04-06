@@ -58,24 +58,24 @@
 	</nav>
 
 	<div class="container">
-		<div class="blog-header">
-			<h1>
-				Documentation<br> <small>A project of students @ THM
-					Friedberg, Germany</small>
-			</h1>
-		</div>
 			<div class="row">
 				<div class="blog-main col-sm-8">
+					<div class="blog-header">
+						<h1>
+							Documentation<br> <small>A project of students @ THM
+								Friedberg, Germany</small>
+						</h1>
+					</div>
 					<div>
 						<h2 id="syntax" class="blog-post-title">Syntax</h2>
-						<h2>Befehl</h2>
+						<h2>1. Befehl</h2>
 						<p>
 							Die allgemeine Befehlssyntax ist folgendermaßen aufgebaut:
 							&lt;Befehlsname&gt;(&lt;Parameter1&gt;,...&lt;ParameterN&gt;)<br>
 							Es gibt folgende gültige Befehlsnamen: square, circle, rectangle,
 							line, triangle und clearcell.
 						</p>
-						<h2>Parameter</h2>
+						<h2>2. Parameter</h2>
 						<p>
 							Parametertypen gibt es folgende: &lt;Position&gt;,
 							&lt;Breite/Höhe&gt;, &lt;Punkt&gt; und &lt;Farbe&gt;.<br>
@@ -85,7 +85,7 @@
 							silver, teal und yellow.<br> Die Positions- und Punktsyntax
 							sind etwas komplizierter.
 						</p>
-						<h3>Position</h3>
+						<h3>2.1 Position</h3>
 						<p>
 							Die Positionssyntax ist folgendermaßen aufgebaut:
 							&lt;Spalte&gt;,&lt;Zeile&gt;<br> Die Syntax von
@@ -99,7 +99,7 @@
 							Für die Start- und Endposition und die Schrittweite werden
 							Integer erwartet.
 						</p>
-						<h3>(Anker-)Punkte</h3>
+						<h3>2.2 (Anker-)Punkte</h3>
 						<p>
 							Die Punktsyntax hat den folgenden Aufbau:
 							&lt;Horizontalankerpunkt&gt;&lt;Vertikalankerpunkt&gt;<br>
@@ -118,7 +118,7 @@
 						<h2 id="parsen-des-befehls" class="blog-post-title">Parsen des Befehls</h2>
 						<p>Bevor ein Befehl ausgeführt wird, wird dieser geparst und
 							anschließend die Parameter validiert.</p>
-						<h2>Vorgehensweise</h2>
+						<h2>1. Vorgehensweise</h2>
 						<p>Beim Parsen wird Folgendes in folgender Reihenfolge
 							geprüft:</p>
 						<ul class="list-group">
@@ -131,25 +131,26 @@
 						Bei falschen Eingaben wird der Benutzer über die erste
 						Falscheingabe entsprechend informiert.
 						<p></p>
-						<h2>Umsetzung</h2>
-						<h3>Initialisierung</h3>
+						<h2>2. Umsetzung</h2>
+						<h3>2.1 Initialisierung</h3>
 						<p>Die Funktion zum Parsen des Befehls namens “parseCommand”
 							bekommt die eingegebene Zeile des Benutzers als Parameter. Zuerst
 							wird diese Zeile mittels der öffnenden Klammer in mehrere Teile
 							getrennt. Erwartet werden zwei Teile: Der Name des Befehls und
 							die Befehlsparameter.</p>
-						<h3>Befehlsname (siehe Code-Snippet zu "validateCmdName")</h3>
+						<h3>2.2 Befehlsname</h3>
+						<p>(siehe Code-Snippet zu "validateCmdName")</p>
 						<p>Zur Validierung, dass ein gültiger Befehlsname angegeben
 							wurde, wird eine Switch/Case-Struktur verwendet. Ist der
 							Befehlsname gültig, wird die erwartete Anzahl an Parametern für
 							diesen Befehl zurückgegeben, andernfalls wird -1 zurückgegeben.
 							Der Rückgabewert wird demzufolge auf Gleichheit mit -1 überprüft.</p>
-						<h3>Klammern</h3>
+						<h3>2.3 Klammern</h3>
 						<p>Zur Validierung des Vorhandenseins der Klammern wird die
 							String-Methode indexOf verwendet. Ist das gesuchte Zeichen nicht
 							im String vorhanden gibt diese Funktion den Wert -1 zurück. Auch
 							hier wird auf diesen Wert geprüft.</p>
-						<h4>Besonderheit</h4>
+						<h4>2.3.1 Besonderheit</h4>
 						<p>Des Weiteren musste festgestellt werden, dass nur eine
 							öffnende Klammer angegeben wurde, da man anhand dieser die
 							Befehlszeile in zwei Teile auftrennt. Um dies festzustellen, wird
@@ -157,8 +158,8 @@
 							dann initialisiert, wenn das Array mit den durch die öffnende
 							Klammer aufgeteilten Strings genau 2 Strings enthält. Diese
 							Variable wird dementsprechend auf den Wert undefined geprüft.</p>
-						<h3>Parameteranzahl (siehe Code-Snippet zu
-							"validateNumberOfParams")</h3>
+						<h3>2.4 Parameteranzahl</h3>
+						<p>siehe Code-Snippet zu "validateNumberOfParams"</p>
 						<p>Zur Validierung der Parameteranzahl wird die bereits oben
 							erwähnte Switch/Case-Struktur verwendet. Zusätzlich wird noch
 							überprüft, ob eine Standardfarbe ausgewählt wurde. Ist das der
@@ -341,7 +342,7 @@ function requiredParamCountForCmd(cmd) {
 								</div>
 							</div>
 						</div>
-						<h2>Position</h2>
+						<h2>1. Position</h2>
 						<p>Zur Validierung der Positionsangaben für die Spalte und
 							Zeile werden diese in ein Objekt positionRanges umgewandelt und
 							mit einer entsprechenden Methode validiert. Das Objekt teilt die
@@ -351,7 +352,7 @@ function requiredParamCountForCmd(cmd) {
 							in der angegebenen Reihenfolge zuerst für die Spalte und danach
 							für die Zeile überprüft. Der Benutzer wird über alle falschen aus
 							den 6 möglichen Angaben informiert.</p>
-						<h3>Start- und Endposition</h3>
+						<h3>1.1 Start- und Endposition</h3>
 						<p>
 							Die Start- und Endpositionen werden jeweils 4 Prüfungen
 							unterzogen:<br> Ist die Positionsangabe...
@@ -368,7 +369,7 @@ function requiredParamCountForCmd(cmd) {
 						Programmiertechnisch wird auf das Gegenteil geprüft und ein
 						Fehlermeldungstext bei positivem Ergebnis generiert.
 						<p></p>
-						<h3>Schrittweite</h3>
+						<h3>1.2 Schrittweite</h3>
 						<p>Die Schrittweite darf entweder positiv- oder
 							negativ-gannzahlig sein. Null darf sie nicht sein. Ist die
 							Endposition kleiner als die Startposition, so ist eine negative
@@ -583,7 +584,7 @@ function requiredParamCountForCmd(cmd) {
 							</div>
 
 						</div>
-						<h2>Punkte (Linie und Dreieck)</h2>
+						<h2>2. Punkte (Linie und Dreieck)</h2>
 						<p>Zur Validierung eines Punktes wird zuerst geprüft, ob genau
 							zwei Ankerpunkte (also zwei Buchstaben) angegeben wurden. Ist
 							dies der Fall wird anschließend geprüft, ob die erste Angabe ein
@@ -623,7 +624,7 @@ function requiredParamCountForCmd(cmd) {
 								</div>
 							</div>
 						</div>
-						<h2>Linie</h2>
+						<h2>3. Linie</h2>
 						<p>Zur Validierung einer Linie wird überprüft, ob die
 							angegebenen Punkte valide und verschieden sind.</p>
 						<div class="panel-group scrollable"
@@ -723,12 +724,12 @@ function requiredParamCountForCmd(cmd) {
 								</div>
 							</div>
 						</div>
-						<h2>Dreieck</h2>
+						<h2>4. Dreieck</h2>
 						<p>Zur Validierung eines Dreicks wird zuerst überprüft, ob die
 							angegebenen Punkte valide sind. Ist dies der Fall wird
 							anschließend überprüft, ob die drei angegebenen Punkte eine
 							Fläche “aufspannen”.</p>
-						<h3>Dreiecksfläche</h3>
+						<h3>4.1 Dreiecksfläche</h3>
 						<p>
 							Um festzustellen, ob die angegebenen Punkte für das Dreieck eine
 							Fläche “aufspannen”, wird eine Vektorformel verwendet. Zuerst
@@ -842,7 +843,7 @@ function requiredParamCountForCmd(cmd) {
 								</div>
 							</div>
 						</div>
-						<h2>Farbe (optionaler Parameter)</h2>
+						<h2>5. Farbe (optionaler Parameter)</h2>
 						<p>Da die Menge der validen Farben in einem globalen Array
 							hinterlegt ist, wird der Einfachheit halber geprüft, ob die
 							angegebene Farbe im Array vorhanden ist. Bei Verwendung des
@@ -907,7 +908,7 @@ function validateColor(color)
 								</div>
 							</div>
 						</div>
-						<h2>Vergleich des kreierten Mosaiks mit dem Muster</h2>
+						<h2>6. Vergleich des kreierten Mosaiks mit dem Muster</h2>
 						<p>Um zu ermitteln, ob das durch Befehle erstellte Mosaik mit
 							dem Muster-Mosaik identisch ist und das Spiel damit gewonnen
 							wurde, wird wie folgt vorgegangen:</p>
@@ -1088,7 +1089,7 @@ function validateColor(color)
 								</div>
 							</div>
 						</div>
-						<h2>Abspeicherung von SVG-Dateien und Bearbeitung der
+						<h2>1. Abspeicherung von SVG-Dateien und Bearbeitung der
 							XML-Datei:</h2>
 						<p>Die Datei svg_index.xml befindet sich im XML Ordner im
 							Hauptverzeichnis. Als erstes wird diese XML-Datei beim Speichern
@@ -1316,7 +1317,7 @@ else echo "saved";
 							MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt.
 							Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit
 							der Weiterentwicklung.</p>
-						<h2>Passwortschutz für Login:</h2>
+						<h2>1. Passwortschutz für Login</h2>
 						<p>Die Webseite hat zunächst im Body nur ein Eingabefeld und
 							ein Button. Beim klicken auf den Login Button wird das eingebene
 							Passwort an das login.php Script auf dem Server geschickt. Das
@@ -1370,7 +1371,7 @@ echo'
 								</div>
 							</div>
 						</div>
-						<h2>Anzeige und Bearbeitung von SVGs:</h2>
+						<h2>2. Anzeige und Bearbeitung von SVGs</h2>
 						<p>Zuerst sollte angezeigt werden, welche neuen SVGs
 							gespeichert wurden und auf eine Freigabe warten. Mit der JS
 							Funktion load, werden nur die SVGs in die Tabelle geladen deren

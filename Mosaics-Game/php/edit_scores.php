@@ -9,7 +9,7 @@ $xml = simplexml_load_file ( "../xml/scores.xml" );
 
 $user_low = mb_strtolower($username);
 $file_low =  mb_strtolower($filename);
-foreach ( $xml->SVG as $child ) {
+foreach ( $xml->score as $child ) {
 	$str = mb_strtolower(( string ) $child->username);
 	$str2 = mb_strtolower(( string ) $child->filename);
 	$str3 = $child->commands;
