@@ -983,13 +983,12 @@ function validateColor(color)
 							identifizierbar macht. Das Attribut "Filename" wird zur besseren
 							Übersicht beim lesen der XML-Datei dem SVG Knoten zugefügt.</p>
 						<p>Mit den anderen abgespeicherten Elementen &lt;Dif&gt;
-							(Difficulty), &lt;Width&gt; und &lt;Length&gt; kombiniert als
+							(Difficulty), &lt;Width&gt; und &lt;Length&gt; (kombiniert als
 							Größe der SVG), sowie &lt;Category&gt; stehen später 3
 							verschiedene Suchkriterien im SVG Katalog zur Verfügung.</p>
 						<p>Damit nur sinnvolle und ordentliche SVGs im Spiel
 							erscheinen, werden im Editor erstellte SVGs nicht sofort
-							freigegeben. Ein Admin hat über eine extra per Passwort
-							geschützte Webseite die Möglichkeit, die im Editor erstellten
+							freigegeben. Ein Admin hat über eine passwortgeschützte Webseite die Möglichkeit, die im Editor erstellten
 							SVGs zu überprüfen. Auf dieser Webseite, die später noch näher
 							erläutert wird, können SVG Metadaten geändert oder auch ganze
 							SVGs gelöscht werden. Ist eine SVG in Ordnung, wird sie über das
@@ -1007,7 +1006,7 @@ function validateColor(color)
 							&lt;Height&gt;, &lt;Dif&gt;, &lt;Permitted&gt; <br>
 							&emsp;&lt;SVG-File&gt; <br> &lt;SVG Files&gt;
 						</p>
-						<p>Dazu wurde ein passendes XML-Schema festgelegt:</p>
+						<p>Dann wurde ein XML-Schema festgelegt:</p>
 						<div class="panel-group scrollable" id="XML-Schema-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"
@@ -1058,8 +1057,8 @@ function validateColor(color)
 						<h2>Abspeicherung von SVG-Dateien und Bearbeitung der
 							XML-Datei:</h2>
 						<p>Die Datei svg_index.xml befindet sich im XML Ordner im
-							Hauptverzeichnis. Als erstes wird diese XML-Datei beim Speichern
-							von SVGs im Editor bearbeitet.</p>
+							Hauptverzeichnis. Diese XML-Datei wird beim Speichern von SVGs im 
+							Editor bearbeitet und für den Katalog im Spiel ausgelesen.</p>
 						<p>Nachdem ein User ein Muster gezeichnet hat und auf
 							Speichern klickt, werden zuerst Überprüfungen gemacht. Noch auf
 							User-Seite wird geprüft, ob etwas gezeichnet, ein Name
@@ -1068,7 +1067,7 @@ function validateColor(color)
 							ob der eingegebene Name Leer- oder falsche Sonderzeichen enthält.</p>
 						<p>Ist alles ordnungsgemäß eingetragen worden, werden per AJAX
 							die Metadaten (Name, Category, Width, Height, Difficulty) sowie
-							die SVG als String an das PHP Script "edit_svg_index.php" auf dem
+							die SVG als String an das PHP-Script "edit_svg_index.php" auf dem
 							Server geschickt.</p>
 
 						<div class="panel-group scrollable" id="inputCheck-snippets"
@@ -1276,8 +1275,8 @@ else echo "saved";
 						<h2 id="admin-seite" class="blog-post-title">Die Admin Seite</h2>
 						<p>Die Admin-Webseite control.html gibt dem Admin oder auch
 							ausgewählten Usern die Möglichkeit, SVGs freizugeben und
-							MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt.
-							Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit
+							Metadaten zu ändern, daher ist die Webseite mit einer Passwortabfrage geschützt.
+							Die grafische Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit
 							der Weiterentwicklung.</p>
 						<h2>Passwortschutz für Login:</h2>
 						<p>Die Webseite hat zunächst im Body nur ein Eingabefeld und
@@ -1285,8 +1284,8 @@ else echo "saved";
 							Passwort an das login.php Script auf dem Server geschickt. Das
 							login.php Script überprüft das Passwort und wenn es richtig ist,
 							schickt das Script den eigentlichen Body Teil, der alle Elemente
-							enthält, zurück. Ist das Passwort falsch schickt das Script den
-							Body Teil mit Eingabefeld und Button zurück. Da das PHP Script
+							enthält, zurück. Ist das Passwort falsch, schickt das Script den
+							Body Teil mit Eingabefeld und Button zurück. Da das PHP-Script
 							über den Browser nicht eingesehen werden kann, gibt uns das eine
 							relativ große Sicherheit für den Zugriff auf die Admin-Webseite.</p>
 						<div class="panel-group scrollable" id="phpLogin-snippets"
@@ -1413,9 +1412,8 @@ function change() {
 							</div>
 						</div>
 						<br>
-						<p>Man kann sich auch alle SVGs anzeigen lassen, was sinnvoll
-							ist, wenn man sich doch noch Änderung machen möchte. Folgende
-							Änderungen sind jetzt an den SVGs machbar:</p>
+						<p>Man kann sich auch alle SVGs anzeigen lassen, wenn man doch noch an zugelassenen SVGs Änderung machen möchte. 
+						Folgende Änderungen sind jetzt an den SVGs machbar:</p>
 						<ul class="list-group">
 							<li class="list-group-item">1. Die Freigabe ändern</li>
 							<li class="list-group-item">2. Die SVG löschen</li>
@@ -1428,11 +1426,10 @@ function change() {
 							Umbennung einer SVG muss der neu eingetragenen Name wieder auf
 							Leer- und Sonderzeichen geprüft werden, das wird noch auf
 							User-Seite geprüft, auf Server-Seite wird wieder geprüft ob der
-							Name schon vergeben ist. Beim ändern der Kategorie oder des
+							Name schon vergeben ist. Beim Ändern der Kategorie oder des
 							Schwierigkeitsgrads wird auch noch auf User-Seite geprüft, ob man
-							nicht dieselbe gewählt hat. Beim löschen sollte man nicht nur den
-							SVG Child Knoten aus der XML Datei löschen, sonder die Datei auch
-							selbst.</p>
+							nicht dieselbe gewählt hat. Beim löschen wird nicht nur der SVG Child 
+							Knoten aus der XML Datei gelöscht, sondern auch die SVG Datei selbst.</p>
 						<div class="panel-group scrollable" id="jsRename-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"

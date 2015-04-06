@@ -14,7 +14,7 @@ foreach ( $xml->SVG as $child ) {
 	$str2 = mb_strtolower(( string ) $child->filename);
 	$str3 = $child->commands;
 	
-	if ($user_low == $username && $file_low == $filename) {
+	if ($user_low == $str && $file_low == $str2) {
 		if ($str3 > $commands){
 			$str3 = $commands;
 		}
