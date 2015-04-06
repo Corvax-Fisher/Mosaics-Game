@@ -210,8 +210,7 @@ function executeCommand(cmdLine) {
 		// circle(Number(cmdParams[0]), Number(cmdParams[1]), cmdParams[2]);
 		// break;
 	case "rectangle":
-		rectangle(Number(cmdParams[0]), Number(cmdParams[1]),
-				Number(cmdParams[2]), Number(cmdParams[3]), cmdParams[4]);
+		squares(rectangleRanges(cmdParams), cmdParams[4]);
 		break;
 	// case "line":
 		// line(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),

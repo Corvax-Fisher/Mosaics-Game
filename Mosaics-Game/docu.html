@@ -128,11 +128,12 @@
 							<li class="list-group-item">3. Die Anzahl der angegebenen
 								Parameter</li>
 						</ul>
-						Bei falschen Eingaben wird der Benutzer über die erste
-						Falscheingabe entsprechend informiert.
-						<p></p>
-						<h2>2. Umsetzung</h2>
-						<h3>2.1 Initialisierung</h3>
+						<p>
+							Bei falschen Eingaben wird der Benutzer über die erste
+							Falscheingabe entsprechend informiert.
+						</p>
+						<h2>Umsetzung</h2>
+						<h3>Initialisierung</h3>
 						<p>Die Funktion zum Parsen des Befehls namens “parseCommand”
 							bekommt die eingegebene Zeile des Benutzers als Parameter. Zuerst
 							wird diese Zeile mittels der öffnenden Klammer in mehrere Teile
@@ -185,8 +186,7 @@
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="parseCommand-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function parseCommand(cmdLine) {
+									<pre><code class="language-javascript">function parseCommand(cmdLine) {
 	var cmdAndParams = cmdLine.split("(");
 	var cmd = cmdAndParams[0], params;
 
@@ -214,8 +214,7 @@
 	
 	if ($("#err").html().length == 0) return true;
 	else return false;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -233,8 +232,7 @@
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateCmdName-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateCmdName(cmd) {
+									<pre><code class="language-javascript">function validateCmdName(cmd) {
 	return (requiredParamCountForCmd(cmd) != -1);
 }
 
@@ -252,8 +250,7 @@ function requiredParamCountForCmd(cmd) {
 		
 		default:			return -1;
 	}
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -272,8 +269,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateNumberOfParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateNumberOfParams(cmd, params) {
+									<pre><code class="language-javascript">function validateNumberOfParams(cmd, params) {
 	var paramCount = requiredParamCountForCmd(cmd);
 	
 	if($("#color_dropdown").val() != "(None)" &&
@@ -284,8 +280,7 @@ function requiredParamCountForCmd(cmd) {
 		return false;
 
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -300,9 +295,10 @@ function requiredParamCountForCmd(cmd) {
 								Fläche (bei Dreiecksbefehl)</li>
 							<li class="list-group-item">4. Farbe</li>
 						</ul>
-						Bei falschen Eingaben wird der Benutzer über die erste
-						Falscheingabe entsprechend informiert.
-						<p></p>
+						<p>
+							Bei falschen Eingaben wird der Benutzer über die erste
+							Falscheingabe entsprechend informiert.
+						</p>
 						<div class="panel-group scrollable"
 							id="validateParameters-snippets" role="tablist"
 							aria-multiselectable="true" style="height: 100%;">
@@ -321,8 +317,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateParameters-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateParameters(cmdLine) {
+									<pre><code class="language-javascript">function validateParameters(cmdLine) {
 	var cmdAndParams = cmdLine.split("(");
 	var cmd = cmdAndParams[0], params = cmdAndParams[1];
 	
@@ -337,8 +332,7 @@ function requiredParamCountForCmd(cmd) {
 	if(!validateColorParam(cmd, params)) return 0;
 
 	return 1;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -365,11 +359,12 @@ function requiredParamCountForCmd(cmd) {
 								erlaubten Wert (variabel je nach Mosaikgröße)</li>
 							<li class="list-group-item">ein Integer</li>
 						</ul>
-						Bestehen die Positionsangaben die Prüfungen, so sind sie valide.
-						Programmiertechnisch wird auf das Gegenteil geprüft und ein
-						Fehlermeldungstext bei positivem Ergebnis generiert.
-						<p></p>
-						<h3>1.2 Schrittweite</h3>
+						<p>
+							Bestehen die Positionsangaben die Prüfungen, so sind sie valide.
+							Programmiertechnisch wird auf das Gegenteil geprüft und ein
+							Fehlermeldungstext bei positivem Ergebnis generiert.
+						</p>
+						<h3>Schrittweite</h3>
 						<p>Die Schrittweite darf entweder positiv- oder
 							negativ-gannzahlig sein. Null darf sie nicht sein. Ist die
 							Endposition kleiner als die Startposition, so ist eine negative
@@ -401,8 +396,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validatePositionParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validatePositionParams(cmd, params) {
+									<pre><code class="language-javascript">function validatePositionParams(cmd, params) {
 	var posRanges;
 
 	if(cmd == "rectangle") posRanges = rectangleRanges(params);
@@ -416,8 +410,7 @@ function requiredParamCountForCmd(cmd) {
 	}
 	
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -435,13 +428,11 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="rectangleRanges-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function rectangleRanges(params) {
+									<pre><code class="language-javascript">function rectangleRanges(params) {
 	var colRangeStr = params[0] + ":" + (Number(params[0]) + Number(params[2]) - 1).toString();
 	var rowRangeStr = params[1] + ":" + (Number(params[1]) + Number(params[3]) - 1).toString();
 	return new positionRanges(colRangeStr,rowRangeStr);
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -458,8 +449,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="positionRange-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function positionRange(rangeStr) {
+									<pre><code class="language-javascript">function positionRange(rangeStr) {
 	var range = rangeStr.split(":");
 	
 	if (range.length == 3) {
@@ -492,8 +482,7 @@ function requiredParamCountForCmd(cmd) {
 		return  (this.to-this.from >= 0 && this.inc > 0 &&
 				this.inc == parseInt(this.inc) )
 	};
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -511,8 +500,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="positionRanges-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function positionRanges(colStr, rowStr) {
+									<pre><code class="language-javascript">function positionRanges(colStr, rowStr) {
 	this.colRange = new positionRange(colStr);
 	this.rowRange = new positionRange(rowStr);
 	
@@ -578,8 +566,7 @@ function requiredParamCountForCmd(cmd) {
 		if(err) return errMsg + ").";
 		else return undefined;
 	};
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 
@@ -608,8 +595,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validatePoint-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validatePoint(p) {
+									<pre><code class="language-javascript">function validatePoint(p) {
 	var validYParts = 	["t","c","b"];
 	var validXParts = 	["l","c","r"];
 	
@@ -619,8 +605,7 @@ function requiredParamCountForCmd(cmd) {
 		(validYParts.indexOf(p[1]) != -1 && validXParts.indexOf(p[0]) != -1 ) )
 		return true;
 	else return false;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -645,8 +630,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateLineParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateLineParams(cmd, params) {
+									<pre><code class="language-javascript">function validateLineParams(cmd, params) {
 	if(cmd.indexOf("line") != -1) {
 		var errMsg = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
 		
@@ -656,8 +640,7 @@ function requiredParamCountForCmd(cmd) {
 		}
 	}
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -675,16 +658,14 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateLine-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateLine(p1,p2) {
+									<pre><code class="language-javascript">function validateLine(p1,p2) {
 	if(validatePoint(p1) && validatePoint(p2)) {
 		var p1o = pointOffset(p1), p2o = pointOffset(p2);
 		if (p1o[0] != p2o[0] || p1o[1] != p2o[1])
 			return undefined;
 		else return "Invalid line (points are equal).";
 	} else return "Invalid points.";
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -701,8 +682,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="pointOffset-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function pointOffset(p) {
+									<pre><code class="language-javascript">function pointOffset(p) {
 	var validYParts = [ "t", "c", "b" ];
 	var validXParts = [ "l", "c", "r" ];
 	var offsets = [ 2, cellsize / 2 + 1, cellsize ];
@@ -719,8 +699,7 @@ function requiredParamCountForCmd(cmd) {
 		pOffset[1] = offsets[validYParts.indexOf(p[1])];
 	}
 	return pOffset;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -762,8 +741,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateTriangleParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateTriangleParams(cmd, params) {
+									<pre><code class="language-javascript">function validateTriangleParams(cmd, params) {
 	if(cmd.indexOf("triangle") != -1) {
 		var i = 2;
 		
@@ -778,8 +756,7 @@ function requiredParamCountForCmd(cmd) {
 		}
 	}
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -797,15 +774,13 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateTriangle-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateTriangle(p1,p2,p3) {
+									<pre><code class="language-javascript">function validateTriangle(p1,p2,p3) {
 	var p1o = pointOffset(p1), p2o = pointOffset(p2), p3o = pointOffset(p3);
 	var p1v = new vector(p1o), p2v = new vector(p2o), p3v = new vector(p3o);
 	var a = p1v.sub(p2v), b = p1v.sub(p3v);
 
 	return (a.x*b.y-a.y*b.x != 0);
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -822,8 +797,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="vector-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function vector(point) {
+									<pre><code class="language-javascript">function vector(point) {
 	if(point != null) {
 		this.x = point[0];
 		this.y = point[1];		
@@ -838,8 +812,7 @@ function requiredParamCountForCmd(cmd) {
 		ret.y = this.y - v.y;
 		return ret;
 	};
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -868,8 +841,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateColorParam-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateColorParam(cmd, params) {
+									<pre><code class="language-javascript">function validateColorParam(cmd, params) {
 	if(cmd.indexOf("clearcell") == -1 && params.length == requiredParamCountForCmd(cmd)) {
 		if(!validateColor(params[params.length-1])) {
 			$("#err").html("Invalid color.");
@@ -877,8 +849,7 @@ function requiredParamCountForCmd(cmd) {
 		}		
 	}
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -896,15 +867,13 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateColor-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+									<pre><code class="language-javascript">var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
 					"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal", "yellow" ];
 
 function validateColor(color)
 {
 	return validColors.indexOf(color) != -1;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -938,9 +907,10 @@ function validateColor(color)
 							<li class="list-group-item">7. Waren alle Prüfungen für alle
 								Elemente erfolgreich, wird ein positives Ergebnis zurückgegeben</li>
 						</ul>
-						War der Vergleich positiv, wird dem Spieler eine Gewinnmeldung
-						inklusive der Anzahl an benötigten Befehlen präsentiert.
-						<p></p>
+						<p>
+							War der Vergleich positiv, wird dem Spieler eine Gewinnmeldung
+							inklusive der Anzahl an benötigten Befehlen präsentiert.
+						</p>
 						<div class="panel-group scrollable" id="compareSVGs-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"
@@ -957,8 +927,7 @@ function validateColor(color)
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="compareSVGs-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function compareSVGs() {
+									<pre><code class="language-javascript">function compareSVGs() {
 	var user_svg_elements = $("#mosaics > *[id^='e']");
 	var template_svg_elements = $("#mosaics-template > *[id^='te']");
 	var template_child, user_child;
@@ -999,8 +968,7 @@ function validateColor(color)
 		// element counts were not equal 
 		return false;
 	}
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -1016,13 +984,12 @@ function validateColor(color)
 							identifizierbar macht. Das Attribut "Filename" wird zur besseren
 							Übersicht beim lesen der XML-Datei dem SVG Knoten zugefügt.</p>
 						<p>Mit den anderen abgespeicherten Elementen &lt;Dif&gt;
-							(Difficulty), &lt;Width&gt; und &lt;Length&gt; kombiniert als
+							(Difficulty), &lt;Width&gt; und &lt;Length&gt; (kombiniert als
 							Größe der SVG), sowie &lt;Category&gt; stehen später 3
 							verschiedene Suchkriterien im SVG Katalog zur Verfügung.</p>
 						<p>Damit nur sinnvolle und ordentliche SVGs im Spiel
 							erscheinen, werden im Editor erstellte SVGs nicht sofort
-							freigegeben. Ein Admin hat über eine extra per Passwort
-							geschützte Webseite die Möglichkeit, die im Editor erstellten
+							freigegeben. Ein Admin hat über eine passwortgeschützte Webseite die Möglichkeit, die im Editor erstellten
 							SVGs zu überprüfen. Auf dieser Webseite, die später noch näher
 							erläutert wird, können SVG Metadaten geändert oder auch ganze
 							SVGs gelöscht werden. Ist eine SVG in Ordnung, wird sie über das
@@ -1040,7 +1007,7 @@ function validateColor(color)
 							&lt;Height&gt;, &lt;Dif&gt;, &lt;Permitted&gt; <br>
 							&emsp;&lt;SVG-File&gt; <br> &lt;SVG Files&gt;
 						</p>
-						<p>Dazu wurde ein passendes XML-Schema festgelegt:</p>
+						<p>Dann wurde ein XML-Schema festgelegt:</p>
 						<div class="panel-group scrollable" id="XML-Schema-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"
@@ -1057,8 +1024,7 @@ function validateColor(color)
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="XML-Schema-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-markup">
+									<pre><code class="language-markup">
 &lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
 
 &lt;xsd:element name="SVGFiles" type="SVGFilesType"/&gt;
@@ -1092,8 +1058,8 @@ function validateColor(color)
 						<h2>1. Abspeicherung von SVG-Dateien und Bearbeitung der
 							XML-Datei:</h2>
 						<p>Die Datei svg_index.xml befindet sich im XML Ordner im
-							Hauptverzeichnis. Als erstes wird diese XML-Datei beim Speichern
-							von SVGs im Editor bearbeitet.</p>
+							Hauptverzeichnis. Diese XML-Datei wird beim Speichern von SVGs im 
+							Editor bearbeitet und für den Katalog im Spiel ausgelesen.</p>
 						<p>Nachdem ein User ein Muster gezeichnet hat und auf
 							Speichern klickt, werden zuerst Überprüfungen gemacht. Noch auf
 							User-Seite wird geprüft, ob etwas gezeichnet, ein Name
@@ -1102,7 +1068,7 @@ function validateColor(color)
 							ob der eingegebene Name Leer- oder falsche Sonderzeichen enthält.</p>
 						<p>Ist alles ordnungsgemäß eingetragen worden, werden per AJAX
 							die Metadaten (Name, Category, Width, Height, Difficulty) sowie
-							die SVG als String an das PHP Script "edit_svg_index.php" auf dem
+							die SVG als String an das PHP-Script "edit_svg_index.php" auf dem
 							Server geschickt.</p>
 
 						<div class="panel-group scrollable" id="inputCheck-snippets"
@@ -1121,8 +1087,7 @@ function validateColor(color)
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="inputCheck-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">
+									<pre><code class="language-javascript">
 //Check for regexp
 function regexp(){
 	var str = $('#inputFileNameToSaveAs').val();
@@ -1182,8 +1147,7 @@ function save() {
 			}
 		}
 	});
-}							</code>
-								</pre>
+}							</code></pre>
 								</div>
 							</div>
 						</div>
@@ -1213,8 +1177,7 @@ function save() {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpSave-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 &lt;?php
 // received VARIABLES
 $name = $_POST ['name'];
@@ -1281,8 +1244,7 @@ else echo "saved";
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="indexXml-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-markup">
+									<pre><code class="language-markup">
 								
 &lt;?xml version="1.0"?&gt;
 &lt;SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml/SVG_index.xsd"&gt;
@@ -1314,8 +1276,8 @@ else echo "saved";
 						<h2 id="admin-seite" class="blog-post-title">Die Admin Seite</h2>
 						<p>Die Admin-Webseite control.html gibt dem Admin oder auch
 							ausgewählten Usern die Möglichkeit, SVGs freizugeben und
-							MetaDaten zu ändern, daher ist die Webseite Passwortgeschützt.
-							Die Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit
+							Metadaten zu ändern, daher ist die Webseite mit einer Passwortabfrage geschützt.
+							Die grafische Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit
 							der Weiterentwicklung.</p>
 						<h2>1. Passwortschutz für Login</h2>
 						<p>Die Webseite hat zunächst im Body nur ein Eingabefeld und
@@ -1323,8 +1285,8 @@ else echo "saved";
 							Passwort an das login.php Script auf dem Server geschickt. Das
 							login.php Script überprüft das Passwort und wenn es richtig ist,
 							schickt das Script den eigentlichen Body Teil, der alle Elemente
-							enthält, zurück. Ist das Passwort falsch schickt das Script den
-							Body Teil mit Eingabefeld und Button zurück. Da das PHP Script
+							enthält, zurück. Ist das Passwort falsch, schickt das Script den
+							Body Teil mit Eingabefeld und Button zurück. Da das PHP-Script
 							über den Browser nicht eingesehen werden kann, gibt uns das eine
 							relativ große Sicherheit für den Zugriff auf die Admin-Webseite.</p>
 						<div class="panel-group scrollable" id="phpLogin-snippets"
@@ -1343,8 +1305,7 @@ else echo "saved";
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpLogin-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 &lt;?php
 if($_POST['passwort']=='HIER STEHT DAS PASSWORT') {
 echo'
@@ -1395,8 +1356,7 @@ echo'
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpLoad_Change-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">
+									<pre><code class="language-javascript">
 //Load unpermitted SVGs
 function load() {
     
@@ -1453,9 +1413,8 @@ function change() {
 							</div>
 						</div>
 						<br>
-						<p>Man kann sich auch alle SVGs anzeigen lassen, was sinnvoll
-							ist, wenn man sich doch noch Änderung machen möchte. Folgende
-							Änderungen sind jetzt an den SVGs machbar:</p>
+						<p>Man kann sich auch alle SVGs anzeigen lassen, wenn man doch noch an zugelassenen SVGs Änderung machen möchte. 
+						Folgende Änderungen sind jetzt an den SVGs machbar:</p>
 						<ul class="list-group">
 							<li class="list-group-item">1. Die Freigabe ändern</li>
 							<li class="list-group-item">2. Die SVG löschen</li>
@@ -1468,11 +1427,10 @@ function change() {
 							Umbennung einer SVG muss der neu eingetragenen Name wieder auf
 							Leer- und Sonderzeichen geprüft werden, das wird noch auf
 							User-Seite geprüft, auf Server-Seite wird wieder geprüft ob der
-							Name schon vergeben ist. Beim ändern der Kategorie oder des
+							Name schon vergeben ist. Beim Ändern der Kategorie oder des
 							Schwierigkeitsgrads wird auch noch auf User-Seite geprüft, ob man
-							nicht dieselbe gewählt hat. Beim löschen sollte man nicht nur den
-							SVG Child Knoten aus der XML Datei löschen, sonder die Datei auch
-							selbst.</p>
+							nicht dieselbe gewählt hat. Beim löschen wird nicht nur der SVG Child 
+							Knoten aus der XML Datei gelöscht, sondern auch die SVG Datei selbst.</p>
 						<div class="panel-group scrollable" id="jsRename-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"
@@ -1489,8 +1447,7 @@ function change() {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="jsRename-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">
+									<pre><code class="language-javascript">
 
 function rename() {
 	
@@ -1549,8 +1506,7 @@ function rename() {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpRename-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 								
 &lt;?php
 $name = $_POST ['name'];
@@ -1610,8 +1566,7 @@ echo ($name .' renamed to ' . $newName);
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpDelete-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 								
 &lt;?php
 
@@ -1661,8 +1616,7 @@ echo "deleted! please wait....";
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpChangePermission-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 &lt;?php
 $name = $_POST ['name'];
 
