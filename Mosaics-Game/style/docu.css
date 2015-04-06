@@ -49,6 +49,8 @@ display: none;
 text-decoration: none;
 color: #ffffff;
 background-color: #000;
+text-align:center;
+text-transform:uppercase;
 }
 
 .back-to-top i {
@@ -131,6 +133,12 @@ background-color: #000;
 .sidebar-module {
   padding: 15px;
   margin: 0 -15px 15px;
+}
+
+.sidebar-module-menu{
+	position: fixed;
+  	bottom: 0px;
+  	width: 19%;
 }
 .sidebar-module p{
  font-size: 14px !important;
