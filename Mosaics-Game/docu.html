@@ -58,24 +58,24 @@
 	</nav>
 
 	<div class="container">
-		<div class="blog-header">
-			<h1>
-				Documentation<br> <small>A project of students @ THM
-					Friedberg, Germany</small>
-			</h1>
-		</div>
 			<div class="row">
 				<div class="blog-main col-sm-8">
+					<div class="blog-header">
+						<h1>
+							Documentation<br> <small>A project of students @ THM
+								Friedberg, Germany</small>
+						</h1>
+					</div>
 					<div>
 						<h2 id="syntax" class="blog-post-title">Syntax</h2>
-						<h2>Befehl</h2>
+						<h2>1. Befehl</h2>
 						<p>
 							Die allgemeine Befehlssyntax ist folgendermaßen aufgebaut:
 							&lt;Befehlsname&gt;(&lt;Parameter1&gt;,...&lt;ParameterN&gt;)<br>
 							Es gibt folgende gültige Befehlsnamen: square, circle, rectangle,
 							line, triangle und clearcell.
 						</p>
-						<h2>Parameter</h2>
+						<h2>2. Parameter</h2>
 						<p>
 							Parametertypen gibt es folgende: &lt;Position&gt;,
 							&lt;Breite/Höhe&gt;, &lt;Punkt&gt; und &lt;Farbe&gt;.<br>
@@ -85,7 +85,7 @@
 							silver, teal und yellow.<br> Die Positions- und Punktsyntax
 							sind etwas komplizierter.
 						</p>
-						<h3>Position</h3>
+						<h3>2.1 Position</h3>
 						<p>
 							Die Positionssyntax ist folgendermaßen aufgebaut:
 							&lt;Spalte&gt;,&lt;Zeile&gt;<br> Die Syntax von
@@ -99,7 +99,7 @@
 							Für die Start- und Endposition und die Schrittweite werden
 							Integer erwartet.
 						</p>
-						<h3>(Anker-)Punkte</h3>
+						<h3>2.2 (Anker-)Punkte</h3>
 						<p>
 							Die Punktsyntax hat den folgenden Aufbau:
 							&lt;Horizontalankerpunkt&gt;&lt;Vertikalankerpunkt&gt;<br>
@@ -118,7 +118,7 @@
 						<h2 id="parsen-des-befehls" class="blog-post-title">Parsen des Befehls</h2>
 						<p>Bevor ein Befehl ausgeführt wird, wird dieser geparst und
 							anschließend die Parameter validiert.</p>
-						<h2>Vorgehensweise</h2>
+						<h2>1. Vorgehensweise</h2>
 						<p>Beim Parsen wird Folgendes in folgender Reihenfolge
 							geprüft:</p>
 						<ul class="list-group">
@@ -128,28 +128,30 @@
 							<li class="list-group-item">3. Die Anzahl der angegebenen
 								Parameter</li>
 						</ul>
-						Bei falschen Eingaben wird der Benutzer über die erste
-						Falscheingabe entsprechend informiert.
-						<p></p>
-						<h2>Umsetzung</h2>
-						<h3>Initialisierung</h3>
+						<p>
+							Bei falschen Eingaben wird der Benutzer über die erste
+							Falscheingabe entsprechend informiert.
+						</p>
+						<h2>2. Umsetzung</h2>
+						<h3>2.1 Initialisierung</h3>
 						<p>Die Funktion zum Parsen des Befehls namens “parseCommand”
 							bekommt die eingegebene Zeile des Benutzers als Parameter. Zuerst
 							wird diese Zeile mittels der öffnenden Klammer in mehrere Teile
 							getrennt. Erwartet werden zwei Teile: Der Name des Befehls und
 							die Befehlsparameter.</p>
-						<h3>Befehlsname (siehe Code-Snippet zu "validateCmdName")</h3>
+						<h3>2.2 Befehlsname</h3>
+						<p>(siehe Code-Snippet zu "validateCmdName")</p>
 						<p>Zur Validierung, dass ein gültiger Befehlsname angegeben
 							wurde, wird eine Switch/Case-Struktur verwendet. Ist der
 							Befehlsname gültig, wird die erwartete Anzahl an Parametern für
 							diesen Befehl zurückgegeben, andernfalls wird -1 zurückgegeben.
 							Der Rückgabewert wird demzufolge auf Gleichheit mit -1 überprüft.</p>
-						<h3>Klammern</h3>
+						<h3>2.3 Klammern</h3>
 						<p>Zur Validierung des Vorhandenseins der Klammern wird die
 							String-Methode indexOf verwendet. Ist das gesuchte Zeichen nicht
 							im String vorhanden gibt diese Funktion den Wert -1 zurück. Auch
 							hier wird auf diesen Wert geprüft.</p>
-						<h4>Besonderheit</h4>
+						<h4>2.3.1 Besonderheit</h4>
 						<p>Des Weiteren musste festgestellt werden, dass nur eine
 							öffnende Klammer angegeben wurde, da man anhand dieser die
 							Befehlszeile in zwei Teile auftrennt. Um dies festzustellen, wird
@@ -157,8 +159,8 @@
 							dann initialisiert, wenn das Array mit den durch die öffnende
 							Klammer aufgeteilten Strings genau 2 Strings enthält. Diese
 							Variable wird dementsprechend auf den Wert undefined geprüft.</p>
-						<h3>Parameteranzahl (siehe Code-Snippet zu
-							"validateNumberOfParams")</h3>
+						<h3>2.4 Parameteranzahl</h3>
+						<p>siehe Code-Snippet zu "validateNumberOfParams"</p>
 						<p>Zur Validierung der Parameteranzahl wird die bereits oben
 							erwähnte Switch/Case-Struktur verwendet. Zusätzlich wird noch
 							überprüft, ob eine Standardfarbe ausgewählt wurde. Ist das der
@@ -184,8 +186,7 @@
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="parseCommand-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function parseCommand(cmdLine) {
+									<pre><code class="language-javascript">function parseCommand(cmdLine) {
 	var cmdAndParams = cmdLine.split("(");
 	var cmd = cmdAndParams[0], params;
 
@@ -213,8 +214,7 @@
 	
 	if ($("#err").html().length == 0) return true;
 	else return false;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -232,8 +232,7 @@
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateCmdName-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateCmdName(cmd) {
+									<pre><code class="language-javascript">function validateCmdName(cmd) {
 	return (requiredParamCountForCmd(cmd) != -1);
 }
 
@@ -251,8 +250,7 @@ function requiredParamCountForCmd(cmd) {
 		
 		default:			return -1;
 	}
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -271,8 +269,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateNumberOfParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateNumberOfParams(cmd, params) {
+									<pre><code class="language-javascript">function validateNumberOfParams(cmd, params) {
 	var paramCount = requiredParamCountForCmd(cmd);
 	
 	if($("#color_dropdown").val() != "(None)" &&
@@ -283,8 +280,7 @@ function requiredParamCountForCmd(cmd) {
 		return false;
 
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
@@ -299,9 +295,10 @@ function requiredParamCountForCmd(cmd) {
 								Fläche (bei Dreiecksbefehl)</li>
 							<li class="list-group-item">4. Farbe</li>
 						</ul>
-						Bei falschen Eingaben wird der Benutzer über die erste
-						Falscheingabe entsprechend informiert.
-						<p></p>
+						<p>
+							Bei falschen Eingaben wird der Benutzer über die erste
+							Falscheingabe entsprechend informiert.
+						</p>
 						<div class="panel-group scrollable"
 							id="validateParameters-snippets" role="tablist"
 							aria-multiselectable="true" style="height: 100%;">
@@ -320,8 +317,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateParameters-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateParameters(cmdLine) {
+									<pre><code class="language-javascript">function validateParameters(cmdLine) {
 	var cmdAndParams = cmdLine.split("(");
 	var cmd = cmdAndParams[0], params = cmdAndParams[1];
 	
@@ -336,12 +332,11 @@ function requiredParamCountForCmd(cmd) {
 	if(!validateColorParam(cmd, params)) return 0;
 
 	return 1;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
-						<h2>Position</h2>
+						<h2>1. Position</h2>
 						<p>Zur Validierung der Positionsangaben für die Spalte und
 							Zeile werden diese in ein Objekt positionRanges umgewandelt und
 							mit einer entsprechenden Methode validiert. Das Objekt teilt die
@@ -351,7 +346,7 @@ function requiredParamCountForCmd(cmd) {
 							in der angegebenen Reihenfolge zuerst für die Spalte und danach
 							für die Zeile überprüft. Der Benutzer wird über alle falschen aus
 							den 6 möglichen Angaben informiert.</p>
-						<h3>Start- und Endposition</h3>
+						<h3>1.1 Start- und Endposition</h3>
 						<p>
 							Die Start- und Endpositionen werden jeweils 4 Prüfungen
 							unterzogen:<br> Ist die Positionsangabe...
@@ -364,11 +359,12 @@ function requiredParamCountForCmd(cmd) {
 								erlaubten Wert (variabel je nach Mosaikgröße)</li>
 							<li class="list-group-item">ein Integer</li>
 						</ul>
-						Bestehen die Positionsangaben die Prüfungen, so sind sie valide.
-						Programmiertechnisch wird auf das Gegenteil geprüft und ein
-						Fehlermeldungstext bei positivem Ergebnis generiert.
-						<p></p>
-						<h3>Schrittweite</h3>
+						<p>
+							Bestehen die Positionsangaben die Prüfungen, so sind sie valide.
+							Programmiertechnisch wird auf das Gegenteil geprüft und ein
+							Fehlermeldungstext bei positivem Ergebnis generiert.
+						</p>
+						<h3>1.2 Schrittweite</h3>
 						<p>Die Schrittweite darf entweder positiv- oder
 							negativ-gannzahlig sein. Null darf sie nicht sein. Ist die
 							Endposition kleiner als die Startposition, so ist eine negative
@@ -400,8 +396,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validatePositionParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validatePositionParams(cmd, params) {
+									<pre><code class="language-javascript">function validatePositionParams(cmd, params) {
 	var posRanges;
 
 	if(cmd == "rectangle") posRanges = rectangleRanges(params);
@@ -415,8 +410,7 @@ function requiredParamCountForCmd(cmd) {
 	}
 	
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -434,13 +428,11 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="rectangleRanges-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function rectangleRanges(params) {
+									<pre><code class="language-javascript">function rectangleRanges(params) {
 	var colRangeStr = params[0] + ":" + (Number(params[0]) + Number(params[2]) - 1).toString();
 	var rowRangeStr = params[1] + ":" + (Number(params[1]) + Number(params[3]) - 1).toString();
 	return new positionRanges(colRangeStr,rowRangeStr);
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -457,8 +449,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="positionRange-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function positionRange(rangeStr) {
+									<pre><code class="language-javascript">function positionRange(rangeStr) {
 	var range = rangeStr.split(":");
 	
 	if (range.length == 3) {
@@ -491,8 +482,7 @@ function requiredParamCountForCmd(cmd) {
 		return  (this.to-this.from >= 0 && this.inc > 0 &&
 				this.inc == parseInt(this.inc) )
 	};
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -510,8 +500,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="positionRanges-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function positionRanges(colStr, rowStr) {
+									<pre><code class="language-javascript">function positionRanges(colStr, rowStr) {
 	this.colRange = new positionRange(colStr);
 	this.rowRange = new positionRange(rowStr);
 	
@@ -577,13 +566,12 @@ function requiredParamCountForCmd(cmd) {
 		if(err) return errMsg + ").";
 		else return undefined;
 	};
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 
 						</div>
-						<h2>Punkte (Linie und Dreieck)</h2>
+						<h2>2. Punkte (Linie und Dreieck)</h2>
 						<p>Zur Validierung eines Punktes wird zuerst geprüft, ob genau
 							zwei Ankerpunkte (also zwei Buchstaben) angegeben wurden. Ist
 							dies der Fall wird anschließend geprüft, ob die erste Angabe ein
@@ -607,8 +595,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validatePoint-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validatePoint(p) {
+									<pre><code class="language-javascript">function validatePoint(p) {
 	var validYParts = 	["t","c","b"];
 	var validXParts = 	["l","c","r"];
 	
@@ -618,12 +605,11 @@ function requiredParamCountForCmd(cmd) {
 		(validYParts.indexOf(p[1]) != -1 && validXParts.indexOf(p[0]) != -1 ) )
 		return true;
 	else return false;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
-						<h2>Linie</h2>
+						<h2>3. Linie</h2>
 						<p>Zur Validierung einer Linie wird überprüft, ob die
 							angegebenen Punkte valide und verschieden sind.</p>
 						<div class="panel-group scrollable"
@@ -644,8 +630,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateLineParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateLineParams(cmd, params) {
+									<pre><code class="language-javascript">function validateLineParams(cmd, params) {
 	if(cmd.indexOf("line") != -1) {
 		var errMsg = validateLine(params[2].toLowerCase(), params[3].toLowerCase());
 		
@@ -655,8 +640,7 @@ function requiredParamCountForCmd(cmd) {
 		}
 	}
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -674,16 +658,14 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateLine-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateLine(p1,p2) {
+									<pre><code class="language-javascript">function validateLine(p1,p2) {
 	if(validatePoint(p1) && validatePoint(p2)) {
 		var p1o = pointOffset(p1), p2o = pointOffset(p2);
 		if (p1o[0] != p2o[0] || p1o[1] != p2o[1])
 			return undefined;
 		else return "Invalid line (points are equal).";
 	} else return "Invalid points.";
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -700,8 +682,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="pointOffset-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function pointOffset(p) {
+									<pre><code class="language-javascript">function pointOffset(p) {
 	var validYParts = [ "t", "c", "b" ];
 	var validXParts = [ "l", "c", "r" ];
 	var offsets = [ 2, cellsize / 2 + 1, cellsize ];
@@ -718,17 +699,16 @@ function requiredParamCountForCmd(cmd) {
 		pOffset[1] = offsets[validYParts.indexOf(p[1])];
 	}
 	return pOffset;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
-						<h2>Dreieck</h2>
+						<h2>4. Dreieck</h2>
 						<p>Zur Validierung eines Dreicks wird zuerst überprüft, ob die
 							angegebenen Punkte valide sind. Ist dies der Fall wird
 							anschließend überprüft, ob die drei angegebenen Punkte eine
 							Fläche “aufspannen”.</p>
-						<h3>Dreiecksfläche</h3>
+						<h3>4.1 Dreiecksfläche</h3>
 						<p>
 							Um festzustellen, ob die angegebenen Punkte für das Dreieck eine
 							Fläche “aufspannen”, wird eine Vektorformel verwendet. Zuerst
@@ -761,8 +741,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateTriangleParams-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateTriangleParams(cmd, params) {
+									<pre><code class="language-javascript">function validateTriangleParams(cmd, params) {
 	if(cmd.indexOf("triangle") != -1) {
 		var i = 2;
 		
@@ -777,8 +756,7 @@ function requiredParamCountForCmd(cmd) {
 		}
 	}
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -796,15 +774,13 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateTriangle-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateTriangle(p1,p2,p3) {
+									<pre><code class="language-javascript">function validateTriangle(p1,p2,p3) {
 	var p1o = pointOffset(p1), p2o = pointOffset(p2), p3o = pointOffset(p3);
 	var p1v = new vector(p1o), p2v = new vector(p2o), p3v = new vector(p3o);
 	var a = p1v.sub(p2v), b = p1v.sub(p3v);
 
 	return (a.x*b.y-a.y*b.x != 0);
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -821,8 +797,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="vector-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function vector(point) {
+									<pre><code class="language-javascript">function vector(point) {
 	if(point != null) {
 		this.x = point[0];
 		this.y = point[1];		
@@ -837,12 +812,11 @@ function requiredParamCountForCmd(cmd) {
 		ret.y = this.y - v.y;
 		return ret;
 	};
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
-						<h2>Farbe (optionaler Parameter)</h2>
+						<h2>5. Farbe (optionaler Parameter)</h2>
 						<p>Da die Menge der validen Farben in einem globalen Array
 							hinterlegt ist, wird der Einfachheit halber geprüft, ob die
 							angegebene Farbe im Array vorhanden ist. Bei Verwendung des
@@ -867,8 +841,7 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateColorParam-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function validateColorParam(cmd, params) {
+									<pre><code class="language-javascript">function validateColorParam(cmd, params) {
 	if(cmd.indexOf("clearcell") == -1 && params.length == requiredParamCountForCmd(cmd)) {
 		if(!validateColor(params[params.length-1])) {
 			$("#err").html("Invalid color.");
@@ -876,8 +849,7 @@ function requiredParamCountForCmd(cmd) {
 		}		
 	}
 	return true;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 							<a class="collapsed" data-toggle="collapse"
@@ -895,19 +867,17 @@ function requiredParamCountForCmd(cmd) {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="validateColor-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
+									<pre><code class="language-javascript">var validColors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime",
 					"maroon", "navy", "olive", "orange", "purple", "red", "silver", "teal", "yellow" ];
 
 function validateColor(color)
 {
 	return validColors.indexOf(color) != -1;
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
-						<h2>Vergleich des kreierten Mosaiks mit dem Muster</h2>
+						<h2>6. Vergleich des kreierten Mosaiks mit dem Muster</h2>
 						<p>Um zu ermitteln, ob das durch Befehle erstellte Mosaik mit
 							dem Muster-Mosaik identisch ist und das Spiel damit gewonnen
 							wurde, wird wie folgt vorgegangen:</p>
@@ -937,9 +907,10 @@ function validateColor(color)
 							<li class="list-group-item">7. Waren alle Prüfungen für alle
 								Elemente erfolgreich, wird ein positives Ergebnis zurückgegeben</li>
 						</ul>
-						War der Vergleich positiv, wird dem Spieler eine Gewinnmeldung
-						inklusive der Anzahl an benötigten Befehlen präsentiert.
-						<p></p>
+						<p>
+							War der Vergleich positiv, wird dem Spieler eine Gewinnmeldung
+							inklusive der Anzahl an benötigten Befehlen präsentiert.
+						</p>
 						<div class="panel-group scrollable" id="compareSVGs-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"
@@ -956,8 +927,7 @@ function validateColor(color)
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="compareSVGs-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">function compareSVGs() {
+									<pre><code class="language-javascript">function compareSVGs() {
 	var user_svg_elements = $("#mosaics > *[id^='e']");
 	var template_svg_elements = $("#mosaics-template > *[id^='te']");
 	var template_child, user_child;
@@ -998,12 +968,13 @@ function validateColor(color)
 		// element counts were not equal 
 		return false;
 	}
-}</code>
-								</pre>
+}</code></pre>
 								</div>
 							</div>
 						</div>
 						<br>
+					  	<h2 id="syntax-und-selektor" class="blog-post-title">Syntaxkatalog und SVG-Selektor</h2>
+						<h2 id="scores" class="blog-post-title">Highscores</h2>
 						<h2 id="speichern-und-katalogisieren" class="blog-post-title">Speichern und Katalogisieren der
 							SVG Grafiken</h2>
 						<p>Um einen Überblick über alle vorhandenen SVGs und deren
@@ -1055,8 +1026,7 @@ function validateColor(color)
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="XML-Schema-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-markup">
+									<pre><code class="language-markup">
 &lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
 
 &lt;xsd:element name="SVGFiles" type="SVGFilesType"/&gt;
@@ -1087,7 +1057,7 @@ function validateColor(color)
 								</div>
 							</div>
 						</div>
-						<h2>Abspeicherung von SVG-Dateien und Bearbeitung der
+						<h2>1. Abspeicherung von SVG-Dateien und Bearbeitung der
 							XML-Datei:</h2>
 						<p>Die Datei svg_index.xml befindet sich im XML Ordner im
 							Hauptverzeichnis. Diese XML-Datei wird beim Speichern von SVGs im 
@@ -1119,8 +1089,7 @@ function validateColor(color)
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="inputCheck-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">
+									<pre><code class="language-javascript">
 //Check for regexp
 function regexp(){
 	var str = $('#inputFileNameToSaveAs').val();
@@ -1180,8 +1149,7 @@ function save() {
 			}
 		}
 	});
-}							</code>
-								</pre>
+}							</code></pre>
 								</div>
 							</div>
 						</div>
@@ -1211,8 +1179,7 @@ function save() {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpSave-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 &lt;?php
 // received VARIABLES
 $name = $_POST ['name'];
@@ -1279,8 +1246,7 @@ else echo "saved";
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="indexXml-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-markup">
+									<pre><code class="language-markup">
 								
 &lt;?xml version="1.0"?&gt;
 &lt;SVGFiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../xml/SVG_index.xsd"&gt;
@@ -1309,13 +1275,13 @@ else echo "saved";
 								</div>
 							</div>
 						</div>
-						<h2 id="admin-seite" class="blog-post-title">Die Admin Seite</h2>
-						<p>Die Admin-Webseite control.html gibt dem Admin oder auch
+						<h2 id="admin-seite" class="blog-post-title">Adminseite</h2>
+						<p>Die Adminseite control.html gibt dem Admin oder auch
 							ausgewählten Usern die Möglichkeit, SVGs freizugeben und
 							Metadaten zu ändern, daher ist die Webseite mit einer Passwortabfrage geschützt.
 							Die grafische Berarbeitung von vorhanden SVGs wäre hier eine Möglichkeit
 							der Weiterentwicklung.</p>
-						<h2>Passwortschutz für Login:</h2>
+						<h2>1. Passwortschutz für Login</h2>
 						<p>Die Webseite hat zunächst im Body nur ein Eingabefeld und
 							ein Button. Beim klicken auf den Login Button wird das eingebene
 							Passwort an das login.php Script auf dem Server geschickt. Das
@@ -1341,8 +1307,7 @@ else echo "saved";
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpLogin-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 &lt;?php
 if($_POST['passwort']=='HIER STEHT DAS PASSWORT') {
 echo'
@@ -1369,7 +1334,7 @@ echo'
 								</div>
 							</div>
 						</div>
-						<h2>Anzeige und Bearbeitung von SVGs:</h2>
+						<h2>2. Anzeige und Bearbeitung von SVGs</h2>
 						<p>Zuerst sollte angezeigt werden, welche neuen SVGs
 							gespeichert wurden und auf eine Freigabe warten. Mit der JS
 							Funktion load, werden nur die SVGs in die Tabelle geladen deren
@@ -1393,8 +1358,7 @@ echo'
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpLoad_Change-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">
+									<pre><code class="language-javascript">
 //Load unpermitted SVGs
 function load() {
     
@@ -1485,8 +1449,7 @@ function change() {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="jsRename-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-javascript">
+									<pre><code class="language-javascript">
 
 function rename() {
 	
@@ -1545,8 +1508,7 @@ function rename() {
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpRename-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 								
 &lt;?php
 $name = $_POST ['name'];
@@ -1606,8 +1568,7 @@ echo ($name .' renamed to ' . $newName);
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpDelete-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 								
 &lt;?php
 
@@ -1657,8 +1618,7 @@ echo "deleted! please wait....";
 								class="panel-collapse collapse" role="tabpanel"
 								aria-labelledby="phpChangePermission-h">
 								<div class="panel-body">
-									<pre>
-									<code class="language-php">
+									<pre><code class="language-php">
 &lt;?php
 $name = $_POST ['name'];
 
@@ -1704,15 +1664,18 @@ echo $permStr;
 		            <h4>Über</h4>
 		            <p>THM-Projekt von Farah Zeb Tahir, Sebastian Sopp und Martin Heller. Umgesetzt im Rahmen des Moduls "Dokumentationsmanagement", WS 2014/15.</p>
 		          </div>
-		          <div class="sidebar-module">
+		          <div class="sidebar-module sidebar-module-menu">
 		            <h4>Menü</h4>
 		            <ol class="list-unstyled">
 		              <li><a href="#syntax">Syntax</a></li>
 		              <li><a href="#parsen-des-befehls">Parsen des Befehls</a></li>
 		              <li><a href="#validierung-der-parameter">Validierung der Parameter</a></li>
 		              <li><a href="#speichern-und-katalogisieren">Speichern und Katalogisieren der
-							SVG Grafiken</a></li>
-		              <li><a href="#admin-seite">Die Admin Seite</a></li>
+							SVG-Grafiken</a></li>
+					  <li><a href="#syntax-und-selektor">Syntaxkatalog und SVG-Selektor</a></li>
+					  <li><a href="#scores">Highscores</a></li>
+		              <li><a href="#admin-seite">Adminseite</a></li>
+		              
 		            </ol>
 		          </div>
 		        </div><!-- /.blog-sidebar -->
