@@ -9,10 +9,10 @@ $svg = $xml->xpath('/SVGFiles/SVG[Name="'.$name .'"]');
 //Change Permission to opposite
 if ($svg[0]->Permitted =="false"){
 	$svg[0]->Permitted ="true";
-	$permStr = "permitted! please wait...";
+	$permStr = "permitting! please wait...";
 } else {
 	$svg[0]->Permitted ="false";
-	$permStr = "unpermitted! please wait...";
+	$permStr = "unpermitting! please wait...";
 }
 
 // Format XML and save

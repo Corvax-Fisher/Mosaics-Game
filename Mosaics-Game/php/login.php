@@ -61,7 +61,7 @@ echo'
 				$("#liste option:contains("+lastSelected+")").attr("selected", "selected");
 				}
 			});
-			$("#prompt").text(anz + " SVGs");
+			$("#prompt").text(anz + " SVGs in total");
 		});
 	}
 
@@ -163,6 +163,7 @@ echo'
 						$("#prompt").text(response);
 						if (response != "Name is already taken!") {
 							setTimeout(function() {
+								lastSelected=newName;
 								if (setLoad == "load") {
 									load();
 								} else {
@@ -258,7 +259,7 @@ echo'
 	<button type="button" onclick="loadAll()">Load All</button>
 	<p>
 		<select id="liste" name="unpermitted svgs" size="8"
-			onclick="change()">
+			onclick="change()" onchange="change()">
 			</select>
 	</p>
 	<label id="prompt" style="color: red; font-size: 14pt"></label>

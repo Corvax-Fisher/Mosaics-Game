@@ -12,7 +12,7 @@ foreach ( $xml->SVG as $child ) {
 	$str = mb_strtolower(( string ) $child->Name);
 
 	if ($str == $newName_low) {
-		echo ("Name already taken!");
+		echo ("Name is already taken!");
 		return;
 	}
 }
@@ -32,5 +32,5 @@ $dom->save ( '../xml/svg_index.xml' );
 
 //Rename File
 rename('../svgs/' . $name . '.svg','../svgs/' . $newName . '.svg');
-echo ($name .' renamed to ' . $newName);
+echo ($name .' renamed to ' . $newName . '! please wait...');
 ?>
