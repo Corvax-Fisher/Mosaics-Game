@@ -972,140 +972,7 @@ function validateColor(color)
 								</div>
 							</div>
 						</div>
-						<br>
-					  	<h2 id="syntax-und-selektor" class="blog-post-title">Syntaxkatalog und SVG-Selektor</h2>					  	
-					  	<p>Zur Umsetzung wurden die Daten des Katalogs und des SVG-Selektors aus vorher erstellten XML-Dateien 
-					  	ausgelesen und angezeigt, wobei auch Spezialfälle beachtet werden mussten.</p>
-					  	<h2>1. Syntaxkatalog</h2>
-					  	<br><img width="340" height="260" alt="" src="images/syntaxkatalog.png"><br>
-					  	<p>
-					  	Der Syntaxkatalog wurde zur Erleichterung des Nutzers erstellt. Somit
-					  	hat er eine Übersicht über alle möglichen Commands, die er ausführen kann.
-					  	Damit der Katalog möglichst wenig Platz einnimmt, wurden die
-					  	einzelnen Punkte in Akkordions angezeigt.					  	 
-					  	</p>
-					  	<div class="panel-group scrollable" id="syntaxkatalog-b-snippets"
-							role="tablist" aria-multiselectable="true" style="height: 100%;">
-							<a class="collapsed" data-toggle="collapse"
-								data-parent="#syntaxkatalog-b-snippets" href="#syntaxkatalog-b"
-								aria-expanded="false" aria-controls="syntaxkatalog-b">
-								<div class="panel panel-default">
-									<div id="syntaxkatalog-h" class="panel-heading" role="tab">
-										<h2 class="panel-title" style="text-align: center;">
-											Code-Snippet zu "Syntaxkatalog auslesen"</h2>
-									</div>
-								</div>
-							</a>
-							<div aria-expanded="false" id="syntaxkatalog-b"
-								class="panel-collapse collapse" role="tabpanel"
-								aria-labelledby="syntaxkatalog-h">
-								<div class="panel-body">
-									<pre><code class="language-javascript">$.post("xml/syntax.xml", function(data) {
-		$syntax = $(data).find("syntax");
-		for (var i=0;i<$syntax.length;i++) {
-			$("#accordion").append(
-					...
-		}
-	});</code></pre>
-								</div>
-							</div>
-						</div>
-						<h2>2. SVG-Selektor</h2>
-						<br><img width="570" height="140" alt="" src="images/svg-selektor.png"><br>
-						<p>Die Daten für die Vorschau der SVGs wurden aus der vorhandenen XML Datei ausgelesen 
-						und angezeigt. Dabei mussten folgende Fälle beachtet werden:</p>
-						<ul class="list-group">
-							<li class="list-group-item">Nur die von dem Admin permittete SVGs werden angezeigt</li>
-							<li class="list-group-item">Pro Slide werden genau 4 SVGs angezeigt</li>							
-							<li class="list-group-item">Anzeige kann nach Kategorie und Schwierigkeitsgrad gefiltert werden</li>
-						</ul>
-						<p>Bei der gefilterten Anzeige musste beachtet werden, dass auch 
-						beide Filter gleichzeitig angewendet werden können. Dazu wurde jedes Mal die Anzeige geleert
-						und der Funktion zwei Parameter übergeben: "Wert der Kategorie" und 
-						"Wert des Schwierigkeitsgrades". Wenn nichts ausgewählt war, wurde 
-						jeweils "Alle Kategorien" und "Alle Schwierigkeitsgrade" übergeben.
-						Mit diesen Werten wurde dann im Algorithmus gearbeitet. Zur Anzeige
-						wurde die Karousel-Komponente von Bootstrap verwendet.
-						</p>
-						<div class="panel-group scrollable" id="svg-selector-b-snippets"
-							role="tablist" aria-multiselectable="true" style="height: 100%;">
-							<a class="collapsed" data-toggle="collapse"
-								data-parent="#svg-selector-b-snippets" href="#svg-selector-b"
-								aria-expanded="false" aria-controls="svg-selector-b">
-								<div class="panel panel-default">
-									<div id="svg-selector-h" class="panel-heading" role="tab">
-										<h2 class="panel-title" style="text-align: center;">
-											Code-Snippet zu "SVGs im Selektor anzeigen"</h2>
-									</div>
-								</div>
-							</a>
-							<div aria-expanded="false" id="svg-selector-b"
-								class="panel-collapse collapse" role="tabpanel"
-								aria-labelledby="svg-selector-h">
-								<div class="panel-body">
-									<pre><code class="language-javascript">//two parameters: category value and level value
-function showPatternCatalogue(cvalue,lvalue) {
-	//empty the selector
-	$(".carousel-indicators").empty();
-	$(".carousel-inner").empty();
-	
-	var z = 0, ccvalue, llvalue;
-	
-	for (var i = 0; i < $svg.length; i++) {
-		//only permitted nodes will be shown
-		if ($svg.find('Permitted').eq(i).text() == 'true'){
-			
-			ccvalue = $svg.find('Category').eq(i).text() == cvalue;
-			llvalue = $svg.find('Dif').eq(i).text() == lvalue;
-			
-			if (	(ccvalue && llvalue) || 
-					(ccvalue && lvalue == "All levels") || 
-					(llvalue && cvalue == "All categories") || 
-					(cvalue == "All categories" && lvalue == "All levels")) {
-				//if there are 4 elements in one row, begin a new slide page
-				if (z%4 == 0) {
-					$(".carousel-indicators").append(...
-					
-					);
-				}
-				//element is appended to the slide
-				appendPattern($svg.eq(i));
-				z++;		
-			}
-		}
-	}
-	
-	...
-	
-	//click function to show the selected svg in the game for preview
-	$( ".carousel-caption .row .col-md-3" ).click(function() {
-		var svgpath = $(this).find("img").attr("src");
-		loadSVGs(svgpath);
-		
-		...
-		
-	});
-
-}</code></pre>
-								</div>
-							</div>
-						</div>
-						<br>
-						<h2 id="scores" class="blog-post-title">Highscores</h2>
-						<br><img width="408" height="310" alt="" src="images/scores.png"><br>
-						<p>Die Highscoreliste wurde zur Motivation des Users implementiert.
-						Dadurch hat er den Ansporn, besser als die anderen User zu werden, indem er
-						weniger Commands für das Mosaic benutzt.</p>
-						<p>Die Daten aller Highscores werden in einer XML abgespeichert und 
-						von dort ausgelesen. Bei der Speicherung musste beachtet werden, dass nur
-						die 10 Besten der jeweiligen SVG gespeichert werden, und kein Name doppelt 
-						eingetragen werden darf. Wenn der Name bereits vorhanden ist, wird nachgeschaut,
-						ob die Anzahl der Commands sich verbessert hat. Wenn dies der Fall ist, wird 
-						die bessere Anzahl an Commands eingetragen.</p>
-						<p>Beim Auslesen und Anzeigen der Scores XML muss beachtet werden, dass nur die 
-						Elemente angezeigt werden, die zu dem ausgewählten Mosaic gehören. 
-						Außerdem muss die Liste vorerst sortiert werden nach den Anzahl der Commands, 
-						die gebraucht wurden.</p>
+						<br>						
 						<h2 id="speichern-und-katalogisieren" class="blog-post-title">Speichern und Katalogisieren der
 							SVG Grafiken</h2>
 						<p>Um einen Überblick über alle vorhandenen SVGs und deren
@@ -1403,6 +1270,260 @@ else echo "saved";
 								</code>
 									</pre>
 									<code></code>
+								</div>
+							</div>
+						</div>
+											  	<h2 id="syntax-und-selektor" class="blog-post-title">Syntaxkatalog und SVG-Selektor</h2>					  	
+					  	<p>Zur Umsetzung wurden die Daten des Katalogs und des SVG-Selektors aus vorher erstellten XML-Dateien 
+					  	ausgelesen und angezeigt, wobei auch Spezialfälle beachtet werden mussten.</p>
+					  	<h2>1. Syntaxkatalog</h2>
+					  	<br><img width="340" height="260" alt="" src="images/syntaxkatalog.png"><br>
+					  	<p>
+					  	Der Syntaxkatalog wurde zur Erleichterung des Nutzers erstellt. Somit
+					  	hat er eine Übersicht über alle möglichen Commands, die er ausführen kann.
+					  	Damit der Katalog möglichst wenig Platz einnimmt, wurden die
+					  	einzelnen Punkte in Akkordions angezeigt.					  	 
+					  	</p>
+					  	<div class="panel-group scrollable" id="syntaxkatalog-b-snippets"
+							role="tablist" aria-multiselectable="true" style="height: 100%;">
+							<a class="collapsed" data-toggle="collapse"
+								data-parent="#syntaxkatalog-b-snippets" href="#syntaxkatalog-b"
+								aria-expanded="false" aria-controls="syntaxkatalog-b">
+								<div class="panel panel-default">
+									<div id="syntaxkatalog-h" class="panel-heading" role="tab">
+										<h2 class="panel-title" style="text-align: center;">
+											Code-Snippet zu "Syntaxkatalog auslesen"</h2>
+									</div>
+								</div>
+							</a>
+							<div aria-expanded="false" id="syntaxkatalog-b"
+								class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="syntaxkatalog-h">
+								<div class="panel-body">
+									<pre><code class="language-javascript">$.post("xml/syntax.xml", function(data) {
+		$syntax = $(data).find("syntax");
+		for (var i=0;i<$syntax.length;i++) {
+			$("#accordion").append(
+					...
+		}
+	});</code></pre>
+								</div>
+							</div>
+						</div>
+						<h2>2. SVG-Selektor</h2>
+						<br><img width="570" height="140" alt="" src="images/svg-selektor.png"><br>
+						<p>Die Daten für die Vorschau der SVGs wurden aus der vorhandenen XML Datei ausgelesen 
+						und angezeigt. Dabei mussten folgende Fälle beachtet werden:</p>
+						<ul class="list-group">
+							<li class="list-group-item">Nur die von dem Admin permittete SVGs werden angezeigt</li>
+							<li class="list-group-item">Pro Slide werden genau 4 SVGs angezeigt</li>							
+							<li class="list-group-item">Anzeige kann nach Kategorie und Schwierigkeitsgrad gefiltert werden</li>
+						</ul>
+						<p>Bei der gefilterten Anzeige musste beachtet werden, dass auch 
+						beide Filter gleichzeitig angewendet werden können. Dazu wurde jedes Mal die Anzeige geleert
+						und der Funktion zwei Parameter übergeben: "Wert der Kategorie" und 
+						"Wert des Schwierigkeitsgrades". Wenn nichts ausgewählt war, wurde 
+						jeweils "Alle Kategorien" und "Alle Schwierigkeitsgrade" übergeben.
+						Mit diesen Werten wurde dann im Algorithmus gearbeitet. Zur Anzeige
+						wurde die Karousel-Komponente von Bootstrap verwendet.
+						</p>
+						<div class="panel-group scrollable" id="svg-selector-b-snippets"
+							role="tablist" aria-multiselectable="true" style="height: 100%;">
+							<a class="collapsed" data-toggle="collapse"
+								data-parent="#svg-selector-b-snippets" href="#svg-selector-b"
+								aria-expanded="false" aria-controls="svg-selector-b">
+								<div class="panel panel-default">
+									<div id="svg-selector-h" class="panel-heading" role="tab">
+										<h2 class="panel-title" style="text-align: center;">
+											Code-Snippet zu "SVGs im Selektor anzeigen"</h2>
+									</div>
+								</div>
+							</a>
+							<div aria-expanded="false" id="svg-selector-b"
+								class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="svg-selector-h">
+								<div class="panel-body">
+									<pre><code class="language-javascript">//two parameters: category value and level value
+function showPatternCatalogue(cvalue,lvalue) {
+	//empty the selector
+	$(".carousel-indicators").empty();
+	$(".carousel-inner").empty();
+	
+	var z = 0, ccvalue, llvalue;
+	
+	for (var i = 0; i < $svg.length; i++) {
+		//only permitted nodes will be shown
+		if ($svg.find('Permitted').eq(i).text() == 'true'){
+			
+			ccvalue = $svg.find('Category').eq(i).text() == cvalue;
+			llvalue = $svg.find('Dif').eq(i).text() == lvalue;
+			
+			if (	(ccvalue && llvalue) || 
+					(ccvalue && lvalue == "All levels") || 
+					(llvalue && cvalue == "All categories") || 
+					(cvalue == "All categories" && lvalue == "All levels")) {
+				//if there are 4 elements in one row, begin a new slide page
+				if (z%4 == 0) {
+					$(".carousel-indicators").append(...
+					
+					);
+				}
+				//element is appended to the slide
+				appendPattern($svg.eq(i));
+				z++;		
+			}
+		}
+	}
+	
+	...
+	
+	//click function to show the selected svg in the game for preview
+	$( ".carousel-caption .row .col-md-3" ).click(function() {
+		var svgpath = $(this).find("img").attr("src");
+		loadSVGs(svgpath);
+		
+		...
+		
+	});
+
+}</code></pre>
+								</div>
+							</div>
+						</div>
+						<br>
+						<h2 id="scores" class="blog-post-title">Highscores</h2>
+						<br><img width="408" height="310" alt="" src="images/scores.png"><br>
+						<p>Die Highscoreliste wurde zur Motivation des Users implementiert.
+						Dadurch hat er den Ansporn, besser als die anderen User zu werden, indem er
+						weniger Commands für das Mosaic benutzt.</p>
+						<p>Die Daten aller Highscores werden in einer XML abgespeichert und 
+						von dort ausgelesen. Bei der Speicherung musste beachtet werden, dass nur
+						die 10 Besten der jeweiligen SVG gespeichert werden, und kein Name doppelt 
+						eingetragen werden darf. Wenn der Name bereits vorhanden ist, wird nachgeschaut,
+						ob die Anzahl der Commands sich verbessert hat. Wenn dies der Fall ist, wird 
+						die bessere Anzahl an Commands eingetragen.</p>
+						<p>Beim Auslesen und Anzeigen der Scores XML muss beachtet werden, dass nur die 
+						Elemente angezeigt werden, die zu dem ausgewählten Mosaic gehören. 
+						Außerdem muss die Liste vorerst sortiert werden nach den Anzahl der Commands, 
+						die gebraucht wurden.</p>
+						<div class="panel-group scrollable" id="scores1-b-snippets"
+							role="tablist" aria-multiselectable="true" style="height: 100%;">
+							<a class="collapsed" data-toggle="collapse"
+								data-parent="#scores1-b-snippets" href="#scores1-b"
+								aria-expanded="false" aria-controls="scores1-b">
+								<div class="panel panel-default">
+									<div id="scores1-h" class="panel-heading" role="tab">
+										<h2 class="panel-title" style="text-align: center;">
+											Code-Snippet zu "Speichern der Daten"</h2>
+									</div>
+								</div>
+							</a>
+							<div aria-expanded="false" id="scores1-b"
+								class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="scores1-h">
+								<div class="panel-body">
+									<pre><code class="language-javascript">function saveUserData() {
+	var username = $('#username').val();
+	var commands = undoHistory.length;
+	var pathToFile = $("#mosaics-template").attr('class');
+	var SVGfilename = pathToFile.substring(5);
+	var toplistCount = 0;
+	var arrCommands = [];
+	
+	for(var i = 0; i<$scores.length; i++){
+		if ($scores.find('filename').eq(i).text() == SVGfilename){
+			toplistCount++;
+			arrCommands.push($scores.find('commands').eq(i).text());
+		}
+	}
+	
+	if(toplistCount < 10) {
+		
+		// Jquery AJAX: start save script on server 
+		$.ajax({
+
+			type : 'POST',
+			url : 'php/edit_scores.php',
+			data : {
+				'filename' : SVGfilename,
+				'commands' : commands,
+				'username' : username
+			},
+
+			success : function(response) {
+				if (response == "saved"){
+					showWinMessage(SVGfilename);
+				}
+			}
+		});
+		return false;
+	} else {
+		arrCommands.sort(function(a, b){return a-b});
+		
+		//if the last entry of top has more or same count of commands as the user did
+		//then the user should be in the top 10, with his new count of commands
+		if(arrCommands[arrCommands.length-1] >= commands) {
+			for(var i = 0; i<$scores.length; i++){
+				if ($scores.find('commands').eq(i).text() == arrCommands[arrCommands.length-1]){
+					$scores.eq(i).setAttribute('commands',commands);
+					$scores.eq(i).setAttribute('username',username);
+				}
+				break;
+			}
+		}
+		showWinMessage(SVGfilename);
+	}
+}
+</code></pre>
+								</div>
+							</div>
+						</div>
+						<div class="panel-group scrollable" id="scores2-b-snippets"
+							role="tablist" aria-multiselectable="true" style="height: 100%;">
+							<a class="collapsed" data-toggle="collapse"
+								data-parent="#scores2-b-snippets" href="#scores2-b"
+								aria-expanded="false" aria-controls="scores2-b">
+								<div class="panel panel-default">
+									<div id="scores2-h" class="panel-heading" role="tab">
+										<h2 class="panel-title" style="text-align: center;">
+											Code-Snippet zu "Highscoreliste sortiert anzeigen"</h2>
+									</div>
+								</div>
+							</a>
+							<div aria-expanded="false" id="scores2-b"
+								class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="scores2-h">
+								<div class="panel-body">
+									<pre><code class="language-javascript">function showScoreList($scoresrf,SVGfilename) {
+	$("#scoreListH").empty();
+	$("#scoreListH").append(...);
+	var arrCommands = [];
+	
+	//push the arrCommands with values of commands node for the specific filename and sort it
+	for(var i = 0; i<$scoresrf.length; i++){
+		if ($scoresrf.find('filename').eq(i).text() == SVGfilename){
+			arrCommands.push($scoresrf.find('commands').eq(i).text());
+		}
+	}	
+	arrCommands.sort(function(a, b){return a-b});
+	
+	//arrElements is a helping array, to determine later whether the specific node is already appended to the list or not
+	var arrElements = [];
+	$('#toplist ul.list-group').empty();
+	
+	for(var i = 0; i < arrCommands.length; i++){
+		for(var j = 0; j < $scoresrf.length; j++){
+			if (($scoresrf.find('filename').eq(j).text() == SVGfilename) && 
+				($scoresrf.find('commands').eq(j).text() == arrCommands[i]) && 
+				(arrElements.indexOf(j) == -1 )){
+				appendScoreList($scoresrf.eq(j));
+				//specific node is appended, so it will be pushed into the helping array
+				arrElements.push(j);
+			}
+		}
+	
+	}
+}</code></pre>
 								</div>
 							</div>
 						</div>
