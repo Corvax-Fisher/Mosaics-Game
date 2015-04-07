@@ -66,20 +66,15 @@ function validateTriangle(p1,p2,p3) {
 
 function requiredParamCountForCmd(cmd) {
 	switch(cmd) {
-		case "clearcell":return 2;
-		// case "clearcells":	
+		case "clearcell":	return 2;
 		
 		case "square":
-		// case "squares":
-		case "circle":return 3;
-		// case "circles":		
+		case "circle":		return 3;
 		
 		case "rectangle":
-		case "line":return 5;
-		// case "lines":		
+		case "line":		return 5;
 		
-		case "triangle":return 6;
-		// case "triangles":	
+		case "triangle":	return 6;
 		
 		default:			return -1;
 	}
@@ -103,26 +98,18 @@ function validateNumberOfParams(cmd, params) {
 }
 
 function validatePositionParams(cmd, params) {
-	// if(cmd.charAt(cmd.length-1) == "s" || cmd == "rectangle") {
-		//validate position bounds
-		
-		var posRanges;
-		if(cmd == "rectangle") posRanges = rectangleRanges(params);
-		else posRanges = new positionRanges(params[0],params[1]);
-		
-		var errMsg = posRanges.validate();
-		
-		if(errMsg) {
-			$("#err").html(errMsg);
-			return false;
-		}
-	// } else {
-		// //validate position
-		// if(!validateCellPosition(params[0], params[1]) ) {
-			// $("#err").html("Invalid position.");
-			// return false;
-		// }		
-	// }
+	var posRanges;
+	
+	if(cmd == "rectangle") posRanges = rectangleRanges(params);
+	else posRanges = new positionRanges(params[0],params[1]);
+	
+	var errMsg = posRanges.validate();
+	
+	if(errMsg) {
+		$("#err").html(errMsg);
+		return false;
+	}
+
 	return true;
 }
 
@@ -141,9 +128,6 @@ function validateLineParams(cmd, params) {
 function validateTriangleParams(cmd, params) {
 	if(cmd.indexOf("triangle") != -1) {
 		var i = 2;
-		
-		// if(cmd == "triangle") i = 2;
-		// else i = 4;
 		
 		if(	!validatePoint(params[i].toLowerCase() ) || 
 			!validatePoint(params[i+1].toLowerCase() ) || 
@@ -185,7 +169,7 @@ function validateParameters(cmdLine) {
 	return 1;
 }
 
-function validateSVGLine(userChild, templateChild) {
+function validateSvgLine(userChild, templateChild) {
 	if(userChild.attr("style") != templateChild.attr("style"))
 		return false;
 
@@ -197,11 +181,11 @@ function validateSVGLine(userChild, templateChild) {
 	else return false;
 }
 
-function validateSVGpoints(userChildPointAttr, templateChild) {
+function validateSvgPoints(userChildPointAttr, templateChild) {
 	var user_points, template_points;
 	
 	user_points = userChildPointAttr.value.split(" ");
-	template_points = templateChild.attr(userChildPointAttr.name);
+	template_points = templateChild.attr("points");
 	
 	for(var k = 0; k < user_points.length; k++) {
 		if(template_points.indexOf(user_points[k]) == -1)
@@ -211,35 +195,35 @@ function validateSVGpoints(userChildPointAttr, templateChild) {
 }
 
 function compareSVGs() {
-	var user_svg_elements = $("#mosaics > *[id^='e']");
-	var template_svg_elements = $("#mosaics-template > *[id^='te']");
-	var template_child, user_child;
+	var userSvgElements = $("#mosaics > *[id^='e']");
+	var templateSvgElements = $("#mosaics-template > *[id^='te']");
+	var templateChild, userChild, userChildAttrs;
 	
 	// 1st check if counts of svg elements are equal
-	if(template_svg_elements.length == user_svg_elements.length &&
-			template_svg_elements.length != 0) {
-		for(var i = 0; i < user_svg_elements.length; i++) {
+	if(templateSvgElements.length == userSvgElements.length &&
+			templateSvgElements.length != 0) {
+		for(var i = 0; i < userSvgElements.length; i++) {
 			// get user svg element
-			user_child = user_svg_elements.eq(i);
+			userChild = userSvgElements.eq(i);
 			// find corresponding template svg element
-			template_child = $("#t" + user_child.attr("id"));
-			if( template_child.get(0) != undefined ) {
+			templateChild = $("#t" + userChild.attr("id"));
+			if( templateChild.get(0) != undefined ) {
+				userChildAttrs = userChild.get(0).attributes;
 				// 2nd check if counts of svg attributes are equal
-				if( user_child.get(0).attributes.length ==
-					template_child.get(0).attributes.length) {
-					if(template_child.get(0).nodeName == "line") {
-						if(!validateSVGLine(user_child,template_child))
+				if( userChildAttrs.length == templateChild.get(0).attributes.length) {
+					if(templateChild.get(0).nodeName == "line") {
+						if(!validateSvgLine(userChild,templateChild))
 							return false;
 					} else {
-						for(var j = 0; j < user_child.get(0).attributes.length; j++) {
+						for(var j = 0; j < userChildAttrs.length; j++) {
 							// 3rd check if attribute names and values are equal
-							if( user_child.get(0).attributes[j].name == "id") continue;
-							else if(user_child.get(0).attributes[j].name == "points") {
-								if(!validateSVGpoints(user_child.get(0).attributes[j],template_child))
+							if( userChildAttrs[j].name == "id") continue;
+							else if(userChildAttrs[j].name == "points") {
+								if(!validateSvgPoints(userChildAttrs[j],templateChild))
 									return false;
 							} else {
-								if( user_child.get(0).attributes[j].value !=
-									template_child.attr(user_child.get(0).attributes[j].name) ) 
+								if( userChildAttrs[j].value !=
+									templateChild.attr(userChildAttrs[j].name) ) 
 								{
 									// attribute values and names are not equal
 									return false;							

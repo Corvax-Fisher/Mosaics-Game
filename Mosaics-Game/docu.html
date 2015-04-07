@@ -911,6 +911,13 @@ function validateColor(color)
 							War der Vergleich positiv, wird dem Spieler eine Gewinnmeldung
 							inklusive der Anzahl an benötigten Befehlen präsentiert.
 						</p>
+						<h3>6.1. Besonderheit</h2>
+						<p>
+							Da die Punkte von Linien und Dreiecken auch vertauscht eingegeben werden können, 
+							muss dies extra behandelt werden. Dazu wurden zwei kurze Prüffunktionen geschrieben: 
+							validateSvgLine und validateSvgPoints.
+							
+						</p>
 						<div class="panel-group scrollable" id="compareSVGs-snippets"
 							role="tablist" aria-multiselectable="true" style="height: 100%;">
 							<a class="collapsed" data-toggle="collapse"
@@ -928,30 +935,40 @@ function validateColor(color)
 								aria-labelledby="compareSVGs-h">
 								<div class="panel-body">
 									<pre><code class="language-javascript">function compareSVGs() {
-	var user_svg_elements = $("#mosaics > *[id^='e']");
-	var template_svg_elements = $("#mosaics-template > *[id^='te']");
-	var template_child, user_child;
+	var userSvgElements = $("#mosaics > *[id^='e']");
+	var templateSvgElements = $("#mosaics-template > *[id^='te']");
+	var templateChild, userChild, userChildAttrs;
 	
 	// 1st check if counts of svg elements are equal
-	if(template_svg_elements.length == user_svg_elements.length &&
-			template_svg_elements.length != 0) {
-		for(var i = 0; i < user_svg_elements.length; i++) {
+	if(templateSvgElements.length == userSvgElements.length &&
+			templateSvgElements.length != 0) {
+		for(var i = 0; i < userSvgElements.length; i++) {
 			// get user svg element
-			user_child = user_svg_elements.eq(i);
+			userChild = userSvgElements.eq(i);
 			// find corresponding template svg element
-			template_child = $("#t" + user_child.attr("id"));
-			if( template_child.get(0) != undefined ) {
+			templateChild = $("#t" + userChild.attr("id"));
+			if( templateChild.get(0) != undefined ) {
+				userChildAttrs = userChild.get(0).attributes;
 				// 2nd check if counts of svg attributes are equal
-				if( user_child.get(0).attributes.length ==
-					template_child.get(0).attributes.length) {
-					for(var j = 0; j < user_child.get(0).attributes.length; j++) {
-						if( user_child.get(0).attributes[j].name == "id") continue;
-						// 3rd check if attribute names and values are equal
-						if( user_child.get(0).attributes[j].value !=
-							template_child.attr(user_child.get(0).attributes[j].name) ) 
-						{
-							// attribute values and names are not equal
-							return false;							
+				if( userChildAttrs.length == templateChild.get(0).attributes.length) {
+					if(templateChild.get(0).nodeName == "line") {
+						if(!validateSvgLine(userChild,templateChild))
+							return false;
+					} else {
+						for(var j = 0; j < userChildAttrs.length; j++) {
+							// 3rd check if attribute names and values are equal
+							if( userChildAttrs[j].name == "id") continue;
+							else if(userChildAttrs[j].name == "points") {
+								if(!validateSvgPoints(userChildAttrs[j],templateChild))
+									return false;
+							} else {
+								if( userChildAttrs[j].value !=
+									templateChild.attr(userChildAttrs[j].name) ) 
+								{
+									// attribute values and names are not equal
+									return false;							
+								}
+							}
 						}
 					}
 				}
@@ -968,6 +985,63 @@ function validateColor(color)
 		// element counts were not equal 
 		return false;
 	}
+}</code></pre>
+								</div>
+							</div>
+							<a class="collapsed" data-toggle="collapse"
+								data-parent="#compareSVGs-snippets"
+								href="#validateSvgLine-b" aria-expanded="false"
+								aria-controls="validateSvgLine-b">
+								<div class="panel panel-default">
+									<div id="validateSvgLine-h" class="panel-heading" role="tab">
+										<h2 class="panel-title" style="text-align: center;">
+											Code-Snippet zu "validateSvgLine"</h2>
+									</div>
+								</div>
+							</a>
+							<div aria-expanded="false" id="validateSvgLine-b"
+								class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="validateSvgLine-h">
+								<div class="panel-body">
+									<pre><code class="language-javascript">function validateSvgLine(userChild, templateChild) {
+	if(userChild.attr("style") != templateChild.attr("style"))
+		return false;
+
+	if( (userChild.attr("x1") == templateChild.attr("x1") &&
+		 userChild.attr("x2") == templateChild.attr("x2"))||
+		(userChild.attr("x1") == templateChild.attr("x2") &&
+		 userChild.attr("x2") == templateChild.attr("x1")))
+		return true;
+	else return false;
+}</code></pre>
+								</div>
+							</div>
+							<a class="collapsed" data-toggle="collapse"
+								data-parent="#compareSVGs-snippets"
+								href="#validateSvgPoints-b" aria-expanded="false"
+								aria-controls="validateSvgPoints-b">
+								<div class="panel panel-default">
+									<div id="validateSvgPoints-h" class="panel-heading" role="tab">
+										<h2 class="panel-title" style="text-align: center;">
+											Code-Snippet zu "validateSvgPoints"</h2>
+									</div>
+								</div>
+							</a>
+							<div aria-expanded="false" id="validateSvgPoints-b"
+								class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="validateSvgPoints-h">
+								<div class="panel-body">
+									<pre><code class="language-javascript">function validateSvgPoints(userChildPointAttr, templateChild) {
+	var user_points, template_points;
+	
+	user_points = userChildPointAttr.value.split(" ");
+	template_points = templateChild.attr("points");
+	
+	for(var k = 0; k < user_points.length; k++) {
+		if(template_points.indexOf(user_points[k]) == -1)
+			return false;
+	}
+	return true;
 }</code></pre>
 								</div>
 							</div>
