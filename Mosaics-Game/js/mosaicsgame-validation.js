@@ -170,15 +170,28 @@ function validateParameters(cmdLine) {
 }
 
 function validateSvgLine(userChild, templateChild) {
-	if(userChild.attr("style") != templateChild.attr("style"))
+	if( userChild.attr("style") != templateChild.attr("style") )
 		return false;
 
-	if( (userChild.attr("x1") == templateChild.attr("x1") &&
-		 userChild.attr("x2") == templateChild.attr("x2"))||
-		(userChild.attr("x1") == templateChild.attr("x2") &&
-		 userChild.attr("x2") == templateChild.attr("x1")))
-		return true;
-	else return false;
+	var xy = "xy", swapped, isValid = false;
+	for( var i = 0; i < 2; i++ ) {
+		if(swapped == false || swapped == undefined) {
+			if( userChild.attr(xy[i]+"1") == templateChild.attr(xy[i]+"1") &&
+				userChild.attr(xy[i]+"2") == templateChild.attr(xy[i]+"2") ) {
+				swapped = false;
+				isValid = true;
+			} else isValid = false;
+		}
+		if (swapped == true || swapped == undefined) {
+			if( userChild.attr(xy[i]+"1") == templateChild.attr(xy[i]+"2") &&
+				userChild.attr(xy[i]+"2") == templateChild.attr(xy[i]+"1") ) {
+				swapped = true;
+				isValid = true;
+			} else isValid = false;
+		}
+	}
+	
+	return isValid;
 }
 
 function validateSvgPoints(userChildPointAttr, templateChild) {
@@ -187,7 +200,7 @@ function validateSvgPoints(userChildPointAttr, templateChild) {
 	user_points = userChildPointAttr.value.split(" ");
 	template_points = templateChild.attr("points");
 	
-	for(var k = 0; k < user_points.length; k++) {
+	for( var k = 0; k < user_points.length; k++ ) {
 		if(template_points.indexOf(user_points[k]) == -1)
 			return false;
 	}
@@ -202,7 +215,7 @@ function compareSVGs() {
 	// 1st check if counts of svg elements are equal
 	if(templateSvgElements.length == userSvgElements.length &&
 			templateSvgElements.length != 0) {
-		for(var i = 0; i < userSvgElements.length; i++) {
+		for( var i = 0; i < userSvgElements.length; i++ ) {
 			// get user svg element
 			userChild = userSvgElements.eq(i);
 			// find corresponding template svg element
@@ -215,7 +228,7 @@ function compareSVGs() {
 						if(!validateSvgLine(userChild,templateChild))
 							return false;
 					} else {
-						for(var j = 0; j < userChildAttrs.length; j++) {
+						for( var j = 0; j < userChildAttrs.length; j++ ) {
 							// 3rd check if attribute names and values are equal
 							if( userChildAttrs[j].name == "id") continue;
 							else if(userChildAttrs[j].name == "points") {

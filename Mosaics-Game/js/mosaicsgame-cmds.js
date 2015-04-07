@@ -51,7 +51,7 @@ function line(col, row, p1, p2, clr) {
 	e.setAttribute("y2", p2Offset[1] + pos[1]);
 
 	e.style.stroke = colorToRGB[clr];
-	e.style.strokeWidth = 2;
+	e.style.strokeWidth = "2px";
 
 	$("#mosaics").append(e);
 }
