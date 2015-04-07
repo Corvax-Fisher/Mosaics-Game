@@ -443,15 +443,16 @@ function loadSyntaxCatalogueFromXML() {
 	});
 	
 }
-
+//two parameters: category value and level value
 function showPatternCatalogue(cvalue,lvalue) {
-	
+	//empty the selector
 	$(".carousel-indicators").empty();
 	$(".carousel-inner").empty();
 	
 	var z = 0, ccvalue, llvalue;
 	
 	for (var i = 0; i < $svg.length; i++) {
+		//only permitted nodes will be shown
 		if ($svg.find('Permitted').eq(i).text() == 'true'){
 			
 			ccvalue = $svg.find('Category').eq(i).text() == cvalue;
@@ -461,6 +462,7 @@ function showPatternCatalogue(cvalue,lvalue) {
 					(ccvalue && lvalue == "All levels") || 
 					(llvalue && cvalue == "All categories") || 
 					(cvalue == "All categories" && lvalue == "All levels")) {
+				//if there are 4 elements in one row, begin a new slide page
 				if (z%4 == 0) {
 					$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+(z+1)+"'></li>");
 					$(".carousel-inner").append("<div class='item'>"+
@@ -471,6 +473,7 @@ function showPatternCatalogue(cvalue,lvalue) {
 													"</div>"+
 												"</div>");
 				}
+				//element is appended to the slide
 				appendPattern($svg.eq(i));
 				z++;		
 			}
@@ -491,6 +494,7 @@ function showPatternCatalogue(cvalue,lvalue) {
 		$(".carousel-inner .item:first").addClass("active");
 	}
 	
+	//click function to show the selected svg in the game for preview
 	$( ".carousel-caption .row .col-md-3" ).click(function() {
 		var svgpath = $(this).find("img").attr("src");
 		loadSVGs(svgpath);
@@ -526,13 +530,15 @@ function showScoreList($scoresrf,SVGfilename) {
 	$("#scoreListH").append('<h3>TOP 10 of '+SVGfilename+'</h3>');
 	var arrCommands = [];
 	
+	//push the arrCommands with values of commands node for the specific filename and sort it
 	for(var i = 0; i<$scoresrf.length; i++){
 		if ($scoresrf.find('filename').eq(i).text() == SVGfilename){
 			arrCommands.push($scoresrf.find('commands').eq(i).text());
 		}
-	}
-	
+	}	
 	arrCommands.sort(function(a, b){return a-b});
+	
+	//arrElements is a helping array, to determine later whether the specific node is already appended to the list or not
 	var arrElements = [];
 	$('#toplist ul.list-group').empty();
 	
@@ -542,6 +548,7 @@ function showScoreList($scoresrf,SVGfilename) {
 				($scoresrf.find('commands').eq(j).text() == arrCommands[i]) && 
 				(arrElements.indexOf(j) == -1 )){
 				appendScoreList($scoresrf.eq(j));
+				//specific node is appended, so it will be pushed into the helping array
 				arrElements.push(j);
 			}
 		}
@@ -594,11 +601,13 @@ function saveUserData() {
 	} else {
 		arrCommands.sort(function(a, b){return a-b});
 		
+		//if the last entry of top has more or same count of commands as the user did
+		//then the user should be in the top 10, with his new count of commands
 		if(arrCommands[arrCommands.length-1] >= commands) {
 			for(var i = 0; i<$scores.length; i++){
 				if ($scores.find('commands').eq(i).text() == arrCommands[arrCommands.length-1]){
-					$scores.setAttribute('commands',commands);
-					$scores.setAttribute('username',username);
+					$scores.eq(i).setAttribute('commands',commands);
+					$scores.eq(i).setAttribute('username',username);
 				}
 				break;
 			}

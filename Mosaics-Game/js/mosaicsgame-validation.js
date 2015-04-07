@@ -185,6 +185,31 @@ function validateParameters(cmdLine) {
 	return 1;
 }
 
+function validateSVGLine(userChild, templateChild) {
+	if(userChild.attr("style") != templateChild.attr("style"))
+		return false;
+
+	if( (userChild.attr("x1") == templateChild.attr("x1") &&
+		 userChild.attr("x2") == templateChild.attr("x2"))||
+		(userChild.attr("x1") == templateChild.attr("x2") &&
+		 userChild.attr("x2") == templateChild.attr("x1")))
+		return true;
+	else return false;
+}
+
+function validateSVGpoints(userChildPointAttr, templateChild) {
+	var user_points, template_points;
+	
+	user_points = userChildPointAttr.value.split(" ");
+	template_points = templateChild.attr(userChildPointAttr.name);
+	
+	for(var k = 0; k < user_points.length; k++) {
+		if(template_points.indexOf(user_points[k]) == -1)
+			return false;
+	}
+	return true;
+}
+
 function compareSVGs() {
 	var user_svg_elements = $("#mosaics > *[id^='e']");
 	var template_svg_elements = $("#mosaics-template > *[id^='te']");
@@ -202,14 +227,24 @@ function compareSVGs() {
 				// 2nd check if counts of svg attributes are equal
 				if( user_child.get(0).attributes.length ==
 					template_child.get(0).attributes.length) {
-					for(var j = 0; j < user_child.get(0).attributes.length; j++) {
-						if( user_child.get(0).attributes[j].name == "id") continue;
-						// 3rd check if attribute names and values are equal
-						if( user_child.get(0).attributes[j].value !=
-							template_child.attr(user_child.get(0).attributes[j].name) ) 
-						{
-							// attribute values and names are not equal
-							return false;							
+					if(template_child.get(0).nodeName == "line") {
+						if(!validateSVGLine(user_child,template_child))
+							return false;
+					} else {
+						for(var j = 0; j < user_child.get(0).attributes.length; j++) {
+							// 3rd check if attribute names and values are equal
+							if( user_child.get(0).attributes[j].name == "id") continue;
+							else if(user_child.get(0).attributes[j].name == "points") {
+								if(!validateSVGpoints(user_child.get(0).attributes[j],template_child))
+									return false;
+							} else {
+								if( user_child.get(0).attributes[j].value !=
+									template_child.attr(user_child.get(0).attributes[j].name) ) 
+								{
+									// attribute values and names are not equal
+									return false;							
+								}
+							}
 						}
 					}
 				}
