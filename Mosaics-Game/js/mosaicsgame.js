@@ -200,27 +200,9 @@ function executeCommand(cmdLine) {
 		cmdParams.push($("#color_dropdown").val());
 	
 	switch (cmdName) {
-	// case "clearcell":
-		// deleteElement( new position(cmdParams[0] +"," + cmdParams[1]) );
-		// break;
-	// case "square":
-		// square(cmdParams[0], cmdParams[1], cmdParams[2]);
-		// break;
-	// case "circle":
-		// circle(Number(cmdParams[0]), Number(cmdParams[1]), cmdParams[2]);
-		// break;
 	case "rectangle":
 		squares(rectangleRanges(cmdParams), cmdParams[4]);
 		break;
-	// case "line":
-		// line(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
-				// cmdParams[3].toLowerCase(), cmdParams[4]);
-		// break;
-	// case "triangle":
-		// triangle(cmdParams[0], cmdParams[1], cmdParams[2].toLowerCase(),
-				// cmdParams[3].toLowerCase(), cmdParams[4].toLowerCase(),
-				// cmdParams[5]);
-		// break;
 	case "clearcell":
 		deleteElements( new positionRanges(cmdParams[0],cmdParams[1]) );
 		break;
@@ -265,12 +247,7 @@ function parseCommand(cmdLine) {
 		$("#err").html("Invalid number of parameters (required " + 
 				requiredParamCountForCmd(cmdAndParams[0]) + 
 				", got "+ numParams + ").");
-	} 
-	// else if(	cmd.charAt(cmd.length-1) == "s" && 
-				// params[0].indexOf(":") == -1 &&
-				// params[1].indexOf(":") == -1) {
-		// $("#err").html('Range operator ":" is missing.');
-	// }
+	}
 	
 	if ($("#err").html().length == 0) return true;
 	else return false;

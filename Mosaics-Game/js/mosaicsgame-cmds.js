@@ -35,14 +35,6 @@ function circle(col, row, clr) {
 	$("#mosaics").append(e);
 }
 
-// function rectangle(col, row, width, height, clr) {
-	// for (var i = 0; i < height; i++) {
-		// for (var j = 0; j < width; j++) {
-			// square(col + j, row + i, clr);
-		// }
-	// }
-// }
-
 function line(col, row, p1, p2, clr) {
 	var e = document.createElementNS("http://www.w3.org/2000/svg", "line");
 	var pos = cellToPos(col, row);
@@ -201,26 +193,12 @@ function restoreElements(posRanges) {
 function restoreDeletedElements(cmd, params) {
 	var element = undefined;
 	var mosaicsSVG = $("#mosaics");
-	// if(cmd.charAt(cmd.length-1) != "s") {
-		// // it's not an arry command
-		// if( cmd == "rectangle" ) {
-			// var ranges = rectangleRanges(params); //rectangleBounds(params);
-			// restoreElements(ranges);
-		// } else {
-			// if(elementHistory[params[0] + "," + params[1]])
-				// element = elementHistory[params[0] + "," + params[1]].pop();
-			// $("#e" + params[0] + "_" + params[1]).remove();
-			// if(element) mosaicsSVG.append(element);			
-		// }
-	// }
-	// else {
-		// var posBounds = new positionBounds(params[0] + "," + params[1] + "," + params[2].replace(")","") );
-		// restoreElements(posBounds);
-		var posRanges;
-		if( cmd == "rectangle" ) posRanges = rectangleRanges(params);
-		else posRanges = new positionRanges(params[0],params[1]);
-		restoreElements(posRanges);
-	// }
+	var posRanges;
+	
+	if( cmd == "rectangle" ) posRanges = rectangleRanges(params);
+	else posRanges = new positionRanges(params[0],params[1]);
+	
+	restoreElements(posRanges);
 }
 
 function undoCommand() {
