@@ -88,10 +88,19 @@ $(function() {
 		});
 		
 		if (filename == "index.html"|| filename == "") {
-			$("#okBtn").click(function() {
-				if ($("#username").val().length < 4){
-					$(".username-err").text("Your username is too short. It should be more than 4 letters.");
+			$('#username').keydown(function(e){    
+				if((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)){
+					$('#okBtn').trigger('click');
 				}
+			});
+
+			$("#okBtn").click(function() {
+				if ($("#username").val().length < 4 ){
+					$(".username-err").text("Your username is too short. It should be more than 4 letters.");
+				} else if(!(regexp($("#username").val() ))){
+					$(".username-err").text("Please do not use white-spaces  or special characters");
+				}
+				
 				else {
 					$(".username-err").text("");
 					$("#mosaics-user").attr("id","mosaics");
@@ -108,6 +117,7 @@ $(function() {
 function setGridSize(size) {
 
 	$("#okBtn").attr("disabled", false);
+	$("#username").attr("disabled", false);
 
 	bounds = size.split("x");
 	bounds[0] = Number(bounds[0]);
@@ -285,7 +295,7 @@ function showSavedMessage() {
 	$("#saved-message")
 		.find("p")
 		.empty()
-		.append("Saved, thank you!");
+		.append("Saved, your SVG will be permitted soon!");
 	
 	$.colorbox( { 	inline: true, 
 		href: "#saved-message",
@@ -298,6 +308,7 @@ function showSavedMessage() {
 }
 
 function draw(cmdLine) {
+	if (cmdLine.length == 0)return false;
 	$("#err").html("");
 
 	if(parseCommand(cmdLine) && validateParameters(cmdLine)) {
@@ -324,8 +335,7 @@ function split(val) {
 }
 
 //Check for regexp
-function regexp(){
-	var str = $('#inputFileNameToSaveAs').val();
+function regexp(str){
 	var patt = new RegExp("^[a-zA-Z0-9_\-]+$");
 	var res = patt.test(str);
 	return res;
@@ -344,7 +354,7 @@ function save() {
 		$("#save_err").html("Please choose category");
 	} else if ($("#dif_dropdown").val() == "") {
 		$("#save_err").html("Please choose difficulty");
-	} else if (!regexp()){
+	} else if (!regexp($('#inputFileNameToSaveAs').val())){
 		$("#save_err").html("Please do not use white-spaces  or special characters");
 	}
 		
@@ -497,13 +507,15 @@ function showScoreList($scoresrf,SVGfilename) {
 	$("#scoreListH").append('<h3>TOP 10 of '+SVGfilename+'</h3>');
 	var arrCommands = [];
 	
+	//push the arrCommands with values of commands node for the specific filename and sort it
 	for(var i = 0; i<$scoresrf.length; i++){
 		if ($scoresrf.find('filename').eq(i).text() == SVGfilename){
 			arrCommands.push($scoresrf.find('commands').eq(i).text());
 		}
-	}
-	
+	}	
 	arrCommands.sort(function(a, b){return a-b});
+	
+	//arrElements is a helping array, to determine later whether the specific node is already appended to the list or not
 	var arrElements = [];
 	$('#toplist ul.list-group').empty();
 	
@@ -513,6 +525,7 @@ function showScoreList($scoresrf,SVGfilename) {
 				($scoresrf.find('commands').eq(j).text() == arrCommands[i]) && 
 				(arrElements.indexOf(j) == -1 )){
 				appendScoreList($scoresrf.eq(j));
+				//specific node is appended, so it will be pushed into the helping array
 				arrElements.push(j);
 			}
 		}
@@ -565,11 +578,13 @@ function saveUserData() {
 	} else {
 		arrCommands.sort(function(a, b){return a-b});
 		
+		//if the last entry of top has more or same count of commands as the user did
+		//then the user should be in the top 10, with his new count of commands
 		if(arrCommands[arrCommands.length-1] >= commands) {
 			for(var i = 0; i<$scores.length; i++){
 				if ($scores.find('commands').eq(i).text() == arrCommands[arrCommands.length-1]){
-					$scores.setAttribute('commands',commands);
-					$scores.setAttribute('username',username);
+					$scores.eq(i).setAttribute('commands',commands);
+					$scores.eq(i).setAttribute('username',username);
 				}
 				break;
 			}

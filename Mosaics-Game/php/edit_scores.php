@@ -16,7 +16,17 @@ foreach ( $xml->score as $child ) {
 	
 	if ($user_low == $str && $file_low == $str2) {
 		if ($str3 > $commands){
-			$str3 = $commands;
+						
+			$score = $xml->xpath('/root/score[username="'.$username .'"]');
+			$score[0]->commands = $commands;
+			//Convert XML File to DOM Object for formatting and save
+			$dom = new DOMDocument ( '1.0' );
+			$dom->preserveWhiteSpace = false;
+			$dom->formatOutput = true;
+			$dom->loadXML ( $xml->asXML () );
+			$dom->save ( '../xml/scores.xml' );
+			echo "saved";
+			return;
 		}
 		echo "saved";
 		return;
