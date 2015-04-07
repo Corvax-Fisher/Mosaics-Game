@@ -433,15 +433,16 @@ function loadSyntaxCatalogueFromXML() {
 	});
 	
 }
-
+//two parameters: category value and level value
 function showPatternCatalogue(cvalue,lvalue) {
-	
+	//empty the selector
 	$(".carousel-indicators").empty();
 	$(".carousel-inner").empty();
 	
 	var z = 0, ccvalue, llvalue;
 	
 	for (var i = 0; i < $svg.length; i++) {
+		//only permitted nodes will be shown
 		if ($svg.find('Permitted').eq(i).text() == 'true'){
 			
 			ccvalue = $svg.find('Category').eq(i).text() == cvalue;
@@ -451,6 +452,7 @@ function showPatternCatalogue(cvalue,lvalue) {
 					(ccvalue && lvalue == "All levels") || 
 					(llvalue && cvalue == "All categories") || 
 					(cvalue == "All categories" && lvalue == "All levels")) {
+				//if there are 4 elements in one row, begin a new slide page
 				if (z%4 == 0) {
 					$(".carousel-indicators").append("<li data-target='#myCarousel' data-slide-to='"+(z+1)+"'></li>");
 					$(".carousel-inner").append("<div class='item'>"+
@@ -461,6 +463,7 @@ function showPatternCatalogue(cvalue,lvalue) {
 													"</div>"+
 												"</div>");
 				}
+				//element is appended to the slide
 				appendPattern($svg.eq(i));
 				z++;		
 			}
@@ -481,6 +484,7 @@ function showPatternCatalogue(cvalue,lvalue) {
 		$(".carousel-inner .item:first").addClass("active");
 	}
 	
+	//click function to show the selected svg in the game for preview
 	$( ".carousel-caption .row .col-md-3" ).click(function() {
 		var svgpath = $(this).find("img").attr("src");
 		loadSVGs(svgpath);
