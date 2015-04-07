@@ -372,7 +372,9 @@ function save() {
 	if (undoHistory.length == 0) {
 		$("#save_err").html("Please draw something first");
 	} else if ($("#inputFileNameToSaveAs").val() == "") {
-		$("#save_err").html("Please choose name");
+		$("#save_err").html("Please choose name"); 
+	}else if ($("#inputFileNameToSaveAs").val().length > 20){
+		$("#save_err").html("Name too long. max.20 Chars");
 	} else if ($("#category_dropdown").val() == "") {
 		$("#save_err").html("Please choose category");
 	} else if ($("#dif_dropdown").val() == "") {
